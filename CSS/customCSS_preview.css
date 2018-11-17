@@ -1,0 +1,133 @@
+
+table.rapot{
+    border: 1px solid black;
+    font-family:Cambria;
+    font-size:12px;
+}
+
+table.rapot {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.rapot th{
+    border: 1px solid black;
+    font-family:Cambria;
+    font-size:12px;
+    height: 10px;
+    font-weight:550;
+    text-align:center;
+}
+.rapot td{
+    border: 1px solid black;
+    font-family:Cambria;
+    font-size:12px;
+    height: 25px;
+}
+
+.alignleft {
+    font-weight:bold;
+    font-family:Cambria, sans-serif;
+    font-size:13px;
+    float: left;
+}
+.alignright {
+    font-weight:bold;
+    font-family:Cambria, sans-serif;
+    font-size:13px;
+    float: right;
+}
+
+.alignleft_bawah {
+    font-family:Cambria, sans-serif;
+    font-size:13px;
+    float: left;
+    text-align:center;
+}
+.alignright_bawah {
+    font-family:Cambria, sans-serif;
+    font-size:13px;
+    float: right;
+    text-align:center;
+}
+
+.aligncenter_bawah {
+    font-family:Cambria, sans-serif;
+    font-size:13px;
+    text-align:center;
+}
+.judul {
+    text-align:center;
+    font-weight:bold;
+    font-family:Cambria, sans-serif;
+    font-size:23px;
+}
+
+.sub_judul {
+    text-align:center;
+    font-weight:bold;
+    font-family:Cambria, sans-serif;
+    font-size:13px;
+}
+
+.kkm {
+    text-align:center;
+    font-weight:bold;
+}
+.biasa {
+    text-align:center;
+}
+
+.nomor {
+    text-align:center;
+}
+.grading {
+    text-align:center;
+    font-size:11px;
+}
+
+.judul_ssp {
+    text-align:center;
+    font-weight:bold;
+    font-family:Calibri, sans-serif;
+    font-size:28px;
+}
+
+.alignleft_ssp {
+    font-weight:bold;
+    font-family:Cambria, sans-serif;
+    font-size:16px;
+    float: left;
+}
+.alignright_ssp {
+    font-weight:bold;
+    font-family:Calibri, sans-serif;
+    font-size:16px;
+    float: right;
+}
+
+table.rapot_ssp{
+    border: 1px solid black;
+    font-family:Calibri;
+    font-size:14px;
+}
+
+table.rapot_ssp {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.rapot_ssp th{
+    border: 1px solid black;
+    font-family:Calibri;
+    font-size:14px;
+    height: 10px;
+    font-weight:550;
+    text-align:center;
+}
+.rapot_ssp td{
+    border: 1px solid black;
+    font-family:Calibri;
+    font-size:14px;
+    height: 25px;
+}
