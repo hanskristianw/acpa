@@ -9,7 +9,10 @@
     
     include ("../includes/db_con.php");
 
-    $query = "SELECT guru_id, guru_name, guru_username, jabatan_id, jabatan_nama FROM guru, jabatan WHERE guru_active = 1 AND jabatan_id = guru_jabatan";
+    $query =    "SELECT guru_id, guru_name, guru_username, jabatan_id, jabatan_nama 
+                FROM guru, jabatan 
+                WHERE guru_active = 1 AND jabatan_id = guru_jabatan
+                ORDER BY guru_name";
     $query_guru_info = mysqli_query($conn, $query);
 
     if(!$query_guru_info){

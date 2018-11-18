@@ -43,3 +43,47 @@
         return $options;
     }
 
+    function cekSspGuruId($guru_id){
+        include ("db_con.php");
+        $query =    "SELECT * FROM ssp 
+                    LEFT JOIN guru
+                    ON ssp_guru_id = guru_id
+                    LEFT JOIN t_ajaran
+                    ON ssp_t_ajaran_id = t_ajaran_id
+                    WHERE guru_id = $guru_id AND t_ajaran_active = 1";
+
+        $result = mysqli_query($conn, $query);
+        $resultCheck = mysqli_num_rows($result);
+
+        if($resultCheck > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    function cekGuruExistInMapel($guru_id){
+        include ("db_con.php");
+        $query =    "SELECT DISTINCT d_mapel_id_mapel, mapel_nama
+                    FROM d_mapel
+                    LEFT JOIN mapel
+                    ON d_mapel_id_mapel = mapel_id
+                    LEFT JOIN t_ajaran
+                    ON mapel_t_ajaran_id = t_ajaran_id
+                    WHERE t_ajaran_active = 1 AND d_mapel_id_guru = $guru_id";
+
+        $result = mysqli_query($conn, $query);
+        $resultCheck = mysqli_num_rows($result);
+
+        if($resultCheck > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    function return_abjad_afektif_rapor(){
+
+    }
