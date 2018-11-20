@@ -11,14 +11,15 @@
     $(document).ready(function(){
         
         $("#kotak_utama").hide();
-//        $("#kotak_utama2").hide();
-//        //ketika user menekan tombol submit
+        $("#containerDetailAspek").hide();
+        
         $("#add-ce-form").submit(function(evt){
             evt.preventDefault();
 
             var kelas_id = $("#option_kelas").val();
             var aspek_id = $("#option_aspek").val();
-            if(kelas_id>0 && aspek_id>0){
+            var indikator_id = $("#option_indikator").val();
+            if(kelas_id>0 && aspek_id>0 && indikator_id>0){
                 $.ajax({
                     url: 'ce_nilai/display_ce_nilai.php',
                     data: $(this).serialize(),
@@ -33,13 +34,33 @@
                 });
                 
             }else{
-                alert("Pilih Kelas dan Aspek");
+                alert("Pilih Kelas, Tema dan Indikator");
             }
 
         });
         
         $("#option_kelas").change(function () {
             $("#kotak-utama").hide();
+        });
+
+        $("#option_aspek").change(function () {
+            var ce_id = $("#option_aspek").val();
+            if(ce_id >0){
+                $("#containerDetailAspek").show();
+                $.ajax({
+                    url: 'detail_ce/update_combo_indikator.php',
+                    data: 'ce_id='+ ce_id,
+                    type:'POST',
+                    success: function(show){
+                        if(!show.error){
+                            $("#containerDetailAspek").html(show);
+                        }
+                    }
+                });
+            }
+            else{
+                $("#containerDetailAspek").hide();
+            }
         });
     });
 </script>
@@ -73,33 +94,15 @@
         <form method="POST" id="add-ce-form" action="ce_nilai/display_ce_nilai.php">
           
                 <?php
-                    include ("includes/fungsi_lib.php"); 
                     return_combo_kelas(0);
-                    
-                    include ("includes/db_con.php");
-
-                    $query_Aspek ="SELECT *
-                            FROM ce
-                            LEFT JOIN t_ajaran
-                            ON ce_t_ajaran_id = t_ajaran_id
-                            WHERE t_ajaran_active = 1";
-
-                    $query_info = mysqli_query($conn, $query_Aspek);
-
-                    $options = "<option value= 0>Pilih Aspek</option>";
-                     while($row = mysqli_fetch_array($query_info)){
-                        $kelas_nama = $row['ce_aspek'];
-
-                        $options .= "<option value={$row['ce_id']}>$kelas_nama</option>";
-                     }
-
-                    echo "<label>Pilih Aspek:</label>"; 
-                    echo"<select class='form-control form-control-sm mb-2' name='option_aspek' id='option_aspek'>";
-                        echo $options;
-                    echo"</select>";
+                    return_combo_tema_ce("option_aspek");
                 ?>
-              
-            <input type="submit" name="submit_kriteria" class="btn btn-primary mt-3" value="Proses">
+
+                <div id="containerDetailAspek">
+                
+                </div>
+
+            <input type="submit" name="submit_kriteria" class="btn btn-primary" value="Proses">
       </form>
     </div>
       

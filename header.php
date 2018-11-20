@@ -171,8 +171,8 @@
                           <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Master</a>
                             <div class="dropdown-menu">
-                              <a href="aspek_ce.php" class="dropdown-item fa fa-caret-right mb-1"> Aspek CE</a>
-                              <a href="detail_aspek_ce.php" class="dropdown-item fa fa-caret-right mb-1"> Detail Aspek</a>
+                              <a href="aspek_ce.php" class="dropdown-item fa fa-caret-right mb-1"> Tema CB</a>
+                              <a href="detail_ce.php" class="dropdown-item fa fa-caret-right mb-1"> Indikator Tema CB</a>
                             </div>
                           </li>    
 
@@ -189,7 +189,7 @@
                             <div class="dropdown-menu">
                               <a href="emotional.php" class="dropdown-item fa fa-caret-right mb-1"> Emotional Awareness</a>
                               <a href="spirit.php" class="dropdown-item fa fa-caret-right mb-1"> Sprituality</a>
-                              <a href="ce_nilai.php" class="dropdown-item fa fa-caret-right mb-1"> Character Education</a>
+                              <a href="ce_nilai.php" class="dropdown-item fa fa-caret-right mb-1"> Character Building</a>
                             </div>
                           </li>
 

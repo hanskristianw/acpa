@@ -10,17 +10,17 @@
     if(!empty($_POST["option_nilai"])) {
         include ("../includes/db_con.php");
         
-        $ce_id = $_POST["ce_id"];
+        $d_ce_id = $_POST["d_ce_id"];
         $siswa_id = $_POST["siswa_id"];
         $ce_nilai_angka = $_POST["option_nilai"];
         
-        $sql = "INSERT INTO ce_nilai(ce_nilai_siswa_id, ce_nilai_ce_id, ce_nilai_angka) VALUES ";
+        $sql = "INSERT INTO ce_nilai(ce_nilai_siswa_id, ce_nilai_d_ce_id, ce_nilai_angka) VALUES ";
         
         for ($i = 0; $i < count($siswa_id); $i++)
         {
             $sql .= "(";
             $sql .= "$siswa_id[$i],";
-            $sql .= "$ce_id,";
+            $sql .= "$d_ce_id,";
             $sql .= "$ce_nilai_angka[$i]";
             if($i<count($siswa_id)-1)
             {$sql .= "),";}

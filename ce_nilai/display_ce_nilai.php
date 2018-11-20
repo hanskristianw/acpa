@@ -1,21 +1,25 @@
 <?php
 
     include ("../includes/db_con.php");
+    include ("../includes/fungsi_lib.php");
     
     $ce_id = $_POST['option_aspek'];
     $kelas_id = $_POST['option_kelas'];
+    $d_ce_id = $_POST['option_indikator'];
     
     $resultCheck = -1;
-    if($kelas_id > 0 && $ce_id >0) {
+    if($kelas_id > 0 && $ce_id >0 && $d_ce_id >0) {
 
         //cek pernah isi atau belum
         
         $query =    "SELECT * from ce_nilai
+                    LEFT JOIN d_ce
+                    ON ce_nilai_d_ce_id =  d_ce_id
                     LEFT JOIN siswa
                     ON ce_nilai_siswa_id =  siswa_id
                     LEFT JOIN kelas
                     ON siswa_id_kelas =  kelas_id
-                    WHERE kelas_id = $kelas_id AND ce_nilai_ce_id = $ce_id";
+                    WHERE kelas_id = $kelas_id AND ce_nilai_d_ce_id = $d_ce_id";
 
         $query_afektif_info = mysqli_query($conn, $query);
         $resultCheck = mysqli_num_rows($query_afektif_info);
@@ -28,6 +32,19 @@
         while($row = mysqli_fetch_array($query_infox)){
             $nama_aspek = $row['ce_aspek'];
         }
+
+        $queryx2 =  "SELECT * from d_ce
+                    WHERE d_ce_id = $d_ce_id";
+
+        $query_infox2 = mysqli_query($conn, $queryx2);
+        
+        while($row = mysqli_fetch_array($query_infox2)){
+            $d_ce_nama = $row['d_ce_nama'];
+            $d_ce_a = $row['d_ce_a'];
+            $d_ce_b = $row['d_ce_b'];
+            $d_ce_c = $row['d_ce_c'];
+        }
+
         //jika belum pernah isi
         if($resultCheck == 0){
             
@@ -37,19 +54,18 @@
 
             $query_afektif_info = mysqli_query($conn, $query);
             
-            echo '<div class="alert alert-danger alert-dismissible fade show">
-                    <button class="close" data-dismiss="alert" type="button">
-                        <span>&times;</span>
-                    </button>
-                    <strong>PERHATIAN:</strong> Anda BELUM mempunyai nilai CE TEKAN SAVE untuk menyimpan nilai
-                </div>';
-            
-            
-            echo '<div class= "text-center"><h4>Nama Aspek: '.$nama_aspek.'</h4></div>';
+            $pesan = return_alert("Anda BELUM mempunyai untuk indikator ini, TEKAN SAVE untuk menyimpan nilai","danger");
+            echo $pesan;
+
+            echo '<div class= "text-center"><h4><u>'.$nama_aspek.'</u></h4></div>';
+            echo '<div class= "text-center"><b>Nama Indikator: </b>'.$d_ce_nama.'</div>';
+            echo '<div class= "text-center"><b>Jika A: </b>'.$d_ce_a.'</div>';
+            echo '<div class= "text-center"><b>Jika B: </b>'.$d_ce_b.'</div>';
+            echo '<div class= "text-center"><b>Jika C: </b>'.$d_ce_c.'</div>';
             
             echo '<form method="POST" id="add-nilai-form" action="ce_nilai/add_nilai_ce.php">';
             
-                echo"<input type='hidden' name='ce_id' id='ce_id' value=$ce_id>";
+                echo"<input type='hidden' name='d_ce_id' id='d_ce_id' value=$d_ce_id>";
                 echo"<div style='overflow-x:auto;'>
                     <table class='table table-sm table-responsive table-striped table-bordered mt-3'><thead>";
                 echo'<tr>
@@ -95,23 +111,18 @@
         }
         elseif($resultCheck > 1){
             
-           
-            //sudah pernah isi nilai
-            echo '<div class="alert alert-success alert-dismissible fade show">
-                    <button class="close" data-dismiss="alert" type="button">
-                        <span>&times;</span>
-                    </button>
-                    <strong>PERHATIAN:</strong> Tekan update untuk melakukan update nilai
-                </div>';
+            $pesan = return_alert("Tekan update untuk melakukan update nilai","success");
+            echo $pesan;
 
             $query_afektif_info = mysqli_query($conn, $query);
             
-                
-            echo '<div class= "text-center"><h4>Nama Aspek: '.$nama_aspek.'</h4></div>';
+            echo '<div class= "text-center"><h4><u>'.$nama_aspek.'</u></h4></div>';
+            echo '<div class= "text-center"><b>Nama Indikator: </b>'.$d_ce_nama.'</div>';
+            echo '<div class= "text-center"><b>Jika A: </b>'.$d_ce_a.'</div>';
+            echo '<div class= "text-center"><b>Jika B: </b>'.$d_ce_b.'</div>';
+            echo '<div class= "text-center"><b>Jika C: </b>'.$d_ce_c.'</div>';
             
             echo '<form method="POST" id="add-nilai-form-update" action="ce_nilai/update_nilai_ce.php">';
-            
-                
                 echo"<div style='overflow-x:auto;'>
                     <table class='table table-sm table-responsive table-striped table-bordered mt-3'><thead>";
                 echo'<tr>

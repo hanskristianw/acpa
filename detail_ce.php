@@ -6,49 +6,44 @@
     elseif($_SESSION['guru_jabatan'] != 4){
         header("Location: index.php");
     }
-  include_once 'header.php'
+  include_once 'header.php';
 ?>
 
 <script>
-    var isPaused = false;        
     $(document).ready(function(){
         
         $("#container-ssp").hide();
-        
-       //interval
-        setInterval(function(){
-            if(!isPaused)
-                updateTable();
-        },1000);
-       
-       //refresh table
-       function updateTable(){
-            //alert(bulan_id);
+
+            
+        $("#option_tema_ce2").change(function () {
+            var ce_id = $("#option_tema_ce2").val();
             $.ajax({
-                url: 'aspek_ce/display_aspek.php',
-//                data:'bulan_id='+ bulan_id,
-                type: 'POST',
-                success: function(show_ssp){
-                    if(!show_ssp.error){
-                        $("#show_ssp").html(show_ssp);
-                    }
+                url: "detail_ce/display_detail.php",
+                data:'ce_id='+ ce_id,
+                type: "POST",
+                success:function(data){
+                    $("#show_ssp").html(data);
                 }
             });
-       }
-        
+        });
+
         //ketika user menekan tombol submit
         $("#add-ssp-form").submit(function(evt){
             evt.preventDefault();
+            var tema_ce = $("#option_tema_ce1").val();
 
-            var postData = $(this).serialize();
-            var url = $(this).attr('action');
+            if(tema_ce>0){
+                var postData = $(this).serialize();
+                var url = $(this).attr('action');
 
-            $.post(url,postData, function(php_table_data){
-                $("#hasil_ssp").html(php_table_data);
-                $("#add-ssp-form")[0].reset();
-                $("#myModal").show();
-            });
-            
+                $.post(url,postData, function(php_table_data){
+                    $("#hasil_ssp").html(php_table_data);
+                    $("#add-ssp-form")[0].reset();
+                    $("#myModal").show();
+                });
+            }else{
+                alert("Pilih tema terlebih dahulu");
+            }
         });
         
         $('#close_modal').click(function(){
@@ -89,28 +84,31 @@
       
       <!-------------------------form kriteria----------------------->
       <div class= "p-3 mb-2 bg-light border border-primary rounded">
-          <div class="alert alert-warning alert-dismissible fade show">
-            <button class="close" data-dismiss="alert" type="button">
-                <span>&times;</span>
-            </button>
-            <strong>Info:</strong> Masukkan Tema Character Building 
-          </div>
-      <form method="POST" id="add-ssp-form" action="aspek_ce/add_aspek_ce.php">
+          <?php 
+              $pesan = return_alert("Masukkan Indikator Untuk Tema","warning");
+              echo $pesan;
+          ?>
+      <form method="POST" id="add-ssp-form" action="detail_ce/add_detail_ce.php">
           <div class="form-group">
-              <h4 class="mb-4"><u>TAMBAH TEMA CB</u></h4>
-              
-              <input type="text" name="aspek_nama" placeholder="Masukkan tema CB" class="form-control form-control-sm mb-3" required>
-              <textarea class="form-control form-control-sm mb-2" rows="5" name="aspek_a" id="comment" placeholder="Jika A"></textarea>
-              <textarea class="form-control form-control-sm mb-2" rows="5" name="aspek_b" id="comment" placeholder="Jika B"></textarea>
-              <textarea class="form-control form-control-sm mb-2" rows="5" name="aspek_c" id="comment" placeholder="Jika C"></textarea>
-              <input type="submit" name="submit_ssp" class="btn btn-primary mt-3" value="Tambah TEMA CB">
+              <h4 class="mb-4"><u>TAMBAH INDIKATOR UNTUK TEMA CB</u></h4>
+              <?php 
+                  return_combo_tema_ce("option_tema_ce1");
+              ?>
+              <input type="text" name="indikator_nama" placeholder="Masukkan indikator untuk tema" class="form-control form-control-sm mb-2" required>
+              <textarea class="form-control form-control-sm mb-2" rows="5" name="indikator_a" id="comment" placeholder="Deskripsi Jika A"></textarea>
+              <textarea class="form-control form-control-sm mb-2" rows="5" name="indikator_b" id="comment" placeholder="Deskripsi Jika B"></textarea>
+              <textarea class="form-control form-control-sm mb-2" rows="5" name="indikator_c" id="comment" placeholder="Deskripsi Jika C"></textarea>
+              <input type="submit" name="submit_ssp" class="btn btn-primary" value="Tambah Indikator CB">
           </div>
       </form>
       </div >
       
       <!-------------------------tabel ssp----------------------->
       <div class= "p-3 mb-2 bg-light border border-primary rounded">
-          <h4 class="mb-3 mt-3"><u>DAFTAR ASPEK</u></h4>
+          <h4 class="mb-3 mt-3"><u>DAFTAR INDIKATOR</u></h4>
+          <?php 
+              return_combo_tema_ce("option_tema_ce2");
+          ?>
           <!--action container guru-->
           <div id="container-ssp" class= "p-3 mb-2 bg-light border border-primary rounded">
             
@@ -118,10 +116,10 @@
           <table class="table table-sm table-striped mb-5">
             <thead>
                 <tr>
-                    <th>Nama Tema</th>
-                    <th>Jika A</th>
-                    <th>Jika B</th>
-                    <th>Jika C</th>
+                    <th>Nama Indikator</th>
+                    <th>Deskripsi Jika A</th>
+                    <th>Deskripsi Jika B</th>
+                    <th>Deskripsi Jika C</th>
                 </tr>
             </thead>
             <tbody id="show_ssp">

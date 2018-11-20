@@ -6,7 +6,8 @@
     elseif($_SESSION['guru_jabatan'] != 1){
         header("Location: index.php");
     }
-  include_once 'header.php'
+  include_once 'header.php';
+  include ("includes/db_con.php");
 ?>
 
 <script>
@@ -129,7 +130,6 @@
       <div class= "p-3 mb-2 bg-light border border-primary rounded">
           <h4 class="text-center mb-3"><u>Daftar Revisi nilai UTS dan UAS</u></h4>
           <?php
-            include_once 'includes/db_con.php';
             $result = mysqli_query($conn, "SELECT count(*) FROM kog_psi_ujian_revisi WHERE ujian_rev_status= 0");
             $row_ujian = mysqli_fetch_row($result);
             $count_ujian = $row_ujian[0];
@@ -151,7 +151,6 @@
       <div class= "p-3 mb-2 mt-3 bg-light border border-primary rounded">
           <h4 class="text-center mb-3"><u>Daftar Revisi nilai Assignment, Test, Quiz</u></h4>
           <?php
-            include_once 'includes/db_con.php';
             $result2 = mysqli_query($conn, "SELECT count(*) FROM kog_psi_revisi WHERE rev_status= 0");
             $row_rev = mysqli_fetch_row($result2);
             $count_rev = $row_rev[0];
@@ -173,7 +172,6 @@
       <div class= "p-3 mb-2 mt-3 bg-light border border-primary rounded">
           <h4 class="text-center mb-3"><u>Daftar Revisi SSP</u></h4>
           <?php
-            include_once 'includes/db_con.php';
             $result3 = mysqli_query($conn, "SELECT count(*) FROM ssp_revisi WHERE ssp_rev_status= 0");
             $row_rev_ssp = mysqli_fetch_row($result3);
             $count_rev_ssp = $row_rev_ssp[0];

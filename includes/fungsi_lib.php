@@ -1,4 +1,45 @@
 <?php
+    function return_alert($msg,$jenis){
+
+        $pesan ='<div class="alert alert-'.$jenis.' alert-dismissible fade show">
+                    <button class="close" data-dismiss="alert" type="button">
+                        <span>&times;</span>
+                    </button>
+                    <strong>Info:</strong> '.$msg.'
+                </div>';
+        
+        return $pesan;
+    }
+
+    function return_nilai_afektif_bulan($nilAfektifBulan){
+        if(count($nilAfektifBulan)>0){
+
+            for ($i=0;$i<count($nilAfektifBulan);$i++){
+                $nilai_perminggu = explode('/', $nilAfektifBulan[$i]);
+                $total_nilai_indikator_tiap_bulan =0;
+                $minggu_aktif =0;
+                $cek_minggu_aktif =0;
+                for ($j=0;$j<count($nilai_perminggu);$j++){
+                    $nilai_per_indikator = explode('_', $nilai_perminggu[$j]);
+                    for ($k=0;$k<count($nilai_per_indikator);$k++){
+                        if($nilai_per_indikator[$k] > 0){
+                            $cek_minggu_aktif += 1;
+                        }
+                        $total_nilai_indikator_tiap_bulan += $nilai_per_indikator[$k];
+                    }
+                    if($cek_minggu_aktif == 3){
+                        $minggu_aktif +=1;
+                    }
+                    $cek_minggu_aktif = 0;
+                }
+                $nilai_afektif_bulan = $total_nilai_indikator_tiap_bulan/$minggu_aktif;
+            }
+            return $nilai_afektif_bulan;
+        }else{
+            return 0;
+        }
+    }
+
     function return_abjad_lifeskill($nilai){
         
         $abjad_nilai = "";
@@ -32,15 +73,52 @@
                 $options .= "<option value={$row['kelas_id']}>$kelas_nama</option>";
              }
 
-            echo "<label>Pilih Kelas:</label>"; 
             echo"<select class='form-control form-control-sm mb-2' name='option_kelas' id='option_kelas'>";
                 echo $options;
             echo"</select>";
         }
-        else{
-            
-        }
-        return $options;
+    }
+
+    function return_combo_tema_ce($nama){
+        include ("db_con.php");
+        
+        $query =    "SELECT *
+                    FROM ce
+                    LEFT JOIN t_ajaran
+                    ON ce_t_ajaran_id = t_ajaran_id
+                    WHERE t_ajaran_active = 1";
+
+        $query_info = mysqli_query($conn, $query);
+
+        $options = "<option value= 0>Pilih tema</option>";
+            while($row = mysqli_fetch_array($query_info)){
+                $options .= "<option value={$row['ce_id']}>{$row['ce_aspek']}</option>";
+            }
+
+        echo"<select class='form-control form-control-sm mb-2' name='".$nama."' id='".$nama."'>";
+            echo $options;
+        echo"</select>";
+    }
+
+    function return_combo_indikator_by_tema_id($ce_id, $nama){
+        include ("db_con.php");
+        
+        $query =    "SELECT *
+                    FROM d_ce
+                    LEFT JOIN ce
+                    ON d_ce_ce_id = ce_id
+                    WHERE d_ce_ce_id = $ce_id";
+
+        $query_info = mysqli_query($conn, $query);
+
+        $options = "<option value= 0>Pilih Indikator</option>";
+            while($row = mysqli_fetch_array($query_info)){
+                $options .= "<option value={$row['d_ce_id']}>{$row['d_ce_nama']}</option>";
+            }
+
+        echo"<select class='form-control form-control-sm mb-2' name='".$nama."' id='".$nama."'>";
+            echo $options;
+        echo"</select>";
     }
 
     function cekSspGuruId($guru_id){

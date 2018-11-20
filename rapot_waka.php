@@ -17,23 +17,6 @@
         $("#kotak").hide();
         $("#form2_ajax").hide();
         
-        $("#option_kelas").change(function () {
-
-            var kelas_id = $("#option_kelas").val();
-            
-            $.ajax({
-                url: 'rapot_waka/update_option_siswa.php',
-                data:'kelas_id='+ kelas_id,
-                type: 'POST',
-                success: function(show){
-                    if(!show.error){
-                        $("#container-option-siswa").html(show);
-                    }
-                }
-            });
-            
-        });
-        
         $("#print_rekap").click(function(){
             //$("#print_area").printMe();
 //            $("#print_area").printMe({ "path": ["http://localhost/acpa/CSS/customCSS.css"] });
@@ -74,9 +57,9 @@
         $("#add-rapot-form").submit(function(evt){
             evt.preventDefault();
 
-            var siswa_id = $("#option_siswa").val();
+            var kelas_id = $("#option_kelas").val();
             
-            if(siswa_id > 0){
+            if(kelas_id > 0){
                 var url = $(this).attr('action');
                 $.ajax({
                     url: url,
@@ -92,7 +75,7 @@
                     }
                 });
             }else{
-                alert("Pilih Kelas dan Siswa");
+                alert("Pilih Kelas");
             }
         });
         
@@ -140,10 +123,6 @@
             <select class="form-control form-control-sm mb-2" name="option_kelas" id="option_kelas">
                   <?php echo $options3;?>
             </select>
-            
-            <div id="container-option-siswa">
-
-            </div>
             
             <div id="form2_ajax">
 
