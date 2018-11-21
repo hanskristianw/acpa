@@ -448,7 +448,7 @@
                 <thead>
                     <tr>
                     <th style='width: 35px; padding: 0px 0px 0px 0px;'>NO </th>
-                    <th style='width: 200px;'>THEME</th>
+                    <th style='width: 200px;'>TOPIC</th>
                     <th style='width: 50px;'>GRADE</th>
                     <th style='width: 350px;'>DESCRIPTION</th>
                     </tr>
@@ -532,7 +532,7 @@
             echo"<div id='textbox'>
                 <p class='alignright_bawah'>
                 <br>Surabaya, $bulan $tanggal_arr[2], $tanggal_arr[0]<br>
-                CE Teacher<br><br><br><br>
+                CB Teacher<br><br><br><br>
                 <b>$tahun_ajaran_nama_bk</b><br>
                 </p>
             </div>";
@@ -639,7 +639,7 @@
                             ifnull(ss_relationship,0) + ifnull(ss_cooperation,0) + ifnull(ss_conflict,0) + ifnull(ss_self_a,0) as jumlah_ss,
                             ifnull(spirit_coping,0) + ifnull(spirit_emo,0) + ifnull(spirit_grate,0) as jumlah_spirit,
                             ifnull(moral_b_lo,0) + ifnull(moral_b_so,0) as jumlah_moral_b,
-                            ifnull(emo_aware_ex,0) + ifnull(emo_aware_so,0) + ifnull(emo_aware_ne,0) as jumlah_emo_aware, siswa_komen, siswa_absenin, siswa_absenex, siswa_tardy, siswa_special_note
+                            ifnull(emo_aware_ex,0) + ifnull(emo_aware_so,0) + ifnull(emo_aware_ne,0) as jumlah_emo_aware, siswa_komen_akhir, siswa_absenin, siswa_absenex, siswa_tardy, siswa_special_note
                             FROM(
                                 select * from siswa
                                 LEFT join pf_hf
@@ -662,7 +662,7 @@
                 $jumlah_emo_aware = $row_life['jumlah_emo_aware'];
                 $jumlah_spirit = $row_life['jumlah_spirit'];
                 $jumlah_ss = $row_life['jumlah_ss'];
-                $siswa_komen = $row_life['siswa_komen'];
+                $siswa_komen_akhir = $row_life['siswa_komen_akhir'];
                 $siswa_absenin = $row_life['siswa_absenin'];
                 $siswa_absenex = $row_life['siswa_absenex'];
                 $siswa_tardy = $row_life['siswa_tardy'];
@@ -716,7 +716,7 @@
                 <tbody>
                     ";
             echo "<tr>";
-                echo "<td style='text-align: center; width: 35px;'>1</td><td style='width: 150px;'>Character Education</td>";
+                echo "<td style='text-align: center; width: 35px;'>1</td><td style='width: 150px;'>Character Building</td>";
                 
                 echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>$final_score_angka_bk</b></td>";
                 
@@ -755,7 +755,7 @@
                 }
             echo "</tr>";
             echo "<tr>";
-                echo "<td style='padding: 0px 0px 0px 5px;' colspan = 2><b>Homeroom Teacher's Comment</b></td><td style='width: 200px; padding: 10px 10px 10px 5px;'>$siswa_komen</td>";
+                echo "<td style='padding: 0px 0px 0px 5px;' colspan = 2><b>Homeroom Teacher's Comment</b></td><td style='width: 200px; padding: 10px 10px 10px 5px;'>$siswa_komen_akhir</td>";
             echo "</tr>";
             echo "<tr>";
                 echo "<td style='padding: 0px 0px 0px 5px;' colspan = 2><b>Special Note</b></td><td style='width: 200px; padding: 10px 10px 10px 5px;'>$siswa_special_note</td>";

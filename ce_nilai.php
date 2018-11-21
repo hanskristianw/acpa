@@ -34,7 +34,7 @@
                 });
                 
             }else{
-                alert("Pilih Kelas, Tema dan Indikator");
+                alert("Pilih Kelas, Topik dan Indikator");
             }
 
         });
@@ -89,7 +89,7 @@
       <div class= "p-3 mb-2 bg-light border border-primary rounded">
           
           <div id="feedback"></div>
-          <h4 class="mb-4"><u>NILAI CHARACTER EDUCATION</u></h4>
+          <h4 class="mb-4"><u>NILAI CHARACTER BUILDING</u></h4>
           
         <form method="POST" id="add-ce-form" action="ce_nilai/display_ce_nilai.php">
           

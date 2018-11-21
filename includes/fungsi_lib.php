@@ -90,7 +90,7 @@
 
         $query_info = mysqli_query($conn, $query);
 
-        $options = "<option value= 0>Pilih tema</option>";
+        $options = "<option value= 0>Pilih Topik</option>";
             while($row = mysqli_fetch_array($query_info)){
                 $options .= "<option value={$row['ce_id']}>{$row['ce_aspek']}</option>";
             }

@@ -21,9 +21,6 @@
 
             echo'<tr>';
                 echo"<td><a rel='".$row['d_ce_id']."' class='link-ssp' href='javascript:void(0)'>{$row['d_ce_nama']}</a></td>";
-                echo"<td>{$row['d_ce_a']}</td>";
-                echo"<td>{$row['d_ce_b']}</td>";
-                echo"<td>{$row['d_ce_c']}</td>";
             echo'</tr>';
           }
     }

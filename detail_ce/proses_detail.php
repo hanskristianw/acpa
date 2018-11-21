@@ -18,13 +18,8 @@
         echo'<p id="feedback" class="bg-success"></p>';
         
         //menampilkan textbox ketika nama user diklik
-        echo "<h4 class='mb-3'>Update/Delete INDIKATOR</h4>";
+        echo "<h4 class='mb-3'>Update INDIKATOR</h4>";
         echo "<input type='text' placeholder='Masukkan aspek CE' rel='".$row['d_ce_id']."' class='form-control ce_nama mb-3' value='".$row['d_ce_nama']."'>";
-       
-        echo '<textarea class="form-control form-control-sm mb-2 aspek_a" rows="5" name="aspek_a" placeholder="Aspek Jika A">'.$row['d_ce_a'].'</textarea>
-              <textarea class="form-control form-control-sm mb-2 aspek_b" rows="5" name="aspek_b" placeholder="Aspek Jika B">'.$row['d_ce_b'].'</textarea>
-              <textarea class="form-control form-control-sm mb-2 aspek_c" rows="5" name="aspek_c" placeholder="Aspek Jika C">'.$row['d_ce_c'].'</textarea>
-              ';
         
         //menampilkan 3 button
         echo"<input type='button' class='btn btn-success mr-3 update' value='Update'>";
@@ -35,11 +30,8 @@
     if(isset($_POST['updatessp'])){
         $d_ce_id = mysqli_real_escape_string($conn, $_POST['d_ce_id']);
         $d_ce_nama = mysqli_real_escape_string($conn, $_POST['d_ce_nama']);
-        $d_ce_a = mysqli_real_escape_string($conn, $_POST['d_ce_a']);
-        $d_ce_b = mysqli_real_escape_string($conn, $_POST['d_ce_b']);
-        $d_ce_c = mysqli_real_escape_string($conn, $_POST['d_ce_c']);
         
-        $query_updatessp = "UPDATE d_ce SET d_ce_nama = '$d_ce_nama', d_ce_a = '$d_ce_a', d_ce_b = '$d_ce_b', d_ce_c = '$d_ce_c' WHERE d_ce_id = $d_ce_id";
+        $query_updatessp = "UPDATE d_ce SET d_ce_nama = '$d_ce_nama' WHERE d_ce_id = $d_ce_id";
         $result_setssp = mysqli_query($conn, $query_updatessp);
         
         if(!$result_setssp){
@@ -64,9 +56,6 @@
     $(document).ready(function(){
         var d_ce_id;
         var d_ce_nama;
-        var d_ce_a;
-        var d_ce_b;
-        var d_ce_c;
         var updatessp = "update";
         var deleteguru = "delete";
         
@@ -75,9 +64,6 @@
             //mengambil nilai yang dibutuhkan untuk update dari textbox dan combobox
             d_ce_id =$(".ce_nama").attr("rel");
             d_ce_nama =$(".ce_nama").val();
-            d_ce_a =$(".aspek_a").val();
-            d_ce_b =$(".aspek_b").val();
-            d_ce_c =$(".aspek_c").val();
 
 
             if ($.trim(d_ce_nama).length === 0){
@@ -85,7 +71,7 @@
                 alert("Isi nama ssp dengan benar!");
             }else{
                 //mengirim nilai ke halaman php tujuan
-                $.post("detail_ce/proses_detail.php",{d_ce_id: d_ce_id, d_ce_nama:d_ce_nama, d_ce_a:d_ce_a, d_ce_b:d_ce_b, d_ce_c:d_ce_c, updatessp: updatessp}, function(data){
+                $.post("detail_ce/proses_detail.php",{d_ce_id: d_ce_id, d_ce_nama:d_ce_nama, updatessp: updatessp}, function(data){
                     $("#feedback").text("Data berhasil diupdate");
                     $('#option_tema_ce2').val(0).change();
                 });

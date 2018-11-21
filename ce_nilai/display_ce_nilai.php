@@ -40,9 +40,6 @@
         
         while($row = mysqli_fetch_array($query_infox2)){
             $d_ce_nama = $row['d_ce_nama'];
-            $d_ce_a = $row['d_ce_a'];
-            $d_ce_b = $row['d_ce_b'];
-            $d_ce_c = $row['d_ce_c'];
         }
 
         //jika belum pernah isi
@@ -59,9 +56,6 @@
 
             echo '<div class= "text-center"><h4><u>'.$nama_aspek.'</u></h4></div>';
             echo '<div class= "text-center"><b>Nama Indikator: </b>'.$d_ce_nama.'</div>';
-            echo '<div class= "text-center"><b>Jika A: </b>'.$d_ce_a.'</div>';
-            echo '<div class= "text-center"><b>Jika B: </b>'.$d_ce_b.'</div>';
-            echo '<div class= "text-center"><b>Jika C: </b>'.$d_ce_c.'</div>';
             
             echo '<form method="POST" id="add-nilai-form" action="ce_nilai/add_nilai_ce.php">';
             
@@ -96,7 +90,6 @@
                                         <option value= 4>A</option>
                                         <option value= 3>B</option>
                                         <option value= 2>C</option>
-                                        <option value= 1>D</option>
                                       </select>
                                   </td>";
                         echo '</tr>';
@@ -118,9 +111,6 @@
             
             echo '<div class= "text-center"><h4><u>'.$nama_aspek.'</u></h4></div>';
             echo '<div class= "text-center"><b>Nama Indikator: </b>'.$d_ce_nama.'</div>';
-            echo '<div class= "text-center"><b>Jika A: </b>'.$d_ce_a.'</div>';
-            echo '<div class= "text-center"><b>Jika B: </b>'.$d_ce_b.'</div>';
-            echo '<div class= "text-center"><b>Jika C: </b>'.$d_ce_c.'</div>';
             
             echo '<form method="POST" id="add-nilai-form-update" action="ce_nilai/update_nilai_ce.php">';
                 echo"<div style='overflow-x:auto;'>
@@ -156,25 +146,16 @@
                             if($ssp_nilai_angka == 4){
                                 echo"<option value= 4 selected>A</option>
                                      <option value= 3>B</option>
-                                     <option value= 2>C</option>
-                                     <option value= 1>D</option>";
+                                     <option value= 2>C</option>";
                             }elseif($ssp_nilai_angka == 3){
                                 echo"<option value= 4>A</option>
                                      <option value= 3 selected>B</option>
-                                     <option value= 2>C</option>
-                                     <option value= 1>D</option>";
+                                     <option value= 2>C</option>";
                             }
                             elseif($ssp_nilai_angka == 2){
                                 echo"<option value= 4>A</option>
                                      <option value= 3>B</option>
-                                     <option value= 2 selected>C</option>
-                                     <option value= 1>D</option>";
-                            }
-                            elseif($ssp_nilai_angka == 1){
-                                echo"<option value= 4>A</option>
-                                     <option value= 3>B</option>
-                                     <option value= 2>C</option>
-                                     <option value= 1 selected>D</option>";
+                                     <option value= 2 selected>C</option>";
                             }
                             echo "</select></td>";
                         echo '</tr>';

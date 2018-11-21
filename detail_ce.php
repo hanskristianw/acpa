@@ -85,19 +85,16 @@
       <!-------------------------form kriteria----------------------->
       <div class= "p-3 mb-2 bg-light border border-primary rounded">
           <?php 
-              $pesan = return_alert("Masukkan Indikator Untuk Tema","warning");
+              $pesan = return_alert("Masukkan Indikator Untuk Topik","warning");
               echo $pesan;
           ?>
       <form method="POST" id="add-ssp-form" action="detail_ce/add_detail_ce.php">
           <div class="form-group">
-              <h4 class="mb-4"><u>TAMBAH INDIKATOR UNTUK TEMA CB</u></h4>
+              <h4 class="mb-4"><u>TAMBAH INDIKATOR UNTUK TOPIK CB</u></h4>
               <?php 
                   return_combo_tema_ce("option_tema_ce1");
               ?>
-              <input type="text" name="indikator_nama" placeholder="Masukkan indikator untuk tema" class="form-control form-control-sm mb-2" required>
-              <textarea class="form-control form-control-sm mb-2" rows="5" name="indikator_a" id="comment" placeholder="Deskripsi Jika A"></textarea>
-              <textarea class="form-control form-control-sm mb-2" rows="5" name="indikator_b" id="comment" placeholder="Deskripsi Jika B"></textarea>
-              <textarea class="form-control form-control-sm mb-2" rows="5" name="indikator_c" id="comment" placeholder="Deskripsi Jika C"></textarea>
+              <input type="text" name="indikator_nama" placeholder="Masukkan indikator untuk topik" class="form-control form-control-sm mb-2" required>
               <input type="submit" name="submit_ssp" class="btn btn-primary" value="Tambah Indikator CB">
           </div>
       </form>
@@ -117,9 +114,6 @@
             <thead>
                 <tr>
                     <th>Nama Indikator</th>
-                    <th>Deskripsi Jika A</th>
-                    <th>Deskripsi Jika B</th>
-                    <th>Deskripsi Jika C</th>
                 </tr>
             </thead>
             <tbody id="show_ssp">

@@ -171,8 +171,8 @@
                           <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Master</a>
                             <div class="dropdown-menu">
-                              <a href="aspek_ce.php" class="dropdown-item fa fa-caret-right mb-1"> Tema CB</a>
-                              <a href="detail_ce.php" class="dropdown-item fa fa-caret-right mb-1"> Indikator Tema CB</a>
+                              <a href="aspek_ce.php" class="dropdown-item fa fa-caret-right mb-1"> Topik CB</a>
+                              <a href="detail_ce.php" class="dropdown-item fa fa-caret-right mb-1"> Indikator Topik CB</a>
                             </div>
                           </li>    
 
