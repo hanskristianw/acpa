@@ -93,24 +93,27 @@
             <button class="close" data-dismiss="alert" type="button">
                 <span>&times;</span>
             </button>
-            <strong>Info:</strong> Masukkan Tema Character Building 
+            <strong>Info:</strong> Masukkan Topik Character Building 
           </div>
       <form method="POST" id="add-ssp-form" action="aspek_ce/add_aspek_ce.php">
           <div class="form-group">
-              <h4 class="mb-4"><u>TAMBAH TEMA CB</u></h4>
+              <h4 class="mb-4"><u>TAMBAH TOPIK CB</u></h4>
               
-              <input type="text" name="aspek_nama" placeholder="Masukkan tema CB" class="form-control form-control-sm mb-3" required>
+              <input type="text" name="aspek_nama" placeholder="Masukkan topik CB" class="form-control form-control-sm mb-3" required>
+              <?php
+                return_combo_jenjang("option_jenjang");
+              ?>
               <textarea class="form-control form-control-sm mb-2" rows="5" name="aspek_a" id="comment" placeholder="Jika A"></textarea>
               <textarea class="form-control form-control-sm mb-2" rows="5" name="aspek_b" id="comment" placeholder="Jika B"></textarea>
               <textarea class="form-control form-control-sm mb-2" rows="5" name="aspek_c" id="comment" placeholder="Jika C"></textarea>
-              <input type="submit" name="submit_ssp" class="btn btn-primary mt-3" value="Tambah TEMA CB">
+              <input type="submit" name="submit_ssp" class="btn btn-primary mt-3" value="Tambah TOPIK CB">
           </div>
       </form>
       </div >
       
       <!-------------------------tabel ssp----------------------->
       <div class= "p-3 mb-2 bg-light border border-primary rounded">
-          <h4 class="mb-3 mt-3"><u>DAFTAR ASPEK</u></h4>
+          <h4 class="mb-3 mt-3"><u>DAFTAR TOPIK</u></h4>
           <!--action container guru-->
           <div id="container-ssp" class= "p-3 mb-2 bg-light border border-primary rounded">
             
@@ -118,7 +121,8 @@
           <table class="table table-sm table-striped mb-5">
             <thead>
                 <tr>
-                    <th>Nama Tema</th>
+                    <th>Jenjang</th>
+                    <th>Nama Topik</th>
                     <th>Jika A</th>
                     <th>Jika B</th>
                     <th>Jika C</th>

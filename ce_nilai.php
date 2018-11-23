@@ -41,6 +41,22 @@
         
         $("#option_kelas").change(function () {
             $("#kotak-utama").hide();
+            var kelas_id = $("#option_kelas").val();
+            if(kelas_id>0){
+                $.ajax({
+                    url: 'ce_nilai/update_option_topik.php',
+                    data: 'kelas_id='+ kelas_id,
+                    type: 'POST',
+                    success: function(show){
+                        if(!show.error){
+                            $("#containerTopik").show();
+                            $("#containerTopik").html(show);
+                            $("#containerDetailAspek").hide();
+                        }
+                    }
+                });
+                
+            }
         });
 
         $("#option_aspek").change(function () {
@@ -95,12 +111,16 @@
           
                 <?php
                     return_combo_kelas(0);
-                    return_combo_tema_ce("option_aspek");
                 ?>
+                
+                <div id="containerTopik">
+                
+                </div>
 
                 <div id="containerDetailAspek">
                 
                 </div>
+
 
             <input type="submit" name="submit_kriteria" class="btn btn-primary" value="Proses">
       </form>

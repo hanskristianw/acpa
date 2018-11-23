@@ -3,6 +3,7 @@
     if(isset($_POST['aspek_nama'])){
         include_once '../includes/db_con.php';
         $aspek_nama = mysqli_real_escape_string($conn, $_POST['aspek_nama']);
+        $ce_jenjang_id = $_POST['option_jenjang'];
         $aspek_a = mysqli_real_escape_string($conn, $_POST['aspek_a']);
         $aspek_b = mysqli_real_escape_string($conn, $_POST['aspek_b']);
         $aspek_c = mysqli_real_escape_string($conn, $_POST['aspek_c']);
@@ -26,7 +27,7 @@
                 $t_ajaran_id = $row['t_ajaran_id'];
             }
             
-            $sql_insert = "INSERT INTO ce(ce_aspek, ce_a, ce_b, ce_c, ce_t_ajaran_id) VALUES('$aspek_nama','$aspek_a','$aspek_b','$aspek_c', $t_ajaran_id)";
+            $sql_insert = "INSERT INTO ce(ce_aspek, ce_a, ce_b, ce_c, ce_jenjang_id, ce_t_ajaran_id) VALUES('$aspek_nama','$aspek_a','$aspek_b','$aspek_c', $ce_jenjang_id, $t_ajaran_id)";
             mysqli_query($conn, $sql_insert);
         }
     }

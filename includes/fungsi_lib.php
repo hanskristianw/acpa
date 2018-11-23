@@ -100,6 +100,25 @@
         echo"</select>";
     }
 
+    function return_combo_jenjang($nama){
+        include ("db_con.php");
+        
+        $query =    "SELECT *
+                    FROM jenjang";
+
+        $query_info = mysqli_query($conn, $query);
+
+        $options = "<option value= 0>Pilih Jenjang</option>";
+            while($row = mysqli_fetch_array($query_info)){
+                $options .= "<option value={$row['jenjang_id']}>{$row['jenjang_nama']}</option>";
+            }
+
+        echo"<select class='form-control form-control-sm mb-2' name='".$nama."' id='".$nama."'>";
+            echo $options;
+        echo"</select>";
+    }
+
+
     function return_combo_indikator_by_tema_id($ce_id, $nama){
         include ("db_con.php");
         
