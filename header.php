@@ -193,6 +193,13 @@
                             </div>
                           </li>
 
+                          <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Laporan</a>
+                            <div class="dropdown-menu">
+                              <a href="rekap_cb.php" class="dropdown-item fa fa-caret-right mb-1"> Rekap Nilai</a>
+                            </div>
+                          </li>
+
                           <li class="nav-item">
                                   <a class="nav-link" href="ganti_password.php">Ubah Password</a>
                           </li>';

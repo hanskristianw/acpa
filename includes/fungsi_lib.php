@@ -181,6 +181,24 @@
         }
     }
 
-    function return_abjad_afektif_rapor(){
+    function return_abjad_base3($nilai){
+        if($nilai >2){
+            return "A";
+        }elseif($nilai >1){
+            return "B";
+        }else{
+            return "C";
+        }
+    }
 
+    function return_abjad_base4($nilai){
+        if($nilai >3){
+            return "A";
+        }elseif($nilai >2){
+            return "B";
+        }elseif($nilai >1){
+            return "C";
+        }else{
+            return "D";
+        }
     }

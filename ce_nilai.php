@@ -50,6 +50,7 @@
                     success: function(show){
                         if(!show.error){
                             $("#containerTopik").show();
+                            $("#kotak_utama").hide();
                             $("#containerTopik").html(show);
                             $("#containerDetailAspek").hide();
                         }
