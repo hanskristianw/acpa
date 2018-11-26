@@ -156,7 +156,7 @@
                                 <li class="nav-item dropdown">
                                   <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Laporan</a>
                                   <div class="dropdown-menu">
-                                    <a href="lap_nilai_topik.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai QUIZ, TES, ASS</a>
+                                    <a href="lap_remidial.php" class="dropdown-item fa fa-caret-right mb-1"> Remidial</a>
                                     <a href="lap_nilai.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai UTS & UAS</a>
                                   </div>
                                 </li>
@@ -236,8 +236,17 @@
                                       echo '<a href="ssp_nilai_input.php" class="dropdown-item fa fa-caret-right mb-1"> SSP</a>';
                                     }
                           echo  '</div>
-                                </li>
-                                <li class="nav-item">
+                                </li>';
+                          if(cekGuruExistInMapel($guru_id)){
+                            echo'<li class="nav-item dropdown">
+                                  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Laporan</a>
+                                  <div class="dropdown-menu">
+                                    <a href="lap_remidial.php" class="dropdown-item fa fa-caret-right mb-1"> Remidial</a>
+                                    <a href="lap_nilai.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai UTS & UAS</a>
+                                  </div>
+                                </li>';
+                          }    
+                          echo'<li class="nav-item">
                                         <a class="nav-link" href="ganti_password.php">Ubah Password</a>
                                 </li>';
                         }
@@ -274,15 +283,14 @@
                                   echo '<a href="ssp_nilai_input.php" class="dropdown-item fa fa-caret-right mb-1"> SSP</a>';
                                 }
                             
-                            echo '
-                                </div>
+                            echo '</div>
                                 </li>';
 
                                 if(cekGuruExistInMapel($guru_id)){
                                   echo'<li class="nav-item dropdown">
                                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Laporan</a>
                                         <div class="dropdown-menu">
-                                          <a href="lap_nilai_topik.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai QUIZ, TES, ASS</a>
+                                          <a href="lap_remidial.php" class="dropdown-item fa fa-caret-right mb-1"> Remidial</a>
                                           <a href="lap_nilai.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai UTS & UAS</a>
                                         </div>
                                       </li>';
