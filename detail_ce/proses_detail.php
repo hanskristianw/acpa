@@ -1,6 +1,7 @@
 <?php
 
     include_once '../includes/db_con.php';
+    include_once '../includes/fungsi_lib.php';
     //**********Displaying data ketika user menekan nama user
     if(isset($_POST['d_ce_id'])){
         $d_ce_id = mysqli_real_escape_string($conn, $_POST['d_ce_id']);
@@ -17,13 +18,15 @@
         //container untuk menampilkan pesan sukses
         echo'<p id="feedback" class="bg-success"></p>';
         
+        echo return_alert("Indikator yang sudah punya nilai TIDAK DAPAT dihapus", "danger");
+
         //menampilkan textbox ketika nama user diklik
-        echo "<h4 class='mb-3'>Update INDIKATOR</h4>";
+        echo "<h4 class='mb-3'>Update/Delete INDIKATOR</h4>";
         echo "<input type='text' placeholder='Masukkan aspek CE' rel='".$row['d_ce_id']."' class='form-control ce_nama mb-3' value='".$row['d_ce_nama']."'>";
         
         //menampilkan 3 button
         echo"<input type='button' class='btn btn-success mr-3 update' value='Update'>";
-        //echo"<input type='button' class='btn btn-danger mr-3 delete' value='Delete'>";
+        echo"<input type='button' class='btn btn-danger mr-3 delete' value='Delete'>";
         echo"<input type='button' class='btn btn-close' value='Close'>";
     }
     //**********Update data ketika user menekan tombol update
@@ -41,14 +44,23 @@
     
     /************************Set guru menjadi tidak aktif************************/
     if(isset($_POST['deleteguru'])){
-        $guru_id = mysqli_real_escape_string($conn, $_POST['guru_id']);
+        $d_ce_id = mysqli_real_escape_string($conn, $_POST['d_ce_id']);
         
-        $query = "UPDATE guru SET guru_active = 0 WHERE guru_id = $guru_id";
+        $query =    "SELECT *
+                    FROM ce_nilai
+                    WHERE ce_nilai_d_ce_id = $d_ce_id";
+
+        $result = mysqli_query($conn, $query);
+        $resultCheck = mysqli_num_rows($result);
+
+        if($resultCheck == 0){
+            $query2 = "DELETE FROM d_ce WHERE d_ce_id = $d_ce_id";
         
-        $result_set = mysqli_query($conn, $query);
-        
-        if(!$result_set){
-            die("QUERY FAILED".mysqli_error($conn));
+            $result_set = mysqli_query($conn, $query2);
+            
+            if(!$result_set){
+                die("QUERY FAILED".mysqli_error($conn));
+            }
         }
     }
 ?>
@@ -81,12 +93,21 @@
         
         /************************DELETE BUTTON FUNCTION************************/
         $(".delete").on('click', function(){
-//            if(confirm('Are you sure you want to delete this')){
-//                guru_id = $(".guru_name").attr('rel');
-//                $.post("guru/proses_guru.php",{guru_id: guru_id, deleteguru: deleteguru}, function(data){
-//                    $("#container-guru").hide();
-//                });
-//            }
+            if(confirm('Yakin ingin mencoba menghapus indikator ini?')){
+                d_ce_id =$(".ce_nama").attr("rel");
+                $.post("detail_ce/proses_detail.php",{d_ce_id: d_ce_id, deleteguru: deleteguru}, function(data){
+                    var ce_id = $("#option_tema_ce2").val();
+                    $.ajax({
+                        url: "detail_ce/display_detail.php",
+                        data:'ce_id='+ ce_id,
+                        type: "POST",
+                        success:function(data){
+                            $("#show_ssp").html(data);
+                        }
+                    });
+                    $("#container-ssp").hide();
+                });
+            }
         });
         
         /************************CLOSE BUTTON FUNCTION************************/

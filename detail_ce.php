@@ -40,6 +40,17 @@
                     $("#hasil_ssp").html(php_table_data);
                     $("#add-ssp-form")[0].reset();
                     $("#myModal").show();
+
+                    var ce_id = $("#option_tema_ce2").val();
+                    $.ajax({
+                        url: "detail_ce/display_detail.php",
+                        data:'ce_id='+ ce_id,
+                        type: "POST",
+                        success:function(data){
+                            $("#show_ssp").html(data);
+                        }
+                    });
+
                 });
             }else{
                 alert("Pilih tema terlebih dahulu");

@@ -14,9 +14,9 @@
         $kelas_id = $_POST["kelas_id"];
         
         $query =    "SELECT ce_id, ce_aspek
-                    FROM CE
+                    FROM ce
                     LEFT JOIN t_ajaran
-                    ON CE_t_ajaran_id = t_ajaran_id
+                    ON ce_t_ajaran_id = t_ajaran_id
                     WHERE t_ajaran_active = 1 AND ce_jenjang_id IN
                         (SELECT kelas_jenjang_id 
                          FROM kelas
