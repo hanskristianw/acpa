@@ -63,15 +63,17 @@
                         echo"<td>
                             <input type='hidden' name='siswa_id[]' value={$row['siswa_id']}>
                             <select class='form-control form-control-sm mb-2' name='option_lo[]' id='option_lo'>
-                                <option value=3>A</option>
-                                <option value=2>B</option>
-                                <option value=1>C</option>
+                                <option value=4>A</option>
+                                <option value=3>B</option>
+                                <option value=2>C</option>
+                                <option value=1>D</option>
                             </select></td>";    
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_so[]" id="option_so">
-                                <option value=3>A</option>
-                                <option value=2>B</option>
-                                <option value=1>C</option>
+                                <option value=4>A</option>
+                                <option value=3>B</option>
+                                <option value=2>C</option>
+                                <option value=1>D</option>
                             </select></td>';   
                         
                         echo '</tr>';
@@ -124,42 +126,54 @@
                         echo"<td>
                             <input type='hidden' name='moral_b_id[]' value={$row['moral_b_id']}>
                             <select class='form-control form-control-sm mb-2' name='option_lo[]' id='option_lo'>";
-                            if($moral_b_lo == 3){
-                                echo "<option selected value=3>A</option>";
+                            if($moral_b_lo == 4){
+                                echo "<option selected value=4>A</option>";
                             }else{
-                                echo "<option value=3>A</option>";
+                                echo "<option value=4>A</option>";
                             }
                             
-                            if($moral_b_lo == 2){
-                                echo "<option selected value=2>B</option>";
+                            if($moral_b_lo == 3){
+                                echo "<option selected value=3>B</option>";
                             }else{
-                                echo "<option value=2>B</option>";
+                                echo "<option value=3>B</option>";
                             }
                                 
-                            if($moral_b_lo == 1){
-                                echo "<option selected value=1>C</option>";
+                            if($moral_b_lo == 2){
+                                echo "<option selected value=2>C</option>";
                             }else{
-                                echo "<option value=1>C</option>";
+                                echo "<option value=2>C</option>";
+                            }
+
+                            if($moral_b_lo == 1){
+                                echo "<option selected value=1>D</option>";
+                            }else{
+                                echo "<option value=1>D</option>";
                             }
                         echo"</select></td>";    
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_so[]" id="option_so">';
-                            if($moral_b_so == 3){
-                                echo "<option selected value=3>A</option>";
+                            if($moral_b_so == 4){
+                                echo "<option selected value=4>A</option>";
                             }else{
-                                echo "<option value=3>A</option>";
+                                echo "<option value=4>A</option>";
                             }
                             
-                            if($moral_b_so == 2){
-                                echo "<option selected value=2>B</option>";
+                            if($moral_b_so == 3){
+                                echo "<option selected value=3>B</option>";
                             }else{
-                                echo "<option value=2>B</option>";
+                                echo "<option value=3>B</option>";
                             }
                                 
-                            if($moral_b_so == 1){
-                                echo "<option selected value=1>C</option>";
+                            if($moral_b_so == 2){
+                                echo "<option selected value=2>C</option>";
                             }else{
-                                echo "<option value=1>C</option>";
+                                echo "<option value=2>C</option>";
+                            }
+
+                            if($moral_b_so == 1){
+                                echo "<option selected value=1>D</option>";
+                            }else{
+                                echo "<option value=1>D</option>";
                             }
                         echo'</select></td>';   
                         

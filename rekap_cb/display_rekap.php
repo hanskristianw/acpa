@@ -44,11 +44,11 @@
                       echo"{$row['siswa_nama_depan']}</td>";
                   }
 
-                  echo "<td>".return_abjad_base3($row['emo_aware_ex'])."</td>";
-                  echo "<td>".return_abjad_base3($row['emo_aware_so'])."</td>";
-                  echo "<td>".return_abjad_base3($row['emo_aware_ne'])."</td>";
+                  echo "<td>".return_abjad_base4($row['emo_aware_ex'])." (".round($row['emo_aware_ex'],2).")</td>";
+                  echo "<td>".return_abjad_base4($row['emo_aware_so'])." (".round($row['emo_aware_so'],2).")</td>";
+                  echo "<td>".return_abjad_base4($row['emo_aware_ne'])." (".round($row['emo_aware_ne'],2).")</td>";
                   $total = $row['emo_aware_ex']+$row['emo_aware_so']+$row['emo_aware_ne'];
-                  echo "<td>".return_abjad_base3($total/3)."</td>";
+                  echo "<td>".return_abjad_base4($total/3)." (".round($total/3,2).")</td>";
               echo '</tr>';
 
               $absen++;
@@ -94,13 +94,13 @@
                   echo"{$row['siswa_nama_depan']}</td>";
               }
 
-              echo "<td>".return_abjad_base3($row['spirit_coping'])."</td>";
-              echo "<td>".return_abjad_base3($row['spirit_emo'])."</td>";
-              echo "<td>".return_abjad_base3($row['spirit_grate'])."</td>";
-              echo "<td>".return_abjad_base3($row['spirit_ref'])."</td>";
+              echo "<td>".return_abjad_base4($row['spirit_coping'])." (".round($row['spirit_coping'],2).")</td>";
+              echo "<td>".return_abjad_base4($row['spirit_emo'])." (".round($row['spirit_emo'],2).")</td>";
+              echo "<td>".return_abjad_base4($row['spirit_grate'])." (".round($row['spirit_grate'],2).")</td>";
+              echo "<td>".return_abjad_base4($row['spirit_ref'])." (".round($row['spirit_ref'],2).")</td>";
               
               $total = $row['spirit_coping']+$row['spirit_emo']+$row['spirit_grate']+$row['spirit_ref'];
-              echo "<td>".return_abjad_base3($total/4)."</td>";
+              echo "<td>".return_abjad_base4($total/4)." (".round($total/4,2).")</td>";
           echo '</tr>';
 
           $absen++;
@@ -179,10 +179,10 @@
               }
               $nilai_kolom = explode(",",$row['nilai_aspek']);
               for($i=0;$i<count($aspek_col);$i++){
-                echo'<td>'.return_abjad_base4($nilai_kolom[$i]).'</td>';
+                echo'<td>'.return_abjad_base4($nilai_kolom[$i]).' ('.round($nilai_kolom[$i],2).')</td>';
               }
 
-              echo "<td>".return_abjad_base4($row['nilai_cb'])."</td>";
+              echo "<td>".return_abjad_base4($row['nilai_cb'])." (".round($row['nilai_cb'],2).")</td>";
           echo '</tr>';
 
           $absen++;

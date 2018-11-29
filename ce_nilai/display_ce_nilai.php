@@ -90,6 +90,7 @@
                                         <option value= 4>A</option>
                                         <option value= 3>B</option>
                                         <option value= 2>C</option>
+                                        <option value= 1>D</option>
                                       </select>
                                   </td>";
                         echo '</tr>';
@@ -156,6 +157,12 @@
                                 echo"<option value= 4>A</option>
                                      <option value= 3>B</option>
                                      <option value= 2 selected>C</option>";
+                            }
+                            elseif($ssp_nilai_angka == 1){
+                                echo"<option value= 4>A</option>
+                                     <option value= 3>B</option>
+                                     <option value= 2>C</option>
+                                     <option value= 1 selected>D</option>";
                             }
                             echo "</select></td>";
                         echo '</tr>';

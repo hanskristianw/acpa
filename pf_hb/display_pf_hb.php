@@ -64,21 +64,24 @@
                         echo"<td>
                             <input type='hidden' name='siswa_id[]' value={$row['siswa_id']}>
                             <select class='form-control form-control-sm mb-2' name='option_absent[]' id='option_absent'>
-                                <option value=3>A</option>
-                                <option value=2>B</option>
-                                <option value=1>C</option>
+                                <option value=4>A</option>
+                                <option value=3>B</option>
+                                <option value=2>C</option>
+                                <option value=1>D</option>
                             </select></td>";    
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_uks[]" id="option_uks">
-                                <option value=3>A</option>
-                                <option value=2>B</option>
-                                <option value=1>C</option>
+                                <option value=4>A</option>
+                                <option value=3>B</option>
+                                <option value=2>C</option>
+                                <option value=1>D</option>
                             </select></td>';   
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_tardiness[]" id="option_tardiness">
-                                <option value=3>A</option>
-                                <option value=2>B</option>
-                                <option value=1>C</option>
+                                <option value=4>A</option>
+                                <option value=3>B</option>
+                                <option value=2>C</option>
+                                <option value=1>D</option>
                             </select></td>'; 
                         
                         echo '</tr>';
@@ -133,62 +136,80 @@
                         echo"<td>
                             <input type='hidden' name='pf_hf_id[]' value={$row['pf_hf_id']}>
                             <select class='form-control form-control-sm mb-2' name='option_absent[]' id='option_absent'>";
-                            if($pf_hf_absent == 3){
-                                echo "<option selected value=3>A</option>";
+                            if($pf_hf_absent == 4){
+                                echo "<option selected value=4>A</option>";
                             }else{
-                                echo "<option value=3>A</option>";
+                                echo "<option value=4>A</option>";
                             }
                             
-                            if($pf_hf_absent == 2){
-                                echo "<option selected value=2>B</option>";
+                            if($pf_hf_absent == 3){
+                                echo "<option selected value=3>B</option>";
                             }else{
-                                echo "<option value=2>B</option>";
+                                echo "<option value=3>B</option>";
                             }
                                 
-                            if($pf_hf_absent == 1){
-                                echo "<option selected value=1>C</option>";
+                            if($pf_hf_absent == 2){
+                                echo "<option selected value=2>C</option>";
                             }else{
-                                echo "<option value=1>C</option>";
+                                echo "<option value=2>C</option>";
+                            }
+
+                            if($pf_hf_absent == 1){
+                                echo "<option selected value=1>D</option>";
+                            }else{
+                                echo "<option value=1>D</option>";
                             }
                         echo"</select></td>";    
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_uks[]" id="option_uks">';
-                            if($pf_hf_uks == 3){
-                                echo "<option selected value=3>A</option>";
+                            if($pf_hf_uks == 4){
+                                echo "<option selected value=4>A</option>";
                             }else{
-                                echo "<option value=3>A</option>";
+                                echo "<option value=4>A</option>";
                             }
                             
-                            if($pf_hf_uks == 2){
-                                echo "<option selected value=2>B</option>";
+                            if($pf_hf_uks == 3){
+                                echo "<option selected value=3>B</option>";
                             }else{
-                                echo "<option value=2>B</option>";
+                                echo "<option value=3>B</option>";
                             }
                                 
-                            if($pf_hf_uks == 1){
-                                echo "<option selected value=1>C</option>";
+                            if($pf_hf_uks == 2){
+                                echo "<option selected value=2>C</option>";
                             }else{
-                                echo "<option value=1>C</option>";
+                                echo "<option value=2>C</option>";
+                            }
+
+                            if($pf_hf_uks == 1){
+                                echo "<option selected value=1>D</option>";
+                            }else{
+                                echo "<option value=1>D</option>";
                             }
                         echo'</select></td>';   
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_tardiness[]" id="option_tardiness">';
-                            if($pf_hf_tardiness == 3){
-                            echo "<option selected value=3>A</option>";
+                            if($pf_hf_tardiness == 4){
+                                echo "<option selected value=4>A</option>";
                             }else{
-                                echo "<option value=3>A</option>";
+                                echo "<option value=4>A</option>";
                             }
                             
-                            if($pf_hf_tardiness == 2){
-                                echo "<option selected value=2>B</option>";
+                            if($pf_hf_tardiness == 3){
+                                echo "<option selected value=3>B</option>";
                             }else{
-                                echo "<option value=2>B</option>";
+                                echo "<option value=3>B</option>";
                             }
                                 
-                            if($pf_hf_tardiness == 1){
-                                echo "<option selected value=1>C</option>";
+                            if($pf_hf_tardiness == 2){
+                                echo "<option selected value=2>C</option>";
                             }else{
-                                echo "<option value=1>C</option>";
+                                echo "<option value=2>C</option>";
+                            }
+
+                            if($pf_hf_tardiness == 1){
+                                echo "<option selected value=1>D</option>";
+                            }else{
+                                echo "<option value=1>D</option>";
                             }
                         echo'</select></td>'; 
                         

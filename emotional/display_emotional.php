@@ -64,21 +64,24 @@
                         echo"<td>
                             <input type='hidden' name='siswa_id[]' value={$row['siswa_id']}>
                             <select class='form-control form-control-sm mb-2' name='option_expressive[]' id='option_expressive'>
-                                <option value=3>A</option>
-                                <option value=2>B</option>
-                                <option value=1>C</option>
+                                <option value=4>A</option>
+                                <option value=3>B</option>
+                                <option value=2>C</option>
+                                <option value=1>D</option>
                             </select></td>";    
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_self[]" id="option_self">
-                                <option value=3>A</option>
-                                <option value=2>B</option>
-                                <option value=1>C</option>
+                                <option value=4>A</option>
+                                <option value=3>B</option>
+                                <option value=2>C</option>
+                                <option value=1>D</option>
                             </select></td>';   
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_negative[]" id="option_negative">
-                                <option value=3>A</option>
-                                <option value=2>B</option>
-                                <option value=1>C</option>
+                                <option value=4>A</option>
+                                <option value=3>B</option>
+                                <option value=2>C</option>
+                                <option value=1>D</option>
                             </select></td>'; 
                         
                         echo '</tr>';
@@ -133,62 +136,80 @@
                         echo"<td>
                             <input type='hidden' name='emo_aware_id[]' value={$row['emo_aware_id']}>
                             <select class='form-control form-control-sm mb-2' name='option_ex[]' id='option_ex'>";
-                            if($emo_aware_ex == 3){
-                                echo "<option selected value=3>A</option>";
+                            if($emo_aware_ex == 4){
+                                echo "<option selected value=4>A</option>";
                             }else{
-                                echo "<option value=3>A</option>";
+                                echo "<option value=4>A</option>";
+                            }
+                            
+                            if($emo_aware_ex == 3){
+                                echo "<option selected value=3>B</option>";
+                            }else{
+                                echo "<option value=3>B</option>";
                             }
                             
                             if($emo_aware_ex == 2){
-                                echo "<option selected value=2>B</option>";
+                                echo "<option selected value=2>C</option>";
                             }else{
-                                echo "<option value=2>B</option>";
+                                echo "<option value=2>C</option>";
                             }
                                 
                             if($emo_aware_ex == 1){
-                                echo "<option selected value=1>C</option>";
+                                echo "<option selected value=1>D</option>";
                             }else{
-                                echo "<option value=1>C</option>";
+                                echo "<option value=1>D</option>";
                             }
                         echo"</select></td>";    
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_so[]" id="option_so">';
-                            if($emo_aware_so == 3){
-                                echo "<option selected value=3>A</option>";
+                            if($emo_aware_so == 4){
+                                echo "<option selected value=4>A</option>";
                             }else{
-                                echo "<option value=3>A</option>";
+                                echo "<option value=4>A</option>";
+                            }
+                            
+                            if($emo_aware_so == 3){
+                                echo "<option selected value=3>B</option>";
+                            }else{
+                                echo "<option value=3>B</option>";
                             }
                             
                             if($emo_aware_so == 2){
-                                echo "<option selected value=2>B</option>";
+                                echo "<option selected value=2>C</option>";
                             }else{
-                                echo "<option value=2>B</option>";
+                                echo "<option value=2>C</option>";
                             }
                                 
                             if($emo_aware_so == 1){
-                                echo "<option selected value=1>C</option>";
+                                echo "<option selected value=1>D</option>";
                             }else{
-                                echo "<option value=1>C</option>";
+                                echo "<option value=1>D</option>";
                             }
                         echo'</select></td>';   
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_ne[]" id="option_ne">';
-                            if($emo_aware_ne == 3){
-                            echo "<option selected value=3>A</option>";
+                            if($emo_aware_ne == 4){
+                                echo "<option selected value=4>A</option>";
                             }else{
-                                echo "<option value=3>A</option>";
+                                echo "<option value=4>A</option>";
+                            }
+                            
+                            if($emo_aware_ne == 3){
+                                echo "<option selected value=3>B</option>";
+                            }else{
+                                echo "<option value=3>B</option>";
                             }
                             
                             if($emo_aware_ne == 2){
-                                echo "<option selected value=2>B</option>";
+                                echo "<option selected value=2>C</option>";
                             }else{
-                                echo "<option value=2>B</option>";
+                                echo "<option value=2>C</option>";
                             }
                                 
                             if($emo_aware_ne == 1){
-                                echo "<option selected value=1>C</option>";
+                                echo "<option selected value=1>D</option>";
                             }else{
-                                echo "<option value=1>C</option>";
+                                echo "<option value=1>D</option>";
                             }
                         echo'</select></td>'; 
                         

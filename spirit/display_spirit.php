@@ -65,27 +65,31 @@
                         echo"<td>
                             <input type='hidden' name='siswa_id[]' value={$row['siswa_id']}>
                             <select class='form-control form-control-sm mb-2' name='option_coping[]' id='option_coping'>
-                                <option value=3>A</option>
-                                <option value=2>B</option>
-                                <option value=1>C</option>
+                                <option value=4>A</option>
+                                <option value=3>B</option>
+                                <option value=2>C</option>
+                                <option value=1>D</option>
                             </select></td>";    
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_emo[]" id="option_emo">
-                                <option value=3>A</option>
-                                <option value=2>B</option>
-                                <option value=1>C</option>
+                                <option value=4>A</option>
+                                <option value=3>B</option>
+                                <option value=2>C</option>
+                                <option value=1>D</option>
                             </select></td>';   
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_grate[]" id="option_grate">
-                                <option value=3>A</option>
-                                <option value=2>B</option>
-                                <option value=1>C</option>
+                                <option value=4>A</option>
+                                <option value=3>B</option>
+                                <option value=2>C</option>
+                                <option value=1>D</option>
                             </select></td>'; 
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_ref[]" id="option_ref">
-                                <option value=3>A</option>
-                                <option value=2>B</option>
-                                <option value=1>C</option>
+                                <option value=4>A</option>
+                                <option value=3>B</option>
+                                <option value=2>C</option>
+                                <option value=1>D</option>
                             </select></td>'; 
                         echo '</tr>';
                         $absen++;
@@ -141,82 +145,102 @@
                         echo"<td>
                             <input type='hidden' name='spirit_id[]' value={$row['spirit_id']}>
                             <select class='form-control form-control-sm mb-2' name='option_coping[]' id='option_coping'>";
-                            if($spirit_coping == 3){
-                                echo "<option selected value=3>A</option>";
+                            if($spirit_coping == 4){
+                                echo "<option selected value=4>A</option>";
                             }else{
-                                echo "<option value=3>A</option>";
+                                echo "<option value=4>A</option>";
                             }
                             
-                            if($spirit_coping == 2){
-                                echo "<option selected value=2>B</option>";
+                            if($spirit_coping == 3){
+                                echo "<option selected value=3>B</option>";
                             }else{
-                                echo "<option value=2>B</option>";
+                                echo "<option value=3>B</option>";
                             }
                                 
-                            if($spirit_coping == 1){
-                                echo "<option selected value=1>C</option>";
+                            if($spirit_coping == 2){
+                                echo "<option selected value=2>C</option>";
                             }else{
-                                echo "<option value=1>C</option>";
+                                echo "<option value=2>C</option>";
+                            }
+                            if($spirit_coping == 1){
+                                echo "<option selected value=1>D</option>";
+                            }else{
+                                echo "<option value=1>D</option>";
                             }
                         echo"</select></td>";    
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_emo[]" id="option_emo">';
-                            if($spirit_emo == 3){
-                                echo "<option selected value=3>A</option>";
+                            if($spirit_emo == 4){
+                                echo "<option selected value=4>A</option>";
                             }else{
-                                echo "<option value=3>A</option>";
+                                echo "<option value=4>A</option>";
                             }
                             
-                            if($spirit_emo == 2){
-                                echo "<option selected value=2>B</option>";
+                            if($spirit_emo == 3){
+                                echo "<option selected value=3>B</option>";
                             }else{
-                                echo "<option value=2>B</option>";
+                                echo "<option value=3>B</option>";
                             }
                                 
-                            if($spirit_emo == 1){
-                                echo "<option selected value=1>C</option>";
+                            if($spirit_emo == 2){
+                                echo "<option selected value=2>C</option>";
                             }else{
-                                echo "<option value=1>C</option>";
+                                echo "<option value=2>C</option>";
+                            }
+                            if($spirit_emo == 1){
+                                echo "<option selected value=1>D</option>";
+                            }else{
+                                echo "<option value=1>D</option>";
                             }
                         echo'</select></td>';   
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_grate[]" id="option_grate">';
-                            if($spirit_grate == 3){
-                            echo "<option selected value=3>A</option>";
+                            if($spirit_grate == 4){
+                                echo "<option selected value=4>A</option>";
                             }else{
-                                echo "<option value=3>A</option>";
+                                echo "<option value=4>A</option>";
                             }
                             
-                            if($spirit_grate == 2){
-                                echo "<option selected value=2>B</option>";
+                            if($spirit_grate == 3){
+                                echo "<option selected value=3>B</option>";
                             }else{
-                                echo "<option value=2>B</option>";
+                                echo "<option value=3>B</option>";
                             }
                                 
-                            if($spirit_grate == 1){
-                                echo "<option selected value=1>C</option>";
+                            if($spirit_grate == 2){
+                                echo "<option selected value=2>C</option>";
                             }else{
-                                echo "<option value=1>C</option>";
+                                echo "<option value=2>C</option>";
+                            }
+                            if($spirit_grate == 1){
+                                echo "<option selected value=1>D</option>";
+                            }else{
+                                echo "<option value=1>D</option>";
                             }
                         echo'</select></td>'; 
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_ref[]" id="option_ref">';
-                            if($spirit_ref == 3){
-                            echo "<option selected value=3>A</option>";
+                            if($spirit_ref == 4){
+                                echo "<option selected value=4>A</option>";
                             }else{
-                                echo "<option value=3>A</option>";
+                                echo "<option value=4>A</option>";
                             }
                             
-                            if($spirit_ref == 2){
-                                echo "<option selected value=2>B</option>";
+                            if($spirit_ref == 3){
+                                echo "<option selected value=3>B</option>";
                             }else{
-                                echo "<option value=2>B</option>";
+                                echo "<option value=3>B</option>";
                             }
                                 
-                            if($spirit_ref == 1){
-                                echo "<option selected value=1>C</option>";
+                            if($spirit_ref == 2){
+                                echo "<option selected value=2>C</option>";
                             }else{
-                                echo "<option value=1>C</option>";
+                                echo "<option value=2>C</option>";
+                            }
+                            if($spirit_ref == 1){
+                                echo "<option selected value=1>D</option>";
+                            }else{
+                                echo "<option value=1>D</option>";
                             }
                         echo'</select></td>'; 
                         

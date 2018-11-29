@@ -166,49 +166,15 @@
                 $afektif_total = $row['afektif_total'];
                 $total_bulan = $row['total_bulan'];
                 $nilai_perbulan = explode('.', $afektif_total);
-                for ($i=0;$i<count($nilai_perbulan);$i++){
-                    $nilai_perminggu = explode('/', $nilai_perbulan[$i]);
-                    for ($j=0;$j<count($nilai_perminggu);$j++){
-                        $nilai_pertopik = explode('_', $nilai_perminggu[$j]);
-                        for ($k=0;$k<count($nilai_pertopik);$k++){
-                            if($nilai_pertopik[$k] > 0){
-                                $cek_minggu_aktif += 1;
-                            }
-                            $total[$nomor] += $nilai_pertopik[$k];
-                        }
-                        if($cek_minggu_aktif == 3){
-                            $pembagi_afektif[$nomor] += 1;
-                        }
-                        $cek_minggu_aktif = 0;
-                    }
-                }
-                
 
-                //echo"<td class='biasa'>$total[$nomor]</td>";
-                $afektif_akhir = $total[$nomor] * 10 / $pembagi_afektif[$nomor];
-                if ($afektif_akhir >=80){
-                    echo"<td class='biasa'>A</td>";
-                }
-                elseif ($afektif_akhir >=70){
-                    echo"<td class='biasa'>B</td>";
-                }
-                elseif ($afektif_akhir >=65){
-                    echo"<td class='biasa'>C</td>";
-                }
-                elseif ($afektif_akhir >=50){
-                    echo"<td class='biasa'>D</td>";
-                }
-                else{
-                    echo"<td class='biasa'>E</td>";
-                }
-    //            echo"<td class='biasa'>$afektif_akhir</td>";
+                echo"<td class='biasa'>".return_abjad_afek(return_total_nilai_afektif_bulan($nilai_perbulan)/$total_bulan)."</td>";
+
                 echo"<td class='biasa'>{$row['n_akhir']}</td>";
                 
                 
                 $mkkm = $row['mapel_kkm'];
                 $nakhir = $row['n_akhir'];
                 $grading_akhir = $nakhir - $mkkm;
-                
                 if($grading_akhir >16){
                     echo"<td class='biasa'>EXCELLENT</td>";
                 }elseif($grading_akhir >=11){
@@ -597,36 +563,23 @@
                     echo"<td>{$row_mapel['karakter_nama']}</td>";
                     
                     $afektif_total_akhir = $row_mapel['karakter_afektif'];
-                    $total_bulan_total = $row_mapel['total_bulan_total'];
-                    $mapel_nama_total = $row_mapel['mapel_nama_total'];
+                    //$total_bulan_total = $row_mapel['total_bulan_total'];
+                    //$mapel_nama_total = $row_mapel['mapel_nama_total'];
                     echo"<td style='padding: 0px 0px 0px 5px;'>";
                     //ulang sebanyak jumlah mapel
-                    $mapel_nama = explode(',', $mapel_nama_total);
+                    //$mapel_nama = explode(',', $mapel_nama_total);
                     $nilai_permapel = explode('#', $afektif_total_akhir);
-                    $akhir_tiap_karakter = 0;
-                    for($za=0;$za<sizeof($nilai_permapel);$za++){
-                        $nomor2 = 1;
-                        $akhir_tiap_mapel = 0;
-                        $nilai_perbulan = explode('.', $nilai_permapel[$za]);
-                        for ($i=0;$i<count($nilai_perbulan);$i++){
-                            $akhir_tiap_mapel += return_nilai_afektif_bulan($nilai_perbulan);
-                        }
-                        $akhir_tiap_mapel_fix= $akhir_tiap_mapel/count($nilai_perbulan);
-                        $akhir_tiap_karakter += $akhir_tiap_mapel_fix;
-                    }
-                    $total_nilai_karakter = $akhir_tiap_karakter/count($nilai_permapel);
                     
-                    if($total_nilai_karakter>=7.65){
-                        //echo "A<br>";
-                        echo $siswa_nama_d." ".$row_mapel['karakter_a'];
-                    }elseif($total_nilai_karakter>=6.3){
-                        //echo "B<br>";
-                        echo $siswa_nama_d." ".$row_mapel['karakter_b'];
+                    if(return_abjad_afek(return_total_nilai_perkarakter($nilai_permapel))=="A"){
+                        echo $row_mapel['karakter_a'];
+                    }elseif(return_abjad_afek(return_total_nilai_perkarakter($nilai_permapel))=="B"){
+                        echo $row_mapel['karakter_b'];
+                    }elseif(return_abjad_afek(return_total_nilai_perkarakter($nilai_permapel))=="C"){
+                        echo $row_mapel['karakter_c'];
                     }else{
-                        //echo "C<br>";
-                        echo $siswa_nama_d." ".$row_mapel['karakter_c'];
+                        echo "-";
                     }
-                    
+
                     echo "</td>";
                     $nomor++;
                 echo"</tr>";
@@ -669,11 +622,11 @@
                 $siswa_special_note = $row_life['siswa_special_note'];
             }
             
-            $jumlah_pf_hf = return_abjad_lifeskill($jumlah_pf_hf /= 3);
-            $jumlah_moral_b = return_abjad_lifeskill($jumlah_moral_b /= 2);
-            $jumlah_emo_aware = return_abjad_lifeskill($jumlah_emo_aware /= 3);
-            $jumlah_spirit = return_abjad_lifeskill($jumlah_spirit /= 3);
-            $jumlah_ss = return_abjad_lifeskill($jumlah_ss /= 4);
+            $jumlah_pf_hf = return_abjad_base4($jumlah_pf_hf /= 3);
+            $jumlah_moral_b = return_abjad_base4($jumlah_moral_b /= 2);
+            $jumlah_emo_aware = return_abjad_base4($jumlah_emo_aware /= 3);
+            $jumlah_spirit = return_abjad_base4($jumlah_spirit /= 3);
+            $jumlah_ss = return_abjad_base4($jumlah_ss /= 4);
             
             echo"<br>
             <table style='table-layout:fixed;' class='rapot'>

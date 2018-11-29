@@ -65,27 +65,31 @@
                         echo"<td>
                             <input type='hidden' name='siswa_id[]' value={$row['siswa_id']}>
                             <select class='form-control form-control-sm mb-2' name='option_relationship[]' id='option_relationship'>
-                                <option value=3>A</option>
-                                <option value=2>B</option>
-                                <option value=1>C</option>
+                                <option value=4>A</option>
+                                <option value=3>B</option>
+                                <option value=2>C</option>
+                                <option value=1>D</option>
                             </select></td>";    
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_cooperation[]" id="option_cooperation">
-                                <option value=3>A</option>
-                                <option value=2>B</option>
-                                <option value=1>C</option>
+                                <option value=4>A</option>
+                                <option value=3>B</option>
+                                <option value=2>C</option>
+                                <option value=1>D</option>
                             </select></td>';   
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_conflict[]" id="option_conflict">
-                                <option value=3>A</option>
-                                <option value=2>B</option>
-                                <option value=1>C</option>
+                                <option value=4>A</option>
+                                <option value=3>B</option>
+                                <option value=2>C</option>
+                                <option value=1>D</option>
                             </select></td>'; 
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_self_appraisal[]" id="option_self_appraisal">
-                                <option value=3>A</option>
-                                <option value=2>B</option>
-                                <option value=1>C</option>
+                                <option value=4>A</option>
+                                <option value=3>B</option>
+                                <option value=2>C</option>
+                                <option value=1>D</option>
                             </select></td>'; 
                         
                         echo '</tr>';
@@ -142,82 +146,106 @@
                         echo"<td>
                             <input type='hidden' name='ss_id[]' value={$row['ss_id']}>
                             <select class='form-control form-control-sm mb-2' name='option_relationship[]' id='option_relationship'>";
-                            if($ss_relationship == 3){
-                                echo "<option selected value=3>A</option>";
+                            if($ss_relationship == 4){
+                                echo "<option selected value=4>A</option>";
                             }else{
-                                echo "<option value=3>A</option>";
+                                echo "<option value=4>A</option>";
                             }
                             
-                            if($ss_relationship == 2){
-                                echo "<option selected value=2>B</option>";
+                            if($ss_relationship == 3){
+                                echo "<option selected value=3>B</option>";
                             }else{
-                                echo "<option value=2>B</option>";
+                                echo "<option value=3>B</option>";
                             }
                                 
-                            if($ss_relationship == 1){
-                                echo "<option selected value=1>C</option>";
+                            if($ss_relationship == 2){
+                                echo "<option selected value=2>C</option>";
                             }else{
-                                echo "<option value=1>C</option>";
+                                echo "<option value=2>C</option>";
+                            }
+
+                            if($ss_relationship == 1){
+                                echo "<option selected value=1>D</option>";
+                            }else{
+                                echo "<option value=1>D</option>";
                             }
                         echo"</select></td>";    
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_cooperation[]" id="option_cooperation">';
-                            if($ss_cooperation == 3){
-                                echo "<option selected value=3>A</option>";
+                            if($ss_cooperation == 4){
+                                echo "<option selected value=4>A</option>";
                             }else{
-                                echo "<option value=3>A</option>";
+                                echo "<option value=4>A</option>";
                             }
                             
-                            if($ss_cooperation == 2){
-                                echo "<option selected value=2>B</option>";
+                            if($ss_cooperation == 3){
+                                echo "<option selected value=3>B</option>";
                             }else{
-                                echo "<option value=2>B</option>";
+                                echo "<option value=3>B</option>";
                             }
                                 
-                            if($ss_cooperation == 1){
-                                echo "<option selected value=1>C</option>";
+                            if($ss_cooperation == 2){
+                                echo "<option selected value=2>C</option>";
                             }else{
-                                echo "<option value=1>C</option>";
+                                echo "<option value=2>C</option>";
+                            }
+
+                            if($ss_cooperation == 1){
+                                echo "<option selected value=1>D</option>";
+                            }else{
+                                echo "<option value=1>D</option>";
                             }
                         echo'</select></td>';   
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_conflict[]" id="option_conflict">';
-                            if($ss_conflict == 3){
-                            echo "<option selected value=3>A</option>";
+                            if($ss_conflict == 4){
+                                echo "<option selected value=4>A</option>";
                             }else{
-                                echo "<option value=3>A</option>";
+                                echo "<option value=4>A</option>";
                             }
                             
-                            if($ss_conflict == 2){
-                                echo "<option selected value=2>B</option>";
+                            if($ss_conflict == 3){
+                                echo "<option selected value=3>B</option>";
                             }else{
-                                echo "<option value=2>B</option>";
+                                echo "<option value=3>B</option>";
                             }
                                 
-                            if($ss_conflict == 1){
-                                echo "<option selected value=1>C</option>";
+                            if($ss_conflict == 2){
+                                echo "<option selected value=2>C</option>";
                             }else{
-                                echo "<option value=1>C</option>";
+                                echo "<option value=2>C</option>";
+                            }
+
+                            if($ss_conflict == 1){
+                                echo "<option selected value=1>D</option>";
+                            }else{
+                                echo "<option value=1>D</option>";
                             }
                         echo'</select></td>'; 
                         
                         echo'<td><select class="form-control form-control-sm mb-2" name="option_self_appraisal[]" id="option_self_appraisal">';
-                            if($ss_self_a == 3){
-                            echo "<option selected value=3>A</option>";
+                            if($ss_self_a == 4){
+                                echo "<option selected value=4>A</option>";
                             }else{
-                                echo "<option value=3>A</option>";
+                                echo "<option value=4>A</option>";
                             }
                             
-                            if($ss_self_a == 2){
-                                echo "<option selected value=2>B</option>";
+                            if($ss_self_a == 3){
+                                echo "<option selected value=3>B</option>";
                             }else{
-                                echo "<option value=2>B</option>";
+                                echo "<option value=3>B</option>";
                             }
                                 
-                            if($ss_self_a == 1){
-                                echo "<option selected value=1>C</option>";
+                            if($ss_self_a == 2){
+                                echo "<option selected value=2>C</option>";
                             }else{
-                                echo "<option value=1>C</option>";
+                                echo "<option value=2>C</option>";
+                            }
+
+                            if($ss_self_a == 1){
+                                echo "<option selected value=1>D</option>";
+                            }else{
+                                echo "<option value=1>D</option>";
                             }
                         echo'</select></td>'; 
                         

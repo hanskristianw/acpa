@@ -11,35 +11,6 @@
         return $pesan;
     }
 
-    function return_nilai_afektif_bulan($nilAfektifBulan){
-        if(count($nilAfektifBulan)>0){
-
-            for ($i=0;$i<count($nilAfektifBulan);$i++){
-                $nilai_perminggu = explode('/', $nilAfektifBulan[$i]);
-                $total_nilai_indikator_tiap_bulan =0;
-                $minggu_aktif =0;
-                $cek_minggu_aktif =0;
-                for ($j=0;$j<count($nilai_perminggu);$j++){
-                    $nilai_per_indikator = explode('_', $nilai_perminggu[$j]);
-                    for ($k=0;$k<count($nilai_per_indikator);$k++){
-                        if($nilai_per_indikator[$k] > 0){
-                            $cek_minggu_aktif += 1;
-                        }
-                        $total_nilai_indikator_tiap_bulan += $nilai_per_indikator[$k];
-                    }
-                    if($cek_minggu_aktif == 3){
-                        $minggu_aktif +=1;
-                    }
-                    $cek_minggu_aktif = 0;
-                }
-                $nilai_afektif_bulan = $total_nilai_indikator_tiap_bulan/$minggu_aktif;
-            }
-            return $nilai_afektif_bulan;
-        }else{
-            return 0;
-        }
-    }
-
     function return_total_nilai_afektif_bulan($nilAfektifBulan){
         if(count($nilAfektifBulan)>0){
             $total_nilai_afektif_bulan = 0;
@@ -70,20 +41,19 @@
         }
     }
 
-    function return_abjad_lifeskill($nilai){
-        
-        $abjad_nilai = "";
-        if(round($nilai)>=3){
-            $abjad_nilai = "A";
-        }elseif(round($nilai)>=2){
-            $abjad_nilai = "B";
-        }elseif(round($nilai)>=1){
-            $abjad_nilai = "C";
+    function return_total_nilai_perkarakter($nilmapel){
+        if(count($nilmapel)>0){
+            $total_nilai_karakter = 0;
+            for($za=0;$za<sizeof($nilmapel);$za++){
+                $nilai_perbulan = explode('.', $nilmapel[$za]);
+                $total_nilai_karakter += return_total_nilai_afektif_bulan($nilai_perbulan);
+            }
+            return $total_nilai_karakter;
+        }else{
+            return 0;
         }
-        
-        return $abjad_nilai;
     }
-    
+
     function return_combo_kelas($guru_id){
         include ("db_con.php");
         
@@ -223,15 +193,6 @@
         }
     }
 
-    function return_abjad_base3($nilai){
-        if($nilai >2){
-            return "A";
-        }elseif($nilai >1){
-            return "B";
-        }else{
-            return "C";
-        }
-    }
 
     function return_abjad_base4($nilai){
         if($nilai >3){
