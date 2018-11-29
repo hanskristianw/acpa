@@ -40,6 +40,36 @@
         }
     }
 
+    function return_total_nilai_afektif_bulan($nilAfektifBulan){
+        if(count($nilAfektifBulan)>0){
+            $total_nilai_afektif_bulan = 0;
+            for ($i=0;$i<count($nilAfektifBulan);$i++){
+                $nilai_perminggu = explode('/', $nilAfektifBulan[$i]);
+                $total_nilai_indikator_tiap_bulan =0;
+                $minggu_aktif =0;
+                $cek_minggu_aktif =0;
+                for ($j=0;$j<count($nilai_perminggu);$j++){
+                    $nilai_per_indikator = explode('_', $nilai_perminggu[$j]);
+                    for ($k=0;$k<count($nilai_per_indikator);$k++){
+                        if($nilai_per_indikator[$k] > 0){
+                            $cek_minggu_aktif += 1;
+                        }
+                        $total_nilai_indikator_tiap_bulan += $nilai_per_indikator[$k];
+                    }
+                    if($cek_minggu_aktif == 3){
+                        $minggu_aktif +=1;
+                    }
+                    $cek_minggu_aktif = 0;
+                }
+                $nilai_afektif_bulan = $total_nilai_indikator_tiap_bulan/$minggu_aktif;
+                $total_nilai_afektif_bulan += $nilai_afektif_bulan;
+            }
+            return $total_nilai_afektif_bulan;
+        }else{
+            return 0;
+        }
+    }
+
     function return_abjad_lifeskill($nilai){
         
         $abjad_nilai = "";
@@ -178,6 +208,18 @@
         }
         else{
             return false;
+        }
+    }
+
+    function return_abjad_afek($nilai){
+        if($nilai >=7.65){
+            return "A";
+        }elseif($nilai >=6.3){
+            return "B";
+        }elseif($nilai >=4.95){
+            return "C";
+        }else{
+            return "D";
         }
     }
 

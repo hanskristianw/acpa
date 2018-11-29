@@ -9,6 +9,7 @@
         if($mapel_id > 0 && $kelas_id>0){
 
             include ("../includes/db_con.php");
+            include ("../includes/fungsi_lib.php");
 
             //dapatkan nilai ujian
             $query2 =   "SELECT *
@@ -146,7 +147,54 @@
 
             echo "</table>";
 
+
+            //NILAI AFEKTIF
+            $query_af = "SELECT siswa_nama_depan, siswa_nama_belakang, GROUP_CONCAT(k_afektif_bulan ORDER BY k_afektif_id) as bulan, COUNT(k_afektif_bulan) as jumlah_bulan, GROUP_CONCAT(afektif_nilai ORDER BY k_afektif_id) as nilai
+                        FROM afektif
+                        LEFT JOIN siswa
+                        ON afektif_siswa_id = siswa_id
+                        LEFT JOIN k_afektif
+                        ON afektif_k_afektif_id = k_afektif_id
+                        WHERE siswa_id_kelas = $kelas_id AND afektif_mapel_id = $mapel_id
+                        GROUP BY siswa_id
+                        ORDER BY siswa_nama_depan";
+
+            $query_info = mysqli_query($conn, $query_af);
+
+            echo "<h4 class='text-center mb-3 mt-5'><u>Laporan Hasil Afektif</u></h4>";
+            echo "<table class='table table-sm table-responsive table-striped table-bordered mt-3'>
+                  <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Afektif Akhir Raport</th>";
+            echo "</tr>";
             
+            $no = 1;
+            while($row2 = mysqli_fetch_array($query_info)){
+
+                //$kum_p_ass = explode(",", $row2['kum_p_ass']);
+                $nama_belakang = $row2['siswa_nama_belakang'];
+                $jumlah_bulan = $row2['jumlah_bulan'];
+
+                //kumpulan nilai afektif
+                $afektif_nilai = explode(",", $row2['nilai']);
+                $jumlah_bul = $row2['jumlah_bulan'];
+
+                echo "<tr>
+                      <td>$no</td>";
+
+                if(strlen($nama_belakang) > 0){
+                    echo"<td>{$row2['siswa_nama_depan']} $nama_belakang[0]</td>";
+                }else{
+                    echo"<td>{$row2['siswa_nama_depan']}</td>";
+                }
+
+                echo "<td>".return_abjad_afek(return_total_nilai_afektif_bulan($afektif_nilai)/$jumlah_bul)."</td>";
+                echo"</tr>";
+                $no++;
+            }
+
+            echo "</table>";
         }
     }
     
