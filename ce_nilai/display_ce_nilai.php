@@ -147,16 +147,19 @@
                             if($ssp_nilai_angka == 4){
                                 echo"<option value= 4 selected>A</option>
                                      <option value= 3>B</option>
-                                     <option value= 2>C</option>";
+                                     <option value= 2>C</option>
+                                     <option value= 1>D</option>";
                             }elseif($ssp_nilai_angka == 3){
                                 echo"<option value= 4>A</option>
                                      <option value= 3 selected>B</option>
-                                     <option value= 2>C</option>";
+                                     <option value= 2>C</option>
+                                     <option value= 1>D</option>";
                             }
                             elseif($ssp_nilai_angka == 2){
                                 echo"<option value= 4>A</option>
                                      <option value= 3>B</option>
-                                     <option value= 2 selected>C</option>";
+                                     <option value= 2 selected>C</option>
+                                     <option value= 1>D</option>";
                             }
                             elseif($ssp_nilai_angka == 1){
                                 echo"<option value= 4>A</option>
