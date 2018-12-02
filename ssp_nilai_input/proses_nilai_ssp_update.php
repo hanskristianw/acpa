@@ -84,19 +84,29 @@
         }
         
         //echo $sql;
-        if (!mysqli_query($conn, $sql))
-        {
-            echo("<br> Error description: " . mysqli_error($conn));
-        }
-        else{
+        if(count($index_update)>0){
+            if (!mysqli_query($conn, $sql))
+            {
+                echo("<br> Error description: " . mysqli_error($conn));
+            }
+            else{
+                echo '<div class="alert alert-success alert-dismissible fade show">
+                        <button class="close" data-dismiss="alert" type="button">
+                            <span>&times;</span>
+                        </button>
+                        <strong>Update data akan diterukan ke wakakur</strong>
+                    </div>';
+            }
+        }else{
             echo '<div class="alert alert-success alert-dismissible fade show">
-                    <button class="close" data-dismiss="alert" type="button">
-                        <span>&times;</span>
-                    </button>
-                    <strong>Update data akan diterukan ke wakakur</strong>
-                </div>';
+                        <button class="close" data-dismiss="alert" type="button">
+                            <span>&times;</span>
+                        </button>
+                        <strong>Tidak ada perubahan data</strong>
+                    </div>';
         }
         mysqli_close($conn);
+        
         
     }
     

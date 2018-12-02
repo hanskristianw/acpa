@@ -1,8 +1,10 @@
 <?php
 
     include_once '../includes/db_con.php';
+    include_once '../includes/fungsi_lib.php';
     //**********Displaying data ketika user menekan nama user
     if(isset($_POST['d_ssp_id'])){
+        echo return_alert("Rubrik hanya dapat dihapus jika tidak mempunyai nilai", "warning");
         $d_ssp_id = mysqli_real_escape_string($conn, $_POST['d_ssp_id']);
         
         $query = "SELECT * FROM d_ssp WHERE d_ssp_id = {$d_ssp_id}";
@@ -13,20 +15,22 @@
         }
 
         $row = mysqli_fetch_array($query_ssp_info);
-        
+        $d_ssp_a = mysqli_real_escape_string($conn, $row['d_ssp_a']);
+        $d_ssp_b = mysqli_real_escape_string($conn, $row['d_ssp_b']);
+        $d_ssp_c = mysqli_real_escape_string($conn, $row['d_ssp_c']);
         //container untuk menampilkan pesan sukses
         echo'<p id="feedback" class="bg-success"></p>';
         
         //menampilkan textbox ketika nama user diklik
         echo "<h4 class='mb-3'>Update/Delete Rubrik</h4>";
         echo "<input type='text' placeholder='Masukkan nama rubrik' rel='".$row['d_ssp_id']."' id='d_ssp_kriteria' class='form-control d_ssp_kriteria mb-3' value='".$row['d_ssp_kriteria']."'>";
-        echo "<input type='text' placeholder='Masukkan kalimat jika nilai rubrik A' id='d_ssp_a' class='form-control d_ssp_a mb-3' value='".$row['d_ssp_a']."'>";
-        echo "<input type='text' placeholder='Masukkan kalimat jika nilai rubrik B' id='d_ssp_b' class='form-control d_ssp_b mb-3' value='".$row['d_ssp_b']."'>";
-        echo "<input type='text' placeholder='Masukkan kalimat jika nilai rubrik C' id='d_ssp_c' class='form-control d_ssp_c mb-3' value='".$row['d_ssp_c']."'>";
+        echo "<input type='text' placeholder='Masukkan kalimat jika nilai rubrik A' id='d_ssp_a' class='form-control d_ssp_a mb-3' value='".$d_ssp_a."'>";
+        echo "<input type='text' placeholder='Masukkan kalimat jika nilai rubrik B' id='d_ssp_b' class='form-control d_ssp_b mb-3' value='".$d_ssp_b."'>";
+        echo "<input type='text' placeholder='Masukkan kalimat jika nilai rubrik C' id='d_ssp_c' class='form-control d_ssp_c mb-3' value='".$d_ssp_c."'>";
         
         //menampilkan 3 button
         echo"<input type='button' class='btn btn-success mr-3 update' value='Update'>";
-        //echo"<input type='button' class='btn btn-danger mr-3 delete' value='Delete'>";
+        echo"<input type='button' class='btn btn-danger mr-3 delete' value='Delete'>";
         echo"<input type='button' class='btn btn-close' value='Close'>";
     }
     //**********Update data ketika user menekan tombol update
@@ -46,15 +50,25 @@
     }
     
     /************************Set guru menjadi tidak aktif************************/
-    if(isset($_POST['deleteguru'])){
-        $guru_id = mysqli_real_escape_string($conn, $_POST['guru_id']);
+    if(isset($_POST['deleterubrik'])){
+        //echo "hai";
+        $d_ssp_id = mysqli_real_escape_string($conn, $_POST['d_ssp_id']);
         
-        $query = "UPDATE guru SET guru_active = 0 WHERE guru_id = $guru_id";
+        $query =    "SELECT *
+                    FROM ssp_nilai
+                    WHERE ssp_nilai_d_ssp_id = $d_ssp_id";
+
+        $result = mysqli_query($conn, $query);
+        $resultCheck = mysqli_num_rows($result);
+
+        if($resultCheck == 0){
+            $query2 = "DELETE FROM d_ssp WHERE d_ssp_id = $d_ssp_id";
         
-        $result_set = mysqli_query($conn, $query);
-        
-        if(!$result_set){
-            die("QUERY FAILED".mysqli_error($conn));
+            $result_set = mysqli_query($conn, $query2);
+            
+            if(!$result_set){
+                die("QUERY FAILED".mysqli_error($conn));
+            }
         }
     }
 ?>
@@ -66,7 +80,7 @@
         var d_ssp_c;
         var d_ssp_kriteria;
         var updaterubrik = "update";
-        var deleteguru = "delete";
+        var deleterubrik = "delete";
         
         /************************UPDATE BUTTON FUNCTION************************/
         $(".update").on('click', function(){
@@ -94,12 +108,13 @@
         
         /************************DELETE BUTTON FUNCTION************************/
         $(".delete").on('click', function(){
-//            if(confirm('Are you sure you want to delete this')){
-//                guru_id = $(".guru_name").attr('rel');
-//                $.post("guru/proses_guru.php",{guru_id: guru_id, deleteguru: deleteguru}, function(data){
-//                    $("#container-guru").hide();
-//                });
-//            }
+            if(confirm('Yakin ingin mencoba menghapus rubrik ini?')){
+                d_ssp_id =$("#d_ssp_kriteria").attr("rel");
+                $.post("ssp_nilai/proses_rubrik.php",{d_ssp_id: d_ssp_id, deleterubrik: deleterubrik}, function(data){
+                    
+                    $("#container-rubrik").hide();
+                });
+            }
         });
         
         /************************CLOSE BUTTON FUNCTION************************/

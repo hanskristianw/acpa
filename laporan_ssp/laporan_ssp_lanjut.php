@@ -11,7 +11,7 @@
 
 
             //dapatkan nilai ujian
-            $query2 =   "SELECT siswa_nama_depan, siswa_nama_belakang, ssp_nama, kelas_nama, GROUP_CONCAT(d_ssp_kriteria ORDER BY d_ssp_id) as topik_ssp, GROUP_CONCAT(ssp_nilai_angka ORDER BY d_ssp_id) as nilai_ssp, SUM(ssp_nilai_angka)/COUNT(ssp_nilai_angka) as nilai_akhir
+            $query2 =   "SELECT siswa_nama_depan, siswa_nama_belakang, ssp_nama, kelas_nama, GROUP_CONCAT(d_ssp_kriteria ORDER BY d_ssp_id SEPARATOR '_' ) as topik_ssp, GROUP_CONCAT(ssp_nilai_angka ORDER BY d_ssp_id) as nilai_ssp, SUM(ssp_nilai_angka)/COUNT(ssp_nilai_angka) as nilai_akhir
                         FROM ssp_daftar
                         LEFT JOIN siswa
                         ON ssp_daftar_siswa_id = siswa_id
@@ -30,7 +30,7 @@
             $query_info2 = mysqli_query($conn, $query2);
             
             $firstrow = mysqli_fetch_assoc($query_info2);
-            $topik_ssp = explode(",",$firstrow['topik_ssp']);
+            $topik_ssp = explode("_",$firstrow['topik_ssp']);
             echo "<h4 class='text-center mb-3 mt-5 mb-3'><u>Laporan SSP ".$firstrow['ssp_nama']."</u></h4>";
             return_info_abjad_base4();
             echo "<table class='table table-sm table-responsive table-striped table-bordered mt-3 mb-3'>
