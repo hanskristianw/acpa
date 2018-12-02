@@ -18,6 +18,8 @@
 
       $query_info = mysqli_query($conn, $query);
       
+      return_info_abjad_base4();
+
       echo"<div style='overflow-x:auto;'>
           <table class='table table-sm table-responsive table-striped table-bordered mt-3'><thead>";
       echo'<tr>
@@ -57,6 +59,8 @@
 
     }
     elseif($kelas_id > 0 && $jenis_pilihan == 2){
+
+
       //Nilai Spirituality
       $query =    "SELECT * from spirit
                   LEFT JOIN siswa
@@ -67,15 +71,17 @@
 
       $query_info = mysqli_query($conn, $query);
 
+      return_info_abjad_base4();
+
       echo"<div style='overflow-x:auto;'>
       <table class='table table-sm table-responsive table-striped table-bordered mt-3'><thead>";
       echo'<tr>
           <th>No</th>
           <th>Nama</th>
-          <th>Coping Adversities</th>
-          <th>Emotional Resilience</th>
-          <th>Grateful</th>
-          <th>Reflective</th>
+          <th style="width: 150px;">Coping Adversities</th>
+          <th style="width: 150px;>Emotional Resilience</th>
+          <th style="width: 150px;>Grateful</th>
+          <th style="width: 150px;>Reflective</th>
           <th>Nilai Akhir</th>
         </tr>
       </thead>
@@ -151,6 +157,8 @@
 
       $query_info = mysqli_query($conn, $query);
       
+      return_info_abjad_base4();
+
       echo"<div style='overflow-x:auto;'>
           <table class='table table-sm table-responsive table-striped table-bordered mt-3'>
           <thead>";
@@ -158,7 +166,7 @@
             <th>No</th>
             <th>Nama</th>';
             for($i=0;$i<count($aspek_col);$i++){
-              echo'<th>'.$aspek_col[$i].'</th>';
+              echo'<th style="width: 150px;">'.$aspek_col[$i].'</th>';
             }
       echo' <th>Nilai CB Akhir</th></tr>
           </thead>

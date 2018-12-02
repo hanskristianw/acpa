@@ -1,5 +1,6 @@
 <?php
     include_once '../includes/db_con.php';
+    include_once '../includes/fungsi_lib.php';
     $ssp_id = $_POST["ssp_option"];
     $pil2 = $_POST["ssp_option2"];
 
@@ -28,29 +29,45 @@
             </form>';
         }
         elseif($pil2==3) {
-            //daftarkan siswa
-            echo '<h4 class="text-center">Daftarkan Siswa</h4>';
+            
  
-            $sql3 = "SELECT kelas_id, kelas_nama FROM kelas,t_ajaran WHERE kelas_t_ajaran_id = t_ajaran_id AND t_ajaran_active = 1";
-            $result3 = mysqli_query($conn, $sql3);
-            $options3 = "<option value= 0>Pilih Kelas</option>";
-            while ($row = mysqli_fetch_assoc($result3)) {
-                $options3 .= "<option value={$row['kelas_id']}>{$row['kelas_nama']}</option>";
+            $sql_cek_data_ssp = "SELECT * 
+                                FROM ssp_nilai
+                                LEFT JOIN d_ssp
+                                ON ssp_nilai_d_ssp_id = d_ssp_id
+                                LEFT JOIN ssp
+                                ON d_ssp_ssp_id = ssp_id
+                                WHERE ssp_id = $ssp_id";
+
+            $result = mysqli_query($conn, $sql_cek_data_ssp);
+            $resultCheck = mysqli_num_rows($result);
+
+            if($resultCheck > 0){
+                echo return_alert("Tidak dapat mendaftarkan siswa karena SSP sudah mempunyai nilai, hubungi kurikulum jika salah daftarkan siswa atau siswa pindah ssp", "danger");
             }
-            
-            echo'<div id="feedback_ssp"></div>';
-            
-            echo '<form method="POST" id="add-siswa-ssp-form" action="ssp_nilai/add-siswa-ssp.php">';
-                echo '<select class="form-control form-control-sm kelas_id mb-2" id="kelas_id" name="kelas_id">';
-                echo $options3;
-                echo '</select>';
+            else{
+                //daftarkan siswa
+                echo '<h4 class="text-center">Daftarkan Siswa</h4>';
+                $sql3 = "SELECT kelas_id, kelas_nama FROM kelas,t_ajaran WHERE kelas_t_ajaran_id = t_ajaran_id AND t_ajaran_active = 1";
+                $result3 = mysqli_query($conn, $sql3);
+                $options3 = "<option value= 0>Pilih Kelas</option>";
+                while ($row = mysqli_fetch_assoc($result3)) {
+                    $options3 .= "<option value={$row['kelas_id']}>{$row['kelas_nama']}</option>";
+                }
                 
-                echo '<div id="container-daftar-siswa"></div>';
-                echo "<input type='hidden' id='ssp_id_hidden' name='ssp_id_hidden' class='ssp_id_hidden' value={$ssp_id}>";
+                echo'<div id="feedback_ssp"></div>';
                 
-                echo "<input type='submit' class='btn btn-primary mt-3' value='Daftarkan Siswa'>";
-            echo '</form>';
-            
+                echo '<form method="POST" id="add-siswa-ssp-form" action="ssp_nilai/add-siswa-ssp.php">';
+                    echo '<select class="form-control form-control-sm kelas_id mb-2" id="kelas_id" name="kelas_id">';
+                    echo $options3;
+                    echo '</select>';
+                    
+                    echo '<div id="container-daftar-siswa"></div>';
+                    echo "<input type='hidden' id='ssp_id_hidden' name='ssp_id_hidden' class='ssp_id_hidden' value={$ssp_id}>";
+                    
+                    echo "<input type='submit' class='btn btn-primary mt-3' value='Daftarkan Siswa'>";
+                echo '</form>';
+            }
         }
     }
 

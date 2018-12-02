@@ -195,13 +195,17 @@
 
 
     function return_abjad_base4($nilai){
-        if($nilai >3){
+        if($nilai >3.25){
             return "A";
-        }elseif($nilai >2){
+        }elseif($nilai >2.50){
             return "B";
-        }elseif($nilai >1){
+        }elseif($nilai >1.75){
             return "C";
         }else{
             return "D";
         }
+    }
+
+    function return_info_abjad_base4(){
+        echo return_alert("A>3.25  B>2.5  C>1.75", "info");
     }

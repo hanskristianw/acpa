@@ -101,6 +101,7 @@
                                   <div class="dropdown-menu">
                                     <a href="lap_nilai_topik.php" class="dropdown-item fa fa-caret-right mb-1"> Remidial</a>
                                     <a href="lap_nilai.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai</a>
+                                    <a href="lap_ssp.php" class="dropdown-item fa fa-caret-right mb-1"> SSP</a>
                                   </div>
                                 </li>
                                 

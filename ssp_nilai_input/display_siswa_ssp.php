@@ -7,9 +7,7 @@
     
     $resultCheck = -1;
     if($ssp_id > 0 && $d_ssp_ssp_id >0) {
-
         //cek pernah isi atau belum
-        
         
         $query =    "SELECT * from ssp_nilai
                     LEFT JOIN d_ssp
