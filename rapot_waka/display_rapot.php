@@ -58,9 +58,14 @@
                 </p>
                 <p class='alignright'>
                 SEMESTER &nbsp&nbsp&nbsp&emsp;&thinsp;&emsp;: $tahun_ajaran_semester $semester_inggris<br>
-                SCHOOL YEAR &nbsp&nbsp&nbsp&nbsp&nbsp&thinsp;: $tahun_ajaran_nama<br>
-                PROGRAM &nbsp&nbsp&emsp;&emsp;&thinsp;&thinsp;&thinsp;: $program_nama[1]<br>
-                </p>
+                SCHOOL YEAR &nbsp&nbsp&nbsp&nbsp&nbsp&thinsp;: $tahun_ajaran_nama<br>";
+                if(strlen($program_nama[1])>1){
+                    echo"PROGRAM &nbsp&nbsp&emsp;&emsp;&thinsp;&thinsp;&thinsp;: $program_nama[1]<br>";
+                }
+                else{
+                    echo"<br>";
+                }
+            echo"</p>
             </div>";
             
             echo"<div style='clear: both;'></div>";
@@ -143,19 +148,26 @@
                 
                 //pisahkan nama subject jika terlalu panjang
                 $mapel_nama_fix ="";
-                $temp_mapel_nama = explode(" ", $row['mapel_nama']);
-                if(sizeof($temp_mapel_nama)>2){
-                    for($i=0;$i<sizeof($temp_mapel_nama);$i++){
-                        $mapel_nama_fix .= $temp_mapel_nama[$i] ." ";
-                        if($i==1){
-                            $mapel_nama_fix .= "<br>&nbsp";
-                        }
-                    }
-                    echo"<td >&nbsp$mapel_nama_fix</td>";
-                }
-                else{
+
+                if(strlen($row['mapel_nama'])< 17){
                     echo"<td>&nbsp{$row['mapel_nama']}</td>";
+                }else{
+                    $temp_mapel_nama = explode(" ", $row['mapel_nama']);
+                    if(sizeof($temp_mapel_nama)>2){
+                        for($i=0;$i<sizeof($temp_mapel_nama);$i++){
+                            $mapel_nama_fix .= $temp_mapel_nama[$i] ." ";
+                            if($i==1){
+                                $mapel_nama_fix .= "<br>&nbsp";
+                            }
+                        }
+                        echo"<td>&nbsp$mapel_nama_fix</td>";
+                    }
+                    else{
+                        echo"<td>&nbsp{$row['mapel_nama']}</td>";
+                    }
                 }
+
+                
                 
                 echo"<td class='kkm'>{$row['mapel_kkm']}</td>";
                 echo"<td class='biasa'>{$row['Cognitive']}</td>";
@@ -317,46 +329,28 @@
                     $nilai_angka_ssp = $row_mapel['ssp_nilai_angka'];
                     
                     $total_ssp += $nilai_angka_ssp;
-                    
-                    if($nilai_angka_ssp == 4){
-                        echo"<td style='width: 50px; padding: 0px 5px 0px 5px; text-align: center;'>A</td>";
-                    }elseif($nilai_angka_ssp == 3){
-                        echo"<td style='width: 50px; padding: 0px 5px 0px 5px; text-align: center;'>B</td>";
-                    }elseif($nilai_angka_ssp == 2){
-                        echo"<td style='width: 50px; padding: 0px 5px 0px 5px; text-align: center;'>C</td>";
-                    }else{
-                        echo"<td style='width: 50px; padding: 0px 5px 0px 5px; text-align: center;'>D</td>";
-                    }
-                    
-                    if($nilai_angka_ssp == 4){
-                        echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$row_mapel['d_ssp_a']}</td>";
-                    }elseif($nilai_angka_ssp == 3){
-                        echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$row_mapel['d_ssp_b']}</td>";
-                    }elseif($nilai_angka_ssp == 2){
-                        echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$row_mapel['d_ssp_c']}</td>";
-                    }else{
-                        echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>-</td>";
-                    }
-                    $nomor_ssp++;
+
+                echo"<td style='width: 50px; padding: 0px 5px 0px 5px; text-align: center;'>".return_abjad_base4($nilai_angka_ssp)."</td>";
+       
+                if(return_abjad_base4($nilai_angka_ssp)=="A"){
+                    echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$row_mapel['d_ssp_a']}</td>";
+                }elseif(return_abjad_base4($nilai_angka_ssp)=="B"){
+                    echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$row_mapel['d_ssp_b']}</td>";
+                }elseif(return_abjad_base4($nilai_angka_ssp)=="C"){
+                    echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$row_mapel['d_ssp_c']}</td>";
+                }else{
+                    echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>-</td>";
+                }
+                $nomor_ssp++;
                 echo"</tr>";
             } 
             
             
             $final_score = $total_ssp/($nomor_ssp - 1);
             
-            if($final_score > 3){
-                $final_score_angka = "A";
-            }elseif($final_score > 2){
-                $final_score_angka = "B";
-            }elseif($final_score > 1){
-                $final_score_angka = "C";
-            }else{
-                $final_score_angka = "D";
-            }
-            
             echo"<tr>
                 <td style='text-align: center; font-weight:bold; height: 50px;' colspan='2'>FINAL SCORE</td>
-                <td style='text-align: center; font-weight:bold; height: 50px;' colspan='2'> $final_score_angka </td>
+                <td style='text-align: center; font-weight:bold; height: 50px;' colspan='2'>".return_abjad_base4($final_score)."</td>
             </tr>";
             echo"
                 </tbody>
@@ -402,9 +396,14 @@
                 </p>
                 <p class='alignright'>
                 SEMESTER &nbsp&nbsp&nbsp&emsp;&thinsp;&emsp;: $tahun_ajaran_semester $semester_inggris<br>
-                SCHOOL YEAR &nbsp&nbsp&nbsp&nbsp&nbsp&thinsp;: $tahun_ajaran_nama<br>
-                PROGRAM &nbsp&nbsp&emsp;&emsp;&thinsp;&thinsp;&thinsp;: $program_nama[1]<br>
-                </p>
+                SCHOOL YEAR &nbsp&nbsp&nbsp&nbsp&nbsp&thinsp;: $tahun_ajaran_nama<br>";
+                if(strlen($program_nama[1])>1){
+                    echo"PROGRAM &nbsp&nbsp&emsp;&emsp;&thinsp;&thinsp;&thinsp;: $program_nama[1]<br>";
+                }
+                else{
+                    echo"<br>";
+                }
+            echo"</p>
             </div>";
             
             echo"<div style='clear: both;'></div>";
@@ -433,26 +432,19 @@
 
                     $total_aspek += $nilai_angka_aspek/$jumlah_indikator;
                     
-                    if($nilai_angka_aspek/$jumlah_indikator > 3){
-                        echo"<td style='width: 50px; padding: 0px 5px 0px 5px; text-align: center;'>A</td>";
-                    }elseif($nilai_angka_aspek/$jumlah_indikator > 2){
-                        echo"<td style='width: 50px; padding: 0px 5px 0px 5px; text-align: center;'>B</td>";
-                    }elseif($nilai_angka_aspek/$jumlah_indikator > 1){
-                        echo"<td style='width: 50px; padding: 0px 5px 0px 5px; text-align: center;'>C</td>";
-                    }else{
-                        echo"<td style='width: 50px; padding: 0px 5px 0px 5px; text-align: center;'>D</td>";
-                    }
-                    
-                    if($nilai_angka_aspek/$jumlah_indikator > 3){
-                        echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$siswa_nama_d}"." "."{$row_mapel['ce_a']}</td>";
-                    }elseif($nilai_angka_aspek/$jumlah_indikator > 2){
-                        echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$siswa_nama_d}"." "."{$row_mapel['ce_b']}</td>";
-                    }elseif($nilai_angka_aspek/$jumlah_indikator > 1){
-                        echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$siswa_nama_d}"." "."{$row_mapel['ce_c']}</td>";
-                    }else{
-                        echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>-</td>";
-                    }
-                    $nomor_aspek++;
+                echo"<td style='width: 50px; padding: 0px 5px 0px 5px; text-align: center;'>".return_abjad_base4($nilai_angka_aspek/$jumlah_indikator)."</td>";
+ 
+                
+                if(return_abjad_base4($nilai_angka_aspek/$jumlah_indikator) == "A"){
+                    echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$row_mapel['ce_a']}</td>";
+                }elseif(return_abjad_base4($nilai_angka_aspek/$jumlah_indikator) == "B"){
+                    echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$row_mapel['ce_b']}</td>";
+                }elseif(return_abjad_base4($nilai_angka_aspek/$jumlah_indikator) == "C"){
+                    echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$row_mapel['ce_c']}</td>";
+                }else{
+                    echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>-</td>";
+                }
+                $nomor_aspek++;
                 echo"</tr>";
             } 
             
@@ -463,19 +455,9 @@
                 $final_score_bk = 0;
             }
             
-            if($final_score_bk > 3){
-                $final_score_angka_bk = "A";
-            }elseif($final_score_bk > 2){
-                $final_score_angka_bk = "B";
-            }elseif($final_score_bk > 1){
-                $final_score_angka_bk = "C";
-            }else{
-                $final_score_angka_bk = "D";
-            }
-            
             echo"<tr>
                 <td style='text-align: center; font-weight:bold; height: 50px;' colspan='2'>FINAL SCORE</td>
-                <td style='text-align: center; font-weight:bold; height: 50px;' colspan='2'> $final_score_angka_bk </td>
+                <td style='text-align: center; font-weight:bold; height: 50px;' colspan='2'>".return_abjad_base4($final_score_bk)."</td>
             </tr>";
             echo"
                 </tbody>
@@ -515,9 +497,14 @@
                 </p>
                 <p class='alignright'>
                 SEMESTER &nbsp&nbsp&nbsp&emsp;&thinsp;&emsp;: $tahun_ajaran_semester $semester_inggris<br>
-                SCHOOL YEAR &nbsp&nbsp&nbsp&nbsp&nbsp&thinsp;: $tahun_ajaran_nama<br>
-                PROGRAM &nbsp&nbsp&emsp;&emsp;&thinsp;&thinsp;&thinsp;: $program_nama[1]<br>
-                </p>
+                SCHOOL YEAR &nbsp&nbsp&nbsp&nbsp&nbsp&thinsp;: $tahun_ajaran_nama<br>";
+            if(strlen($program_nama[1])>1){
+                echo"PROGRAM &nbsp&nbsp&emsp;&emsp;&thinsp;&thinsp;&thinsp;: $program_nama[1]<br>";
+            }
+            else{
+                echo"<br>";
+            }
+            echo"</p>
             </div>";
             echo"<div style='clear: both;'></div>";
             
@@ -671,7 +658,7 @@
             echo "<tr>";
                 echo "<td style='text-align: center; width: 35px;'>1</td><td style='width: 150px;'>Character Building</td>";
                 
-                echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>$final_score_angka_bk</b></td>";
+                echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>".return_abjad_base4($final_score_bk)."</b></td>";
                 
             echo "</tr>";
             echo"
