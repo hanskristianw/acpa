@@ -18,7 +18,6 @@
 
       $query_info = mysqli_query($conn, $query);
       
-      return_info_abjad_base4();
 
       echo"<div style='overflow-x:auto;'>
           <table class='table table-sm table-responsive table-striped table-bordered mt-3'><thead>";
@@ -71,7 +70,6 @@
 
       $query_info = mysqli_query($conn, $query);
 
-      return_info_abjad_base4();
 
       echo"<div style='overflow-x:auto;'>
       <table class='table table-sm table-responsive table-striped table-bordered mt-3'><thead>";
@@ -79,9 +77,9 @@
           <th>No</th>
           <th>Nama</th>
           <th style="width: 150px;">Coping Adversities</th>
-          <th style="width: 150px;>Emotional Resilience</th>
-          <th style="width: 150px;>Grateful</th>
-          <th style="width: 150px;>Reflective</th>
+          <th style="width: 150px;">Emotional Resilience</th>
+          <th style="width: 150px;">Grateful</th>
+          <th style="width: 150px;">Reflective</th>
           <th>Nilai Akhir</th>
         </tr>
       </thead>
