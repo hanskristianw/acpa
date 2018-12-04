@@ -258,8 +258,16 @@
                                   <div class="dropdown-menu">
                                     <a href="super_admin_cek_topik.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai Quiz, Tes, Ass</a>
                                     <a href="super_admin_cek_uts_uas.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai UTS, UAS</a>
+                                    <a href="super_admin_cek_afektif.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai Afektif</a>
                                   </div>
                                 </li>';
+
+                          echo'<li class="nav-item dropdown">
+                                  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pindah</a>
+                                  <div class="dropdown-menu">
+                                    <a href="super_admin_pindahssp.php" class="dropdown-item fa fa-caret-right mb-1"> SSP</a>
+                                  </div>
+                                </li>';      
                           echo'<li class="nav-item">
                                         <a class="nav-link" href="ganti_password.php">Ubah Password</a>
                                 </li>';
