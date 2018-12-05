@@ -48,6 +48,7 @@
                             ';
                               if(cekGuruExistInMapel($guru_id)){
                                   echo'<a href="topik_kognitif.php" class="dropdown-item fa fa-caret-right mb-1"> Topik</a>';
+                                  echo'<a href="persen_for_sum.php" class="dropdown-item fa fa-caret-right mb-1"> % Formative dan Summative</a>';
                               }
 
                             echo'
@@ -117,6 +118,7 @@
 
                                 if(cekGuruExistInMapel($guru_id)){
                                   echo'<a href="topik_kognitif.php" class="dropdown-item fa fa-caret-right mb-1"> Topik</a>';
+                                  echo'<a href="persen_for_sum.php" class="dropdown-item fa fa-caret-right mb-1"> % Formative dan Summative</a>';
                                 }
 
                                 if(cekSspGuruId($guru_id)){
@@ -213,6 +215,7 @@
 
                                     if(cekGuruExistInMapel($guru_id)){
                                       echo '<a href="topik_kognitif.php" class="dropdown-item fa fa-caret-right mb-1"> Topik</a>';
+                                      echo'<a href="persen_for_sum.php" class="dropdown-item fa fa-caret-right mb-1"> % Formative dan Summative</a>';
                                     }
 
                                     if(cekSspGuruId($guru_id)){
@@ -282,6 +285,7 @@
                                   ';
                                 if(cekGuruExistInMapel($guru_id)){
                                     echo'<a href="topik_kognitif.php" class="dropdown-item fa fa-caret-right mb-1"> Topik</a>';
+                                    echo'<a href="persen_for_sum.php" class="dropdown-item fa fa-caret-right mb-1"> % Formative dan Summative</a>';
                                 }
 
                                 if(cekSspGuruId($guru_id)){
