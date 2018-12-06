@@ -19,10 +19,12 @@
 
             echo '
             <label>% Formative:</label>
-            <input type="number" class="form-control form-control-sm mb-2" name="persen_for" min="1" max="100" value='.$persen_for.' required>
+            <input type="number" class="form-control form-control-sm mb-2" id="persen_for" name="persen_for" min="1" max="100" value='.$persen_for.' required>
 
             <label>% Summative:</label> 
-            <input type="number" class="form-control form-control-sm mb-2" name="persen_for" min="1" max="100" value='.$persen_sum.' required>';
+            <input type="number" class="form-control form-control-sm mb-2" id="persen_sum" name="persen_sum" min="1" max="100" value='.$persen_sum.' required>';
+
+            echo '<input type="submit" name="submit_t_ajaran" class="btn btn-primary mt-3" value="UPDATE">';
         }
     }
 ?>

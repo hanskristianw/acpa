@@ -10,55 +10,32 @@
     var isPaused = false; 
     $(document).ready(function(){
         
-        $("#kotak_utama").hide();
-        $("#containerDetailAspek").hide();
-        
-        $("#add-ce-form").submit(function(evt){
+        $("#add-persen-form").submit(function(evt){
             evt.preventDefault();
 
-            var kelas_id = $("#option_kelas").val();
-            var aspek_id = $("#option_aspek").val();
-            var indikator_id = $("#option_indikator").val();
-            if(kelas_id>0 && aspek_id>0 && indikator_id>0){
+            var mapel_id = $("#option_mapel").val();
+            var persen_for = $("#persen_for").val();
+            var persen_sum = $("#persen_sum").val();
+            var total_persen = parseInt(persen_for) + parseInt(persen_sum);
+            
+            if(mapel_id>0 && total_persen == 100){
                 $.ajax({
-                    url: 'ce_nilai/display_ce_nilai.php',
+                    url: 'persen_for_sum/proses_persen_for_sum.php',
                     data: $(this).serialize(),
                     type:'POST',
                     success: function(show){
                         if(!show.error){
-                            //alert(show);
-                            $("#kotak_utama").show();
-                            $("#kotak_utama").html(show);
+                            alert(show);
                         }
                     }
                 });
                 
             }else{
-                alert("Pilih Kelas, Topik dan Indikator");
+                alert("Pilih Mapel dan Persentase Harus = 100");
             }
 
         });
         
-        $("#option_kelas").change(function () {
-            $("#kotak-utama").hide();
-            var kelas_id = $("#option_kelas").val();
-            if(kelas_id>0){
-                $.ajax({
-                    url: 'ce_nilai/update_option_topik.php',
-                    data: 'kelas_id='+ kelas_id,
-                    type: 'POST',
-                    success: function(show){
-                        if(!show.error){
-                            $("#containerTopik").show();
-                            $("#kotak_utama").hide();
-                            $("#containerTopik").html(show);
-                            $("#containerDetailAspek").hide();
-                        }
-                    }
-                });
-                
-            }
-        });
 
         $("#option_mapel").change(function () {
             var mapel_id = $("#option_mapel").val();
@@ -111,7 +88,7 @@
             }
         ?>
 
-      <form method="POST" id="add-persen-form" action="persen_for_sum/proses_for_sum.php">
+      <form method="POST" id="add-persen-form" action="persen_for_sum/proses_persen_for_sum.php">
           <div class="form-group mt-4">
               
             <label>Mapel:</label>
@@ -121,7 +98,6 @@
               
             <div id="form_for_sum"></div>
               
-            <input type="submit" name="submit_t_ajaran" class="btn btn-primary mt-3" value="UPDATE">
           </div>
       </form>
 </div>
