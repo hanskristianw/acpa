@@ -267,9 +267,10 @@
                                 </li>';
 
                           echo'<li class="nav-item dropdown">
-                                  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pindah</a>
+                                  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Admin</a>
                                   <div class="dropdown-menu">
-                                    <a href="super_admin_pindahssp.php" class="dropdown-item fa fa-caret-right mb-1"> SSP</a>
+                                    <a href="super_admin_pindahssp.php" class="dropdown-item fa fa-caret-right mb-1"> Pindah SSP</a>
+                                    <a href="super_admin_susulssp.php" class="dropdown-item fa fa-caret-right mb-1"> Susulan Nilai SSP</a>
                                   </div>
                                 </li>';      
                           echo'<li class="nav-item">
