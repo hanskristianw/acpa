@@ -262,6 +262,7 @@
                                     <a href="super_admin_cek_topik.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai Quiz, Tes, Ass</a>
                                     <a href="super_admin_cek_uts_uas.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai UTS, UAS</a>
                                     <a href="super_admin_cek_afektif.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai Afektif</a>
+                                    <a href="super_admin_cek_ssp.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai SSP</a>
                                   </div>
                                 </li>';
 
