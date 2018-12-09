@@ -59,10 +59,10 @@
       $total_topik = (($kog_quiz[$i]*$kog_quiz_persen[$i])/100)+(($kog_ass[$i]*$kog_ass_persen[$i])/100)+(($kog_test[$i]*$kog_test_persen[$i])/100);
       echo "((".$kog_quiz[$i]."*".$kog_quiz_persen[$i].")/100)"."+((".$kog_ass[$i]."*".$kog_ass_persen[$i].")/100)"."+((".$kog_test[$i]."*".$kog_test_persen[$i].")/100)";
       echo "<br>".($kog_quiz[$i]*$kog_quiz_persen[$i])/100 ."+".(($kog_ass[$i]*$kog_ass_persen[$i])/100)."+".(($kog_test[$i]*$kog_test_persen[$i])/100);
-      echo "<br>".$total_topik;
+      echo "<br>".$total_topik ."->".round($total_topik);
       echo "<br>";
 
-      $total_akhir += $total_topik;
+      $total_akhir += round($total_topik);
       // ($kog_quiz[$i] * $kog_quiz_persen)/100 + ($kog_ass[$i] * $kog_ass_persen)/100 + ($kog_test[$i] * $kog_test_persen)/100
       // echo "KOG QUIZ: ".$kog_quiz[$i];
       // echo "<br>";
@@ -73,7 +73,7 @@
       // echo "<br>";
     }
 
-    echo "<br><b><u>TOTAL: </u></b><br>".$total_akhir."/".count($kog_quiz)."= ".$total_akhir/count($kog_quiz)."<br><br>";
+    echo "<br><b><u>TOTAL: </u></b><br>".$total_akhir."/".count($kog_quiz)."= ".$total_akhir/count($kog_quiz)."->".round($total_akhir/count($kog_quiz))."<br><br>";
   }
 
 ?>
