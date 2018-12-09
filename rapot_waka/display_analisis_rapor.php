@@ -62,7 +62,7 @@
         echo"<div style='clear: both;'></div>";
         
         $query =    
-        "SELECT t_for.mapel_nama, mapel_kkm,t_afek.afektif_total,t_afek.total_bulan, mapel_nama_singkatan, jum_topik,
+        "SELECT t_for.mapel_nama, mapel_kkm,t_afek.afektif_total,t_afek.total_bulan, mapel_nama_singkatan, jum_topik, t_for.mapel_id as mapel_id,
                 for_kog,mapel_persen_for,sum_kog,mapel_persen_sum,for_psi,sum_psi,
         ROUND((for_kog * mapel_persen_for + sum_kog * mapel_persen_sum),0) as Cognitive, 
         ROUND((for_psi * mapel_persen_for + sum_psi * mapel_persen_sum),0) as Psychomotor,
@@ -113,6 +113,8 @@
         echo"<b>Formative &nbsp&nbsp&nbsp&nbsp&nbsp:</b> Quiz, Test, Assignment <br>
             <b>Summative &nbsp&nbsp&nbsp:</b> UTS, UAS <br><br>";
 
+        echo"<div id='container-analisis'></div>";
+
         echo"
         <table class='rapot'>
             <thead>
@@ -142,8 +144,7 @@
             
             //kognitif
             echo"<td class='biasa'>
-                Jumlah Topik Kognitif Formative: {$row['jum_topik']}
-                <br>(({$row['for_kog']}*{$row['mapel_persen_for']})+({$row['sum_kog']}*{$row['mapel_persen_sum']}))/100
+                ((<a rel='".$row['mapel_id']."' rel2='".$siswa_id."' class='link-formative' href='javascript:void(0)'>{$row['for_kog']}</a>*{$row['mapel_persen_for']})+({$row['sum_kog']}*{$row['mapel_persen_sum']}))/100
                 <br>={$row['Cognitive']}</td>";
 
             //psikomotor
@@ -166,3 +167,20 @@
     }
         
 ?>
+
+
+<script>
+
+$(".link-formative").on('click', function(){
+    //$("#container-siswa").show();
+    
+    var mapel_id = $(this).attr("rel");
+    var siswa_id = $(this).attr("rel2");
+    
+
+    $.post("rapot_waka/display_analisis_permapel.php",{mapel_id: mapel_id, siswa_id: siswa_id}, function(data){
+        $("#container-analisis").html(data);
+    });
+    
+});
+</script>
