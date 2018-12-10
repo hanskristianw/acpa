@@ -181,6 +181,23 @@
         }
     }
 
+    function cekGuruExistInTajaranScout($guru_id){
+        include ("db_con.php");
+        $query =    "SELECT *
+                    FROM t_ajaran
+                    WHERE t_ajaran_active = 1 AND t_ajaran_scout_id_guru = $guru_id";
+
+        $result = mysqli_query($conn, $query);
+        $resultCheck = mysqli_num_rows($result);
+
+        if($resultCheck > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     function return_abjad_afek($nilai){
         if($nilai >=7.65){
             return "A";

@@ -45,6 +45,7 @@
                               <a href="mapel_new.php" class="dropdown-item fa fa-caret-right mb-1"> Mata Pelajaran</a>
                               <a href="karakter_mapel.php" class="dropdown-item fa fa-caret-right mb-1"> Karakter</a>
                               <a href="detail_karakter_mapel.php" class="dropdown-item fa fa-caret-right mb-1"> Karakter Pelajaran</a>
+                              <a href="scout.php" class="dropdown-item fa fa-caret-right mb-1"> Scout</a>
                             ';
                               if(cekGuruExistInMapel($guru_id)){
                                   echo'<a href="topik_kognitif.php" class="dropdown-item fa fa-caret-right mb-1"> Topik</a>';
@@ -68,6 +69,10 @@
 
                               if(cekSspGuruId($guru_id)){
                                 echo '<a href="ssp_nilai_input.php" class="dropdown-item fa fa-caret-right mb-1"> SSP</a>';
+                              }
+
+                              if(cekGuruExistInTajaranScout($guru_id)){
+                                echo '<a href="scout_nilai.php" class="dropdown-item fa fa-caret-right mb-1"> Scout</a>';
                               }
                           
                           echo  '</div>
@@ -140,6 +145,10 @@
                                   }
                                   if(cekSspGuruId($guru_id)){
                                     echo '<a href="ssp_nilai_input.php" class="dropdown-item fa fa-caret-right mb-1"> SSP</a>';
+                                  }
+
+                                  if(cekGuruExistInTajaranScout($guru_id)){
+                                    echo '<a href="scout_nilai.php" class="dropdown-item fa fa-caret-right mb-1"> Scout</a>';
                                   }
                           
                           echo '          
@@ -236,6 +245,10 @@
                                     if(cekSspGuruId($guru_id)){
                                       echo '<a href="ssp_nilai_input.php" class="dropdown-item fa fa-caret-right mb-1"> SSP</a>';
                                     }
+
+                                    if(cekGuruExistInTajaranScout($guru_id)){
+                                      echo '<a href="scout_nilai.php" class="dropdown-item fa fa-caret-right mb-1"> Scout</a>';
+                                    }
                           echo  '</div>
                                 </li>';
                           if(cekGuruExistInMapel($guru_id)){
@@ -307,6 +320,10 @@
                                 }
                                 if(cekSspGuruId($guru_id)){
                                   echo '<a href="ssp_nilai_input.php" class="dropdown-item fa fa-caret-right mb-1"> SSP</a>';
+                                }
+
+                                if(cekGuruExistInTajaranScout($guru_id)){
+                                  echo '<a href="scout_nilai.php" class="dropdown-item fa fa-caret-right mb-1"> Scout</a>';
                                 }
                             
                             echo '</div>
