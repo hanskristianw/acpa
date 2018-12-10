@@ -72,8 +72,8 @@
             
             $query =    "SELECT t_for.mapel_nama, mapel_kkm,t_afek.afektif_total,t_afek.total_bulan,
                         ROUND((for_kog * mapel_persen_for + sum_kog * mapel_persen_sum),0) as Cognitive, 
-                        ROUND((for_psi * mapel_persen_for + sum_psi * mapel_persen_sum),0) as Psychomotor,
-                        ROUND((ROUND((for_kog * mapel_persen_for + sum_kog * mapel_persen_sum),0)*50 + ROUND((for_psi * mapel_persen_for + sum_psi * mapel_persen_sum),0)*50)/100,0) AS n_akhir
+                        ROUND((for_psi * mapel_persen_for_psi + sum_psi * mapel_persen_sum_psi),0) as Psychomotor,
+                        ROUND((ROUND((for_kog * mapel_persen_for + sum_kog * mapel_persen_sum),0)*mapel_persen_kog + ROUND((for_psi * mapel_persen_for_psi + sum_psi * mapel_persen_sum_psi),0)*mapel_persen_psi),0) AS n_akhir
                         FROM
                             (SELECT mapel_id, mapel_nama,COUNT(DISTINCT kog_psi_topik_id),
                             ROUND(SUM(ROUND(kog_quiz*kog_quiz_persen/100 + kog_ass*kog_ass_persen/100 + kog_test*kog_test_persen/100,0))/COUNT(DISTINCT kog_psi_topik_id),0)
@@ -89,7 +89,10 @@
                             GROUP BY mapel_nama
                             ORDER BY mapel_urutan) AS t_for
                         JOIN
-                            (SELECT mapel_id, mapel_nama, mapel_kkm, mapel_persen_for, mapel_persen_sum,
+                            (SELECT mapel_id, mapel_nama, mapel_kkm, 
+                            mapel_persen_for, mapel_persen_sum, 
+                            mapel_persen_for_psi, mapel_persen_sum_psi,
+                            mapel_persen_kog, mapel_persen_psi,
                             ROUND((kog_uts * kog_uts_persen + kog_uas * kog_uas_persen) /100,0) as sum_kog,
                             ROUND((psi_uts * psi_uts_persen + psi_uas * psi_uas_persen) /100,0) as sum_psi
                             FROM kog_psi_ujian

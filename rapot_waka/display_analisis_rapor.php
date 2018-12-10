@@ -64,9 +64,11 @@
         $query =    
         "SELECT t_for.mapel_nama, mapel_kkm,t_afek.afektif_total,t_afek.total_bulan, mapel_nama_singkatan, jum_topik, t_for.mapel_id as mapel_id,
                 for_kog,mapel_persen_for,sum_kog,mapel_persen_sum,for_psi,sum_psi,
+                mapel_persen_for_psi, mapel_persen_sum_psi,
+                mapel_persen_kog, mapel_persen_psi,
         ROUND((for_kog * mapel_persen_for + sum_kog * mapel_persen_sum),0) as Cognitive, 
-        ROUND((for_psi * mapel_persen_for + sum_psi * mapel_persen_sum),0) as Psychomotor,
-        ROUND((ROUND((for_kog * mapel_persen_for + sum_kog * mapel_persen_sum),0)*50 + ROUND((for_psi * mapel_persen_for + sum_psi * mapel_persen_sum),0)*50)/100,0) AS n_akhir
+        ROUND((for_psi * mapel_persen_for_psi + sum_psi * mapel_persen_sum_psi),0) as Psychomotor,
+        ROUND((ROUND((for_kog * mapel_persen_for + sum_kog * mapel_persen_sum),0)*mapel_persen_kog + ROUND((for_psi * mapel_persen_for_psi + sum_psi * mapel_persen_sum_psi),0)*mapel_persen_psi),0) AS n_akhir
         FROM
             (SELECT mapel_id, mapel_nama,COUNT(DISTINCT kog_psi_topik_id) as jum_topik,
             ROUND(SUM(ROUND(kog_quiz*kog_quiz_persen/100 + kog_ass*kog_ass_persen/100 + kog_test*kog_test_persen/100,0))/COUNT(DISTINCT kog_psi_topik_id),0)
@@ -83,6 +85,8 @@
             ORDER BY mapel_urutan) AS t_for
         JOIN
             (SELECT mapel_id, mapel_nama, mapel_kkm, mapel_persen_for, mapel_persen_sum, mapel_nama_singkatan,
+                    mapel_persen_for_psi, mapel_persen_sum_psi,
+                    mapel_persen_kog, mapel_persen_psi,
             ROUND((kog_uts * kog_uts_persen + kog_uas * kog_uas_persen) /100,0) as sum_kog,
             ROUND((psi_uts * psi_uts_persen + psi_uas * psi_uas_persen) /100,0) as sum_psi
             FROM kog_psi_ujian
@@ -124,9 +128,9 @@
                   <th colspan='5'>ACHIEVEMENT REPORT</th>
                 </tr>
                 <tr>
-                  <th>Cognitive<br>((for * %for) + (sum * %sum))/100</th>
-                  <th>Psychomotor<br>((for * %for) + (sum * %sum))/100</th>
-                  <th>Final <br>Score</th>
+                  <th>Cognitive<br>(for * %for) + (sum * %sum))</th>
+                  <th>Psychomotor<br>(for * %for) + (sum * %sum)</th>
+                  <th>Final Score<br>(kog * %kog) + (psi * %psi)</th>
                 </tr>
             </thead>
             <tbody>
@@ -144,17 +148,22 @@
             
             //kognitif
             echo"<td class='biasa'>
-                ((<a rel='".$row['mapel_id']."' rel2='".$siswa_id."' class='link-formative' href='javascript:void(0)'>{$row['for_kog']}</a>*{$row['mapel_persen_for']})+({$row['sum_kog']}*{$row['mapel_persen_sum']}))/100
+                ((<a rel='".$row['mapel_id']."' rel2='".$siswa_id."' class='link-formative' href='javascript:void(0)'>{$row['for_kog']}</a>*{$row['mapel_persen_for']})+({$row['sum_kog']}*{$row['mapel_persen_sum']}))
                 <br>={$row['Cognitive']}</td>";
 
             //psikomotor
             echo"<td class='biasa'>
-                Jumlah Topik Psikomotor Formative: {$row['jum_topik']}
-                <br>(({$row['for_psi']}*{$row['mapel_persen_for']})+({$row['sum_psi']}*{$row['mapel_persen_sum']}))/100
+                (({$row['for_psi']}*{$row['mapel_persen_for_psi']})+({$row['sum_psi']}*{$row['mapel_persen_sum_psi']}))
                                     <br>={$row['Psychomotor']}</td>";
             
-            echo"<td class='biasa'>({$row['Cognitive']}+{$row['Psychomotor']})/2<br>={$row['n_akhir']}</td>";
-            
+            // $kognitif = $row['Cognitive'];
+            // $psikomotor = $row['Psychomotor'];
+            // $persen_kog = $row['mapel_persen_kog'];
+            // $persen_psi = $row['persen_psi'];
+
+            // $nilai_akhir = ($kognitif * $persen_kog + $psikomotor * $persen_psi)/100;
+
+            echo"<td class='biasa'>({$row['Cognitive']} * {$row['mapel_persen_kog']}+{$row['Psychomotor']} * {$row['mapel_persen_psi']})<br>={$row['n_akhir']}</td>";
             
             echo"</tr>";
             $nomor++;

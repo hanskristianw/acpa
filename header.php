@@ -148,11 +148,8 @@
                                 <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Rapor</a>
                                 <div class="dropdown-menu">
-                                  <h6 class="dropdown-header">SISIPAN</h6>
                                   <a href="komentar.php" class="dropdown-item fa fa-caret-right mb-1"> Input Komentar & Absen</a>
-                                  <a href="rapot_walkel_sisipan.php" class="dropdown-item fa fa-caret-right mb-1"> Preview</a>
-                                  <h6 class="dropdown-header">SEMESTER</h6>
-                                  <a href="rapot.php" class="dropdown-item fa fa-caret-right mb-1"> Preview</a>
+                                  <a href="rapot_walkel_sisipan.php" class="dropdown-item fa fa-caret-right mb-1"> Preview SISIPAN</a>
                                 </div>
                                 </li>
                                 
@@ -263,6 +260,7 @@
                                     <a href="super_admin_cek_uts_uas.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai UTS, UAS</a>
                                     <a href="super_admin_cek_afektif.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai Afektif</a>
                                     <a href="super_admin_cek_ssp.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai SSP</a>
+                                    <a href="super_admin_cek_cb.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai CB</a>
                                   </div>
                                 </li>';
 

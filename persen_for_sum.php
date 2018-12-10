@@ -17,8 +17,16 @@
             var persen_for = $("#persen_for").val();
             var persen_sum = $("#persen_sum").val();
             var total_persen = parseInt(persen_for) + parseInt(persen_sum);
+
+            var persen_for_psi = $("#persen_for_psi").val();
+            var persen_sum_psi = $("#persen_sum_psi").val();
+            var total_persen_psi = parseInt(persen_for_psi) + parseInt(persen_sum_psi);
             
-            if(mapel_id>0 && total_persen == 100){
+            var persen_kog = $("#persen_kog").val();
+            var persen_psi = $("#persen_psi").val();
+            var total_persen_mapel = parseInt(persen_kog) + parseInt(persen_psi);
+            
+            if(mapel_id>0 && total_persen == 100 && total_persen_psi == 100 && total_persen_mapel == 100){
                 $.ajax({
                     url: 'persen_for_sum/proses_persen_for_sum.php',
                     data: $(this).serialize(),
@@ -97,7 +105,6 @@
             </select>
               
             <div id="form_for_sum"></div>
-              
           </div>
       </form>
 </div>
