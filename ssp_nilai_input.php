@@ -37,6 +37,15 @@
 
         });
         
+        var $loading = $('#loadingDiv').hide();
+        $(document)
+          .ajaxStart(function () {
+            $loading.show();
+          })
+          .ajaxStop(function () {
+            $loading.hide();
+          });
+
         $("#ssp_option").change(function () {
             //alert("a");
             
@@ -121,7 +130,7 @@
             <input type="submit" name="submit_kriteria" class="btn btn-primary mt-3" value="Proses">
       </form>
     </div>
-      
+    <div id='loadingDiv'><p style='text-align:center'><img src='pic/ajax-loader.gif' alt='please wait'></p></div>
       <div class= "p-3 mb-2 bg-light border border-primary rounded" id="kotak_utama">
           
       </div>

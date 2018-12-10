@@ -30,7 +30,15 @@
             
         });
         
-        
+        var $loading = $('#loadingDiv').hide();
+        $(document)
+          .ajaxStart(function () {
+            $loading.show();
+          })
+          .ajaxStop(function () {
+            $loading.hide();
+          });
+          
         //ketika user menekan tombol submit
         $("#add-jenjang-form").submit(function(evt){
             evt.preventDefault();
@@ -132,7 +140,7 @@
           </div>
       </form>
       </div >
-      
+      <div id='loadingDiv'><p style='text-align:center'><img src='pic/ajax-loader.gif' alt='please wait'></p></div>
       <!-------------------------tabel jenjang----------------------->
       <div class= "p-3 mb-2 bg-light border border-primary rounded" id="kotak">
         <h4 class="mb-4"><u>Nilai Mid & Final</u></h4>

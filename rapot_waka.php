@@ -35,6 +35,15 @@
 //            w.print();
         }); 
         
+        var $loading = $('#loadingDiv').hide();
+        $(document)
+          .ajaxStart(function () {
+            $loading.show();
+          })
+          .ajaxStop(function () {
+            $loading.hide();
+          });
+
         $("#option_kelas").change(function () {
 
             var kelas_id = $("#option_kelas").val();
@@ -132,7 +141,7 @@
           </div>
       </form>
       </div>
-      
+      <div id='loadingDiv'><p style='text-align:center'><img src='pic/ajax-loader.gif' alt='please wait'></p></div>
       <!-------------------------tabel rapot----------------------->
       <div class= "p-3 mb-2 bg-light border border-primary rounded" id="kotak">
         <div id="print_area">
