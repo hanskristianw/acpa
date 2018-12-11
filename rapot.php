@@ -3,19 +3,20 @@
     if(!isset($_SESSION['guru_jabatan'])){
         header("Location: index.php");
     }
-    elseif($_SESSION['guru_jabatan'] == 4 || $_SESSION['guru_jabatan'] == 3){
+    elseif($_SESSION['guru_jabatan'] == 4 || $_SESSION['guru_jabatan'] == 3 || $_SESSION['guru_jabatan'] == 5){
         header("Location: index.php");
     }
-    include_once 'header.php'
+    include_once 'header.php';
 ?>
 
 <script>
     var isPaused = false;        
     $(document).ready(function(){
-        
-        $("#container-jenjang").hide();
         $("#kotak").hide();
-        
+        $(".checkAll").click(function () {
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+
         $("#option_mapel").change(function () {
 
             var mapel_id = $("#option_mapel").val();
@@ -32,48 +33,35 @@
             });
             
         });
-        
-        $("#print_rekap").click(function(){
-            //$("#print_area").printMe();
-//            $("#print_area").printMe({ "path": ["http://localhost/acpa/CSS/customCSS.css"] });
-            $('#print_area').printThis({
-                importCSS: false,
-                importStyle: true,//thrown in for extra measure
-                loadCSS: "http://localhost/acpa/CSS/customCSS_preview.css"
-            });
-//            var myStyle = '<link rel="stylesheet" media="print" href="/CSS/customCSS"/>';
-//            
-//            w=window.open(null, 'print_area', 'scrollbars=yes');        
-//            w.document.write(myStyle + jQuery('#print_area').html());
-//            w.document.close();
-//            w.print();
-        }); 
-        
+
+        var $loading = $('#loadingDiv').hide();
+        $(document)
+          .ajaxStart(function () {
+            $loading.show();
+          })
+          .ajaxStop(function () {
+            $loading.hide();
+          });
+
         //ketika user menekan tombol submit
         $("#add-rapot-form").submit(function(evt){
             evt.preventDefault();
 
-            var siswa_id = $("#option_siswa").val();
-            
-            
-            if(siswa_id > 0){
-                var url = $(this).attr('action');
-                $.ajax({
-                    url: url,
-                    data: $(this).serialize(),
-                    type: 'POST',
-                    success: function(show){
-                        if(!show.error){
-                            $("#show_rapot").html(show);
-                            $("#kotak").hide();
-                            $("#kotak").show();
-                            $("#container-temp").hide();
-                        }
+            var url = $(this).attr('action');
+            $.ajax({
+                url: url,
+                data: $(this).serialize(),
+                type: 'POST',
+                success: function(show){
+                    if(!show.error){
+                        $("#show_rapot").html(show);
+                        $("#kotak").hide();
+                        $("#kotak").show();
+                        $("#container-temp").hide();
                     }
-                });
-            }else{
-                alert("Pilih Siswa");
-            }
+                }
+            });
+            
         });
         
     });
@@ -82,64 +70,47 @@
 
 
 <div class="container col-6">
-    <div id="container-temp">
-
-    </div>
-    
-    <div id="container-temp2">
-
-    </div>
-    
-    <?php
-        $guru_id = $_SESSION['guru_id'];
-        
-        include 'includes/db_con.php';
-        $sql3 = "SELECT *
-                    FROM kelas
-                    LEFT JOIN siswa
-                    ON kelas_id = siswa_id_kelas
-                    LEFT JOIN t_ajaran
-                    ON kelas_t_ajaran_id = t_ajaran_id
-                    WHERE t_ajaran_active = 1 AND kelas_wali_guru_id = $guru_id";
-        $result3 = mysqli_query($conn, $sql3);
-        
-        $options3 = "<option value= 0>Pilih Siswa</option>";
-        while ($row3 = mysqli_fetch_assoc($result3)) {
-            $var_kelas_id = $row3['kelas_id'];
-            $siswa_nama = $row3['siswa_nama_depan'] .' '. $row3['siswa_nama_belakang'] .' (No Induk: '.$row3['siswa_no_induk'].')';
-
-            $options3 .= "<option value={$row3['siswa_id']}>$siswa_nama</option>";
-        }
-    ?>
-    
-    
       <!-------------------------form cetak rapot----------------------->
       <div class= "p-3 mb-2 bg-light border border-primary rounded">
-      <form method="POST" id="add-rapot-form" action="rapot/display_rapot.php">
+      <form method="POST" id="add-rapot-form" action="rapot_waka/display_rapot.php">
           <div class="form-group">
             <h4 class="mb-4"><u>Preview Rapot</u></h4>
             
-            <input id="kelas_id" name="kelas_id" type="hidden" value=<?php echo $var_kelas_id;?>>
-            
-            <label>Nama Siswa:</label>
-            <select class="form-control form-control-sm mb-2" name="option_siswa" id="option_siswa">
-                  <?php echo $options3;?>
-            </select>
+            <?php
+                $guru_id = $_SESSION['guru_id'];
+                
+                include 'includes/db_con.php';
+                $sql3 = "SELECT *
+                            FROM kelas
+                            LEFT JOIN siswa
+                            ON kelas_id = siswa_id_kelas
+                            LEFT JOIN t_ajaran
+                            ON kelas_t_ajaran_id = t_ajaran_id
+                            WHERE t_ajaran_active = 1 AND kelas_wali_guru_id = $guru_id";
+                $result3 = mysqli_query($conn, $sql3);
+                
+                echo '<input type="checkbox" id="checkAll" class="checkAll"> <b>PILIH SEMUA</b><hr/>';
+                while ($row3 = mysqli_fetch_assoc($result3)) {
+                    $kelas_id_temp = $row3['kelas_id'];
+                    echo"<input type='checkbox' name='check_siswa_id[]' value={$row3['siswa_id']}> {$row3['siswa_nama_depan']} {$row3['siswa_nama_belakang']} <br>";
+                }
+
+                echo "<input type='hidden' value=$kelas_id_temp name='option_kelas'>";
+            ?>
               
             <input type="submit" name="submit_siswa" class="btn btn-primary mt-3" value="Preview Rapot">
           </div>
       </form>
       </div >
       
+      <div id='loadingDiv'><p style='text-align:center'><img src='pic/ajax-loader.gif' alt='please wait'></p></div>
+      
       <!-------------------------tabel rapot----------------------->
-      <div class= "p-3 mb-2 bg-light border border-primary rounded" id="kotak">
-        <div id="print_area">
+        <div class= "p-3 mb-2 bg-light border border-primary rounded" id="kotak">
             <div id="show_rapot">
 
             </div>
-        </div>  
-<!--        <input type="button" name="print_rekap" id="print_rekap" class="btn btn-success mt-3" value="Print">-->
-      </div >
+        </div >
       
     <!-------------------------end of tabel kelas----------------------->
       <div style="margin-top:200px;"></div>

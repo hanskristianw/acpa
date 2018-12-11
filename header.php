@@ -159,6 +159,7 @@
                                 <div class="dropdown-menu">
                                   <a href="komentar.php" class="dropdown-item fa fa-caret-right mb-1"> Input Komentar & Absen</a>
                                   <a href="rapot_walkel_sisipan.php" class="dropdown-item fa fa-caret-right mb-1"> Preview SISIPAN</a>
+                                  <a href="rapot.php" class="dropdown-item fa fa-caret-right mb-1"> Preview SEMESTER</a>
                                 </div>
                                 </li>
                                 
