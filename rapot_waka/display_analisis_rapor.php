@@ -153,7 +153,7 @@
 
             //psikomotor
             echo"<td class='biasa'>
-                (({$row['for_psi']}*{$row['mapel_persen_for_psi']})+({$row['sum_psi']}*{$row['mapel_persen_sum_psi']}))
+                ((<a rel='".$row['mapel_id']."' rel2='".$siswa_id."' class='link-formative-psi' href='javascript:void(0)'>{$row['for_psi']}</a>*{$row['mapel_persen_for_psi']})+({$row['sum_psi']}*{$row['mapel_persen_sum_psi']}))
                                     <br>={$row['Psychomotor']}</td>";
             
             // $kognitif = $row['Cognitive'];
@@ -188,6 +188,19 @@ $(".link-formative").on('click', function(){
     
 
     $.post("rapot_waka/display_analisis_permapel.php",{mapel_id: mapel_id, siswa_id: siswa_id}, function(data){
+        $("#container-analisis").html(data);
+    });
+    
+});
+
+$(".link-formative-psi").on('click', function(){
+    //$("#container-siswa").show();
+    
+    var mapel_id = $(this).attr("rel");
+    var siswa_id = $(this).attr("rel2");
+    
+
+    $.post("rapot_waka/display_analisis_permapel_psi.php",{mapel_id: mapel_id, siswa_id: siswa_id}, function(data){
         $("#container-analisis").html(data);
     });
     

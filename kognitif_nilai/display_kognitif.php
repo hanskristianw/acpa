@@ -468,8 +468,9 @@
             var total_persen_psi = parseInt(persen_pquiz) + parseInt(persen_ptest) + parseInt(persen_pass);
             
             //cek persentase
-            if (total_persen_kog != 100 && total_persen_psi != 100){
+            if (total_persen_kog != 100 || total_persen_psi != 100){
                 alert("Total Persentase harus 100");
+                $("#proses_nilai").attr("disabled", false);
             }
             else{
                 $.post("kognitif_nilai/proses_kognitif.php",{siswa_id:siswa_id, kelas_id:kelas_id, topik_id:topik_id, persen_kquiz: persen_kquiz, persen_ktest: persen_ktest, persen_kass:persen_kass, persen_pquiz:persen_pquiz, persen_ptest:persen_ptest, persen_pass:persen_pass, kq:kq, kt:kt, ka:ka, pq:pq, pt:pt, pa:pa, insertkp:insertkp}, function(data){
@@ -597,13 +598,12 @@
             var persen_ptest = $('#option_ptest').val();
             var persen_pass = $('#option_pass').val();
             
-            var total_persen_kog = parseInt(persen_kquiz) + parseInt(persen_ktest) + parseInt(persen_kass);
-            var total_persen_psi = parseInt(persen_pquiz) + parseInt(persen_ptest) + parseInt(persen_pass);
+            var total_persen_kogu = parseInt(persen_kquiz) + parseInt(persen_ktest) + parseInt(persen_kass);
+            var total_persen_psiu = parseInt(persen_pquiz) + parseInt(persen_ptest) + parseInt(persen_pass);
             
-//            alert(total_persen_kog);
-//            alert(total_persen_psi);
-            if (total_persen_kog != 100 && total_persen_psi != 100){
+            if (total_persen_kogu != 100 || total_persen_psiu != 100){
                 alert("Total Persentase harus 100");
+                $("#proses_update").attr("disabled", false);
             }else{
                 if(alasan_update){
                     $.post("kognitif_nilai/proses_kognitif.php",{alasan_update:alasan_update,mapel_id:mapel_id,kelas_id:kelas_id,siswa_id:siswa_id, topik_id:topik_id, persen_kquiz: persen_kquiz, persen_ktest: persen_ktest, persen_kass:persen_kass, persen_pquiz:persen_pquiz, persen_ptest:persen_ptest, persen_pass:persen_pass, kq:kq, kt:kt, ka:ka, pq:pq, pt:pt, pa:pa, updatekp:updatekp}, function(data){
@@ -615,6 +615,7 @@
                     });
                 }else{
                     alert("Masukkan alasan update");
+                    $("#proses_update").attr("disabled", false);
                 }
             }
             

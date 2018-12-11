@@ -402,7 +402,8 @@
             var total_persen_kog = parseInt(persen_kmid) + parseInt(persen_kfinal);
             var total_persen_psi = parseInt(persen_pmid) + parseInt(persen_pfinal);
             
-            if (total_persen_kog != 100 && total_persen_psi != 100){
+            if (total_persen_kog != 100 || total_persen_psi != 100){
+                $("#proses_nilai").attr("disabled", false);
                 alert("Total Persentase harus 100");
             }
             else{
@@ -533,8 +534,9 @@
             var total_persen_kog = parseInt(persen_kmid) + parseInt(persen_kfinal);
             var total_persen_psi = parseInt(persen_pmid) + parseInt(persen_pfinal);
             
-            if (total_persen_kog != 100 && total_persen_psi != 100){
+            if (total_persen_kog != 100 || total_persen_psi != 100){
                 alert("Total Persentase harus 100");
+                $("#proses_update").attr("disabled", false);
             }else{
                 if(alasan_update){
                 $.post("uts_uas/proses_uts_uas.php",{kelas_id:kelas_id, alasan_update:alasan_update, siswa_id:siswa_id, mapel_id:mapel_id, persen_kmid: persen_kmid, persen_kfinal: persen_kfinal, persen_pmid:persen_pmid, persen_pfinal:persen_pfinal, kog_mid:kq, kog_final:kt, psi_mid:ka, psi_final:pq, updatekpu:updatekpu}, function(data){
