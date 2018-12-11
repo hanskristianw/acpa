@@ -537,9 +537,9 @@
             <table style='table-layout:fixed;' class='rapot'>
                 <thead>
                     <tr>
-                    <th style='width: 35px; height: 35px; padding: 0px 0px 0px 0px;'>NO </th>
-                    <th style='width: 150px; height: 35px; padding: 0px 0px 0px 5px;'>AFFECTIVE</th>
-                    <th style='width: 350px; height: 35px;'>DESCRIPTION</th>
+                    <th style='width: 35px; height: 25px; padding: 0px 0px 0px 0px;'>NO </th>
+                    <th style='width: 150px; height: 25px; padding: 0px 0px 0px 5px;'>AFFECTIVE</th>
+                    <th style='width: 350px; height: 25px;'>DESCRIPTION</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -622,9 +622,9 @@
             <table style='table-layout:fixed;' class='rapot'>
                 <thead>
                     <tr>
-                    <th style='width: 35px; height: 35px; padding: 0px 0px 0px 0px;'>NO </th>
-                    <th style='width: 150px; height: 35px; padding: 0px 0px 0px 5px;'>LIFE SKILLS</th>
-                    <th style='width: 350px; height: 35px;'>GRADE</th>
+                    <th style='width: 35px; height: 25px; padding: 0px 0px 0px 0px;'>NO </th>
+                    <th style='width: 150px; height: 25px; padding: 0px 0px 0px 5px;'>LIFE SKILLS</th>
+                    <th style='width: 350px; height: 25px;'>GRADE</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -653,6 +653,16 @@
                 </tbody>
             </table>";
             
+            $scout_nilai_angka = 0;
+            $sql_scout = "SELECT *
+                          FROM scout_nilai
+                          WHERE scout_nilai_siswa_id = {$s_id[$z]}";
+            $sql_v_scout = mysqli_query($conn, $sql_scout); 
+            
+            while($row_scout = mysqli_fetch_array($sql_v_scout)){
+                $scout_nilai_angka = $row_scout['scout_nilai_angka'];
+            }
+
             echo"
             <div class='sub_judul mt-2'>SELF DEVELOPMENT</div>
             <table style='table-layout:fixed;' class='rapot'>
@@ -660,9 +670,15 @@
                     ";
             echo "<tr>";
                 echo "<td style='text-align: center; width: 35px;'>1</td><td style='width: 150px;'>Character Building</td>";
-                
                 echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>".return_abjad_base4($final_score_bk)."</b></td>";
-                
+            echo "</tr>";
+            echo "<tr>";
+                echo "<td style='text-align: center; width: 35px;'>2</td><td style='width: 150px;'>".ucfirst(strtolower($nama_ssp))."</td>";
+                echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>".return_abjad_base4($final_score)."</b></td>";
+            echo "</tr>";
+            echo "<tr>";
+                echo "<td style='text-align: center; width: 35px;'>3</td><td style='width: 150px;'>Scout</td>";
+                echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>".return_abjad_base4($scout_nilai_angka)."</b></td>";
             echo "</tr>";
             echo"
                 </tbody>
