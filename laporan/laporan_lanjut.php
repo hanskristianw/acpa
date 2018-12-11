@@ -138,8 +138,8 @@
                     echo"<td>{$kum_k_test[$i]}</td>";
                     echo"<td>{$kum_k_ass[$i]}</td>";
                     echo"<td>{$kum_p_quiz[$i]}</td>";
-                    echo"<td>{$kum_k_quiz[$i]}</td>";
                     echo"<td>{$kum_p_test[$i]}</td>";
+                    echo"<td>{$kum_p_ass[$i]}</td>";
                 }
                 echo"</tr>";
                 $no++;
