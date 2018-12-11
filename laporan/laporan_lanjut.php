@@ -11,6 +11,16 @@
             include ("../includes/db_con.php");
             include ("../includes/fungsi_lib.php");
 
+            //laporan nilai akhir raport
+            $query_nilai_akhir =   
+                "SELECT *
+                FROM kog_psi_ujian
+                LEFT JOIN siswa
+                ON kog_psi_ujian_siswa_id = siswa_id
+                LEFT JOIN kelas
+                ON siswa_id_kelas = kelas_id
+                WHERE kog_psi_ujian_mapel_id= $mapel_id AND siswa_id_kelas = $kelas_id";
+
             //dapatkan nilai ujian
             $query2 =   "SELECT *
                         FROM kog_psi_ujian
