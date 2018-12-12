@@ -80,6 +80,8 @@
         }
     
     echo'</tbody>';
-    echo'</table>';       
+    echo'</table>';    
+    
+    echo'<input type="submit" name="submit_ssp" class="btn btn-primary" value="Proses Revisi SSP">';
 ?>
 

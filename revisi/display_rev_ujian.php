@@ -90,5 +90,6 @@
     
     echo'</tbody>';
     echo'</table>';       
+    echo'<input type="submit" name="submit_revisi" class="btn btn-primary" value="Proses Revisi Ujian">';
 ?>
 

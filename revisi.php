@@ -15,7 +15,16 @@
     $(document).ready(function(){
         
         $("#container-kriteria").hide();
-       
+
+        var $loading = $('#loadingDiv').hide();
+        $(document)
+          .ajaxStart(function () {
+            $loading.show();
+          })
+          .ajaxStop(function () {
+            $loading.hide();
+          });
+          
        function updateTableUjian(){
 
             $.ajax({
@@ -122,6 +131,8 @@
 </script>
 
 <div class="container col-6">
+    
+    <div id='loadingDiv'><p style='text-align:center'><img src='pic/ajax-loader.gif' alt='please wait'></p></div>
       <!-------------------------tabel kriteria----------------------->
       <div id="container-hasil">
             
@@ -140,7 +151,6 @@
                       <div id="tabel_ujian">
 
                       </div>
-                        <input type="submit" name="submit_revisi" class="btn btn-primary" value="Proses Revisi Ujian">
                       </form>';
             }else{
               echo'<h6 class="text-center bg-success">-Data Pengajuan Revisi Ujian Tidak ada-</h2>';
@@ -161,7 +171,6 @@
                       <div id="tabel_tes">
 
                       </div>
-                        <input type="submit" name="submit_revisi" class="btn btn-primary" value="Proses Revisi Tes">
                       </form>';
             }else{
               echo'<h6 class="text-center bg-success">Data Pengajuan Revisi Tes Tidak ada</h2>';
@@ -182,7 +191,6 @@
                       <div id="tabel_ssp">
 
                       </div>
-                        <input type="submit" name="submit_ssp" class="btn btn-primary" value="Proses Revisi SSP">
                       </form>';
             }else{
               echo'<h6 class="text-center bg-success">Data Pengajuan Revisi SSP Tidak ada</h2>';
