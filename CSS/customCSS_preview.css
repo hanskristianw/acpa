@@ -67,7 +67,7 @@ table.rapot {
     text-align:center;
     font-weight:bold;
     font-family:Cambria, sans-serif;
-    font-size:13px;
+    font-size:11px;
 }
 
 .kkm {
@@ -106,28 +106,30 @@ table.rapot {
     float: right;
 }
 
-table.rapot_ssp{
+
+table.rapot_rangkuman{
     border: 1px solid black;
-    font-family:Calibri;
-    font-size:14px;
+    font-family:Cambria;
+    font-size:10px;
 }
 
-table.rapot_ssp {
+table.rapot_rangkuman {
     border-collapse: collapse;
     width: 100%;
 }
 
-.rapot_ssp th{
+.rapot_rangkuman th{
     border: 1px solid black;
-    font-family:Calibri;
-    font-size:14px;
+    font-family:Cambria;
+    font-size:10px;
     height: 10px;
     font-weight:550;
     text-align:center;
 }
-.rapot_ssp td{
+.rapot_rangkuman td{
     border: 1px solid black;
-    font-family:Calibri;
-    font-size:14px;
-    height: 25px;
+    font-family:Cambria;
+    font-size:10px;
+    height: 15px;
 }
+

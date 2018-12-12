@@ -533,13 +533,13 @@
             
             $sql_karakter = mysqli_query($conn, $sql_cek_karakter); 
             
-            echo"<br>
-            <table style='table-layout:fixed;' class='rapot'>
+            echo"
+            <table style='table-layout:fixed;' class='rapot_rangkuman'>
                 <thead>
                     <tr>
-                    <th style='width: 35px; height: 25px; padding: 0px 0px 0px 0px;'>NO </th>
-                    <th style='width: 150px; height: 25px; padding: 0px 0px 0px 5px;'>AFFECTIVE</th>
-                    <th style='width: 350px; height: 25px;'>DESCRIPTION</th>
+                    <th style='width: 20px; height: 15px; padding: 0px 0px 0px 0px;'>NO </th>
+                    <th style='width: 150px; height: 15px; padding: 0px 0px 0px 5px;'>AFFECTIVE</th>
+                    <th style='width: 350px; height: 15px;'>DESCRIPTION</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -555,17 +555,17 @@
                     $afektif_total_akhir = $row_mapel['karakter_afektif'];
                     //$total_bulan_total = $row_mapel['total_bulan_total'];
                     //$mapel_nama_total = $row_mapel['mapel_nama_total'];
-                    echo"<td style='padding: 0px 0px 0px 5px;'>";
+                    echo"<td style='padding: 5px 5px 5px 5px;'>";
                     //ulang sebanyak jumlah mapel
                     //$mapel_nama = explode(',', $mapel_nama_total);
                     $nilai_permapel = explode('#', $afektif_total_akhir);
                     
                     if(return_abjad_afek(return_total_nilai_perkarakter($nilai_permapel))=="A"){
-                        echo $row_mapel['karakter_a'];
+                        echo ucfirst(strtolower($siswa_nama_d)).' '.$row_mapel['karakter_a'];
                     }elseif(return_abjad_afek(return_total_nilai_perkarakter($nilai_permapel))=="B"){
-                        echo $row_mapel['karakter_b'];
+                        echo ucfirst(strtolower($siswa_nama_d)).' '.$row_mapel['karakter_b'];
                     }elseif(return_abjad_afek(return_total_nilai_perkarakter($nilai_permapel))=="C"){
-                        echo $row_mapel['karakter_c'];
+                        echo ucfirst(strtolower($siswa_nama_d)).' '.$row_mapel['karakter_c'];
                     }else{
                         echo "-";
                     }
@@ -577,14 +577,18 @@
             echo"
                 </tbody>
             </table>";
-            
+            // $setupMySql = mysqli_query($conn, "SET OPTION SQL_BIG_SELECTS = 1") 
+            //             or die('Cannot complete SETUP BIG SELECTS because: ' . mysqli_error($conn));
+
+
             $sql_lifeskill = "SELECT ifnull(pf_hf_absent,0) + ifnull(pf_hf_uks,0) + ifnull(pf_hf_tardiness,0) as jumlah_pf_hf,
                             ifnull(ss_relationship,0) + ifnull(ss_cooperation,0) + ifnull(ss_conflict,0) + ifnull(ss_self_a,0) as jumlah_ss,
                             ifnull(spirit_coping,0) + ifnull(spirit_emo,0) + ifnull(spirit_grate,0) as jumlah_spirit,
                             ifnull(moral_b_lo,0) + ifnull(moral_b_so,0) as jumlah_moral_b,
-                            ifnull(emo_aware_ex,0) + ifnull(emo_aware_so,0) + ifnull(emo_aware_ne,0) as jumlah_emo_aware, siswa_komen_akhir, siswa_absenin, siswa_absenex, siswa_tardy, siswa_special_note
+                            ifnull(emo_aware_ex,0) + ifnull(emo_aware_so,0) + ifnull(emo_aware_ne,0) as jumlah_emo_aware, 
+                            siswa_komen_akhir, siswa_absenin, siswa_absenex, siswa_tardy, siswa_special_note
                             FROM(
-                                select * from siswa
+                                SELECT * FROM siswa
                                 LEFT join pf_hf
                                 ON siswa_id = pf_hf_siswa_id
                                 LEFT join ss
@@ -597,6 +601,8 @@
                                 ON siswa_id = emo_aware_siswa_id
                                 WHERE siswa_id = {$s_id[$z]}
                             ) as life_skill";
+                            
+            mysqli_query($conn, "SET SQL_BIG_SELECTS=1"); 
             $sql_v_lifeskill = mysqli_query($conn, $sql_lifeskill); 
             
             while($row_life = mysqli_fetch_array($sql_v_lifeskill)){
@@ -619,12 +625,12 @@
             $jumlah_ss = return_abjad_base4($jumlah_ss /= 4);
             
             echo"<br>
-            <table style='table-layout:fixed;' class='rapot'>
+            <table style='table-layout:fixed;' class='rapot_rangkuman'>
                 <thead>
                     <tr>
-                    <th style='width: 35px; height: 25px; padding: 0px 0px 0px 0px;'>NO </th>
-                    <th style='width: 150px; height: 25px; padding: 0px 0px 0px 5px;'>LIFE SKILLS</th>
-                    <th style='width: 350px; height: 25px;'>GRADE</th>
+                    <th style='width: 20px; height: 15px; padding: 0px 0px 0px 0px;'>NO </th>
+                    <th style='width: 150px; height: 15px; padding: 0px 0px 0px 5px;'>LIFE SKILLS</th>
+                    <th style='width: 350px; height: 15px;'>GRADE</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -664,20 +670,20 @@
             }
 
             echo"
-            <div class='sub_judul mt-2'>SELF DEVELOPMENT</div>
-            <table style='table-layout:fixed;' class='rapot'>
+            <div class='sub_judul mt-1'>SELF DEVELOPMENT</div>
+            <table style='table-layout:fixed;' class='rapot_rangkuman'>
                 <tbody>
                     ";
             echo "<tr>";
-                echo "<td style='text-align: center; width: 35px;'>1</td><td style='width: 150px;'>Character Building</td>";
+                echo "<td style='text-align: center; width: 20px;'>1</td><td style='width: 150px;'>Character Building</td>";
                 echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>".return_abjad_base4($final_score_bk)."</b></td>";
             echo "</tr>";
             echo "<tr>";
-                echo "<td style='text-align: center; width: 35px;'>2</td><td style='width: 150px;'>".ucfirst(strtolower($nama_ssp))."</td>";
+                echo "<td style='text-align: center; width: 20px;'>2</td><td style='width: 150px;'>".ucfirst(strtolower($nama_ssp))."</td>";
                 echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>".return_abjad_base4($final_score)."</b></td>";
             echo "</tr>";
             echo "<tr>";
-                echo "<td style='text-align: center; width: 35px;'>3</td><td style='width: 150px;'>Scout</td>";
+                echo "<td style='text-align: center; width: 20px;'>3</td><td style='width: 150px;'>Scout</td>";
                 echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>".return_abjad_base4($scout_nilai_angka)."</b></td>";
             echo "</tr>";
             echo"
@@ -685,12 +691,12 @@
             </table>";
             
             echo"
-            <div class='sub_judul mt-2'>ATTENDANCE RECORD</div>
-            <table style='table-layout:fixed;' class='rapot'>
+            <div class='sub_judul mt-1'>ATTENDANCE RECORD</div>
+            <table style='table-layout:fixed;' class='rapot_rangkuman'>
                 <tbody>
                     ";
             echo "<tr>";
-                echo "<td style='text-align: center; width: 35px;'>1</td><td style='width: 150px;'>Sick</td>";
+                echo "<td style='text-align: center; width: 20px;'>1</td><td style='width: 150px;'>Sick</td>";
                 if($siswa_tardy >0){
                     echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>$siswa_tardy</b> day(s)</td>";
                 }else{
@@ -698,7 +704,7 @@
                 }
             echo "</tr>";
             echo "<tr>";
-                echo "<td style='text-align: center; width: 35px;'>2</td><td style='width: 150px;'>Absent (Including Excuse)</td>";
+                echo "<td style='text-align: center; width: 20px;'>2</td><td style='width: 150px;'>Absent (Including Excuse)</td>";
                 if($siswa_absenin >0){
                     echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>$siswa_absenin</b> day(s)</td>";
                 }else{
@@ -706,7 +712,7 @@
                 }
             echo "</tr>";
             echo "<tr>";
-                echo "<td style='text-align: center; width: 35px;'>3</td><td style='width: 150px;'>Absent (Excluding Excuse)</td>";
+                echo "<td style='text-align: center; width: 20px;'>3</td><td style='width: 150px;'>Absent (Excluding Excuse)</td>";
                 if($siswa_absenex >0){
                     echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>$siswa_absenex</b> day(s)</td>";
                 }else{
@@ -714,10 +720,10 @@
                 }
             echo "</tr>";
             echo "<tr>";
-                echo "<td style='padding: 0px 0px 0px 5px;' colspan = 2><b>Homeroom Teacher's Comment</b></td><td style='width: 200px; padding: 10px 10px 10px 5px;'>$siswa_komen_akhir</td>";
+                echo "<td style='padding: 0px 0px 0px 5px;' colspan = 2><b>Homeroom Teacher's Comment</b></td><td style='width: 200px; padding: 5px 5px 5px 5px;'>$siswa_komen_akhir</td>";
             echo "</tr>";
             echo "<tr>";
-                echo "<td style='padding: 0px 0px 0px 5px;' colspan = 2><b>Special Note</b></td><td style='width: 200px; padding: 10px 10px 10px 5px;'>$siswa_special_note</td>";
+                echo "<td style='padding: 0px 0px 0px 5px;' colspan = 2><b>Special Note</b></td><td style='width: 200px; padding: 5px 5px 5px 5px;'>$siswa_special_note</td>";
             echo "</tr>";
             echo "<tr>";
                 echo "<td style='padding: 0px 0px 0px 5px;' colspan = 2><b>Note</b></td>";
