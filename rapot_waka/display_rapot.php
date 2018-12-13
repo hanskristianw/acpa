@@ -294,7 +294,7 @@
                 die("QUERY FAILED".mysqli_error($conn));
             }
             
-            echo "<p class='judul'>SHARPENING STUDENTS POTENTIAL</p>";
+            echo "<p class='judul'>SHARPENING STUDENT&#39;S POTENTIAL</p>";
             echo"<div id='textbox'>
                 <p class='alignleft'>
                 NAME &nbsp&nbsp&nbsp&nbsp&nbsp&emsp;&emsp;&emsp;:&nbsp$siswa_nama_lengkap<br>
@@ -683,9 +683,11 @@
                 echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>".return_abjad_base4($final_score)."</b></td>";
             echo "</tr>";
             echo "<tr>";
-                echo "<td style='text-align: center; width: 20px;'>3</td><td style='width: 150px;'>Scout</td>";
-                echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>".return_abjad_base4($scout_nilai_angka)."</b></td>";
-            echo "</tr>";
+                if($scout_nilai_angka>1){
+                    echo "<td style='text-align: center; width: 20px;'>3</td><td style='width: 150px;'>Scout</td>";
+                    echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>".return_abjad_base4($scout_nilai_angka)."</b></td>";
+                }
+             echo "</tr>";
             echo"
                 </tbody>
             </table>";
