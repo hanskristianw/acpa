@@ -13,9 +13,20 @@
         $("#kotak_utama").hide();
         $("#containerDetailAspek").hide();
         
+        var $loading = $('#loadingDiv').hide();
+        $(document)
+          .ajaxStart(function () {
+            $loading.show();
+          })
+          .ajaxStop(function () {
+            $loading.hide();
+          });
+
         $("#add-ce-form").submit(function(evt){
             evt.preventDefault();
-
+            
+            $("#submit_kriteria").attr("disabled", true);
+            
             var kelas_id = $("#option_kelas").val();
             var aspek_id = $("#option_aspek").val();
             var indikator_id = $("#option_indikator").val();
@@ -29,6 +40,7 @@
                             //alert(show);
                             $("#kotak_utama").show();
                             $("#kotak_utama").html(show);
+                            $("#submit_kriteria").attr("disabled", false);
                         }
                     }
                 });
@@ -123,10 +135,11 @@
                 </div>
 
 
-            <input type="submit" name="submit_kriteria" class="btn btn-primary" value="Proses">
+            <input type="submit" name="submit_kriteria" id="submit_kriteria" class="btn btn-primary" value="Proses">
       </form>
     </div>
       
+    <div id='loadingDiv'><p style='text-align:center'><img src='pic/ajax-loader.gif' alt='please wait'></p></div>
       <div class= "p-3 mb-2 bg-light border border-primary rounded" id="kotak_utama">
           
       </div>

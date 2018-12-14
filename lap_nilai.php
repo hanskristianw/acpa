@@ -11,6 +11,16 @@
     $(document).ready(function(){
         $("#kotak_utama").hide();
         
+        var $loading = $('#loadingDiv').hide();
+        $(document)
+          .ajaxStart(function () {
+            $loading.show();
+          })
+          .ajaxStop(function () {
+            $loading.hide();
+          });
+
+
         //ketika user menekan tombol submit
         $("#lapor-form").submit(function(evt){
             evt.preventDefault();
@@ -106,7 +116,8 @@
         </form>
     </div>
     
-    <div id = "laporan_box">
+    <div id='loadingDiv'><p style='text-align:center'><img src='pic/ajax-loader.gif' alt='please wait'></p></div>
+     <div id = "laporan_box">
         
     </div>
     

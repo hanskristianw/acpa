@@ -90,7 +90,7 @@
                     }
                 echo'</tbody></table></div>';
 
-                echo '<input type = "submit" value="SAVE" class="btn btn-success mt-2">';
+                echo '<input type = "submit" value="SAVE" id="save_ssp_nilai" class="btn btn-success mt-2">';
             
             echo '</form>';
         }
@@ -189,7 +189,7 @@
                       <input type="text" name="alasan_update" id="alasan_update" placeholder="Masukkan Alasan Update (misal: remidial, salah input)" class="form-control form-control-sm mb-2" required>
                       ';
                 
-                echo '<input type = "submit" value="UPDATE" class="btn btn-success mt-2">';
+                echo '<input type = "submit" value="UPDATE" id="update_ssp_nilai" class="btn btn-success mt-2">';
             
             echo '</form>';
             }
@@ -205,13 +205,16 @@
         $("#add-nilai-form").submit(function(evt){
             evt.preventDefault();
 
+            $("#save_ssp_nilai").attr("disabled", true);
             //alert("pilihan benar");
             var postData = $(this).serialize();
             var url = $(this).attr('action');
 
             //input rubrik
             $.post(url,postData, function(php_table_data){
+                
                 $("#kotak_utama").hide();
+                $("#save_ssp_nilai").attr("disabled", false);
                 //$("#kotak_utama2").show();
                 $("#feedback").html(php_table_data);
             });
@@ -221,12 +224,14 @@
             evt.preventDefault();
 
             //alert("pilihan benar");
+            $("#update_ssp_nilai").attr("disabled", true);
             var postData = $(this).serialize();
             var url = $(this).attr('action');
 
             //input rubrik
             $.post(url,postData, function(php_table_data){
                 $("#kotak_utama").hide();
+                $("#update_ssp_nilai").attr("disabled", false);
                 //$("#kotak_utama2").show();
                 $("#feedback").html(php_table_data);
             });

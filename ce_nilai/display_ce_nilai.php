@@ -99,7 +99,7 @@
                     }
                 echo'</tbody></table></div>';
 
-                echo '<input type = "submit" value="SAVE" class="btn btn-success mt-2">';
+                echo '<input type = "submit" id="save_ce" value="SAVE" class="btn btn-success mt-2">';
             
             echo '</form>';
         }
@@ -174,7 +174,7 @@
                     }
                 echo'</tbody></table></div>';
                 
-                echo '<input type = "submit" value="UPDATE" class="btn btn-success mt-2">';
+                echo '<input type = "submit" value="UPDATE" id="update_ce" class="btn btn-success mt-2">';
             
             echo '</form>';
         }
@@ -188,15 +188,18 @@
     $(document).ready(function(){
         $("#add-nilai-form").submit(function(evt){
             evt.preventDefault();
-
+            
+            $("#save_ce").attr("disabled", true);
             //alert("pilihan benar");
             var postData = $(this).serialize();
             var url = $(this).attr('action');
 
             //input rubrik
             $.post(url,postData, function(php_table_data){
-                $("#kotak_utama").hide();
                 //$("#kotak_utama2").show();
+                
+                $("#save_ce").attr("disabled", false);
+                $("#kotak_utama").hide();
                 $("#feedback").html(php_table_data);
             });
         });
@@ -204,14 +207,16 @@
         $("#add-nilai-form-update").submit(function(evt){
             evt.preventDefault();
 
+            $("#update_ce").attr("disabled", true);
+
             //alert("pilihan benar");
             var postData = $(this).serialize();
             var url = $(this).attr('action');
 
             //input rubrik
             $.post(url,postData, function(php_table_data){
+                $("#update_ce").attr("disabled", false);
                 $("#kotak_utama").hide();
-                //$("#kotak_utama2").show();
                 $("#feedback").html(php_table_data);
             });
         });
