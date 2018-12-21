@@ -108,6 +108,7 @@
                                     <a href="lap_remidial.php" class="dropdown-item fa fa-caret-right mb-1"> Remidial</a>
                                     <a href="lap_nilai.php" class="dropdown-item fa fa-caret-right mb-1"> Nilai</a>
                                     <a href="lap_ssp.php" class="dropdown-item fa fa-caret-right mb-1"> SSP</a>
+                                    <a href="laporan_DKN.php" class="dropdown-item fa fa-caret-right mb-1"> DKN</a>
                                   </div>
                                 </li>
                                 
