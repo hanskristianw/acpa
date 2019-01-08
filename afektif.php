@@ -133,7 +133,7 @@
     });
 </script>
 
-<div class="container col-8">
+<div class="container">
       <div class= "p-3 mb-2 bg-light border border-primary rounded" id="step1">
           
           <div id="container-hasil">

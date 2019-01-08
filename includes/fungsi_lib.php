@@ -1,4 +1,47 @@
 <?php
+    function return_info_warna_agama(){
+        $warna = '<div class="container">
+            <table class="table table-sm table-responsive table-bordered">
+                <tbody>
+                    <tr>
+                        <td>Katolik</td>
+                        <td class="table-success"></td>
+                        <td>Islam</td>
+                        <td class="table-danger"></td>
+                        <td>Hindu</td>
+                        <td class="table-warning"></td>
+                        <td>Budha</td>
+                        <td class="table-primary"></td>
+                        <td>Kristen</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>';
+        return $warna;
+    }
+
+    function return_warna_tabel_agama($agama_id){
+        $warna = "";
+        if($agama_id == 1){
+            //kristen (putih)
+            $warna = "";
+        }elseif($agama_id == 2){
+            //katolik (ijo)
+            $warna = "table-success";
+        }elseif($agama_id == 3){
+            //islam (merah)
+            $warna = "table-danger";
+        }elseif($agama_id == 4){
+            //hindu (kuning)
+            $warna = "table-warning";
+        }elseif($agama_id == 5){
+            //budha (biru)
+            $warna = "table-primary";
+        }
+        return $warna;
+    }
+
     function return_alert($msg,$jenis){
 
         $pesan ='<div class="alert alert-'.$jenis.' alert-dismissible fade show">

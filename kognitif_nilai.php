@@ -15,6 +15,7 @@
         
         $("#option_mapel").change(function () {
 
+            $("#kotak").hide();
             var mapel_id = $("#option_mapel").val();
             
             $.ajax({
@@ -90,7 +91,7 @@
 
 
 
-<div class="container col-6">
+<div class="container">
     <div id="container-temp">
 
     </div>
@@ -123,40 +124,39 @@
     
     
       <!-------------------------form cari mapel----------------------->
-      <div class= "p-3 mb-2 bg-light border border-primary rounded">
-      <form method="POST" id="add-jenjang-form" action="kognitif_nilai/display_kognitif.php">
-          <div class="form-group">
-            <h4 class="mb-4"><u>Nilai Pengetahuan dan Keterampilan</u></h4>
+        <div class= "p-3 mb-2 bg-light border border-primary rounded">
+            <form method="POST" id="add-jenjang-form" action="kognitif_nilai/display_kognitif.php">
+                <div class="form-group col-sm">
+                    <h4 class="mb-4 mt-4"><u>Nilai Pengetahuan dan Keterampilan</u></h4>
 
-            <label>Nama Mapel:</label>
-            <select class="form-control form-control-sm mb-2" name="option_mapel" id="option_mapel">
-                  <?php echo $options3;?>
-            </select>
-              
-              
-            <div id="container-option-kelas">
+                    <label>Nama Mapel:</label>
+                    <select class="form-control form-control-sm mb-2" name="option_mapel" id="option_mapel">
+                        <?php echo $options3;?>
+                    </select>
+                    
+                    
+                    <div id="container-option-kelas">
+
+                    </div>
+                    
+                    <div id="container-option-topik">
+
+                    </div>
+                </div>
+            </form>
+        </div>
+      <div id='loadingDiv'><p style='text-align:center'><img src='pic/ajax-loader.gif' alt='please wait'></p></div>
+      <!-------------------------tabel jenjang----------------------->
+        <div id="kotak" class="p-3 mb-2 bg-light border border-primary rounded">
+            <h4 class="mb-4 mt-4"><u>Nilai Kognitif</u></h4>
+            
+            <!-------------------------tabel kognitif psikomotor----------------------->
+            
+            <div id="show_kognitif">
 
             </div>
             
-            <div id="container-option-topik">
-
-            </div>
-            <input type="submit" name="submit_jenjang" class="btn btn-primary mt-3" value="Input Nilai">
-          </div>
-      </form>
-      </div >
-      <div id='loadingDiv'><p style='text-align:center'><img src='pic/ajax-loader.gif' alt='please wait'></p></div>
-      <!-------------------------tabel jenjang----------------------->
-      <div class= "p-3 mb-2 bg-light border border-primary rounded" id="kotak">
-        <h4 class="mb-4"><u>Nilai Kognitif</u></h4>
-          
-          <!-------------------------tabel kognitif psikomotor----------------------->
-          
-        <div id="show_kognitif">
-
         </div>
-          
-      </div >
       
       
     <!-------------------------end of tabel kelas----------------------->

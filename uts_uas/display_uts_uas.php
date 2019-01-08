@@ -1,6 +1,7 @@
 <?php
 
     include ("../includes/db_con.php");
+    include ("../includes/fungsi_lib.php");
     
     $kelas_id = $_POST['option_kelas'];
     $mapel_id = $_POST['option_mapel'];
@@ -26,7 +27,7 @@
             echo"<input type='hidden' id='mapel_text' value=$mapel_id>";
             echo"<input type='hidden' id='kelas_text' value=$kelas_id>";
             
-            $query =    "SELECT siswa_id, siswa_no_induk, siswa_nama_depan, siswa_nama_belakang
+            $query =    "SELECT siswa_id, siswa_no_induk, siswa_nama_depan, siswa_nama_belakang, siswa_agama
                     FROM siswa
                     WHERE siswa_id_kelas = {$kelas_id}";
 
@@ -38,7 +39,9 @@
                     </button>
                     <strong>PERHATIAN:</strong> Anda BELUM mempunyai nilai TEKAN SAVE untuk menyimpan nilai
                 </div>';
-            
+
+            echo return_info_warna_agama();
+
             echo"<table class='table table-responsive table-sm table-striped table-bordered mt-3'><thead>
                   <tr>
                     <th colspan='2'></th>
@@ -69,7 +72,7 @@
                 while($row = mysqli_fetch_array($query_afektif_info)){
                     $nama_belakang = $row['siswa_nama_belakang'];
                     
-                    echo '<tr>';
+                    echo '<tr class="'.return_warna_tabel_agama($row['siswa_agama']).'">';
                     echo'<td>';
                     echo"{$absen}</td>";
                     echo'<td>';
@@ -118,7 +121,9 @@
                 </button>
                 <strong>PERHATIAN:</strong> Proses update nilai harus disetujui wakasek kurikulum.
                 </div>';
-            
+                
+                echo return_info_warna_agama();
+
                 $query_afektif_info = mysqli_query($conn, $query);
 
                 echo"<table class='table table-sm table-responsive table-striped table-bordered mt-3'><thead>
@@ -157,7 +162,7 @@
                     $temp_pmid = $row['psi_uts_persen'];
                     $temp_pfinal = $row['psi_uas_persen'];
                     
-                    echo '<tr>';
+                    echo '<tr class="'.return_warna_tabel_agama($row['siswa_agama']).'">';
                     echo'<td>';
                     echo"{$absen}</td>";
                     echo'<td>';

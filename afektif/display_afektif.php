@@ -1,11 +1,7 @@
 <?php
-//echo '<img src="pic/ajax-loader.gif" title="this slowpoke moves" />';
-//echo '<img src="http://i.stack.imgur.com/SBv4T.gif" title="this slowpoke moves" />';
 
-//    echo "<div id='loadingDiv'><img src='pic/ajax-loader.gif' align='center' alt='please wait'></div>";
-    //echo "<p style='text-align:center'><img src='pic/ajax-loader.gif' alt='please wait'></p>";
     include ("../includes/db_con.php");
-   
+    include ("../includes/fungsi_lib.php");
     if(!empty($_POST["arr"])) {
 
         $arr = $_POST["arr"];
@@ -34,7 +30,7 @@
 
 
             //cek apakah sudah pernah input nilai sebelumnya
-            $query =    "SELECT siswa_id, siswa_no_induk, siswa_nama_depan, siswa_nama_belakang, afektif_nilai, afektif_id 
+            $query =    "SELECT siswa_id, siswa_no_induk, siswa_nama_depan, siswa_agama, siswa_nama_belakang, afektif_nilai, afektif_id 
                         from afektif, siswa
                         WHERE afektif_k_afektif_id = $afektif_id AND afektif_mapel_id = {$mapel_id} AND afektif_siswa_id = siswa_id AND siswa_id_kelas = {$kelas_id} ORDER BY siswa_nama_depan";
 
@@ -54,7 +50,7 @@
 //                    ON k_afektif_t_ajaran_id = t_ajaran_id
 //                    WHERE siswa_id_kelas = {$kelas_id}";
             
-            $query =    "SELECT siswa_id, siswa_no_induk, siswa_nama_depan, siswa_nama_belakang
+            $query =    "SELECT siswa_id, siswa_no_induk, siswa_nama_depan, siswa_nama_belakang, siswa_agama
                     FROM siswa
                     WHERE siswa_id_kelas = {$kelas_id} ORDER BY siswa_nama_depan";
 
@@ -66,9 +62,11 @@
                     </button>
                     <strong>PERHATIAN:</strong> Anda BELUM mempunyai nilai afektif untuk kelas dan bulan ini, silahkan TEKAN SAVE untuk menyimpan nilai
                 </div>';
+
+            echo return_info_warna_agama();
+
             
-            
-            echo'<div id="table-scroll" class="table table-sm table-responsive table-striped table-bordered">
+            echo'<div id="table-scroll" class="table table-sm table-responsive table-bordered">
         <div class="table-wrap">
           <table class="table main-table">
             <thead>
@@ -127,7 +125,7 @@
                 $no = 0;
                 while($row = mysqli_fetch_array($query_afektif_info)){
                     $no++;
-                    echo '<tr>';
+                    echo '<tr class="'.return_warna_tabel_agama($row['siswa_agama']).'">';
                     echo'<td class="fixed-side">';
                     echo"{$no}</td>";
                     echo'<td class="fixed-side">';
@@ -176,15 +174,16 @@
                     <button class="close" data-dismiss="alert" type="button">
                         <span>&times;</span>
                     </button>
-                    <strong>PERHATIAN:</strong> Tekan UPDATE setelah melakukan proses edit nilai
+                    <strong>PERHATIAN:</strong> Tekan UPDATE setelah melakukan proses edit nilai 
                 </div>';
-            
-
+                
             $query_afektif_info = mysqli_query($conn, $query);
             
-            echo'<div id="table-scroll" class="table table-sm table-responsive table-striped table-bordered">
+            echo return_info_warna_agama();
+
+            echo'<div id="table-scroll" class="table table-sm table-responsive table-bordered">
         <div class="table-wrap">
-          <table class="main-table">
+          <table class="table">
             <thead>
               <tr>
                 <th class="fixed-side" scope="col"></th>
@@ -241,7 +240,8 @@
                 $no2 = 0;
                 while($row = mysqli_fetch_array($query_afektif_info)){
                     $no2++;
-                    echo '<tr>';
+                    
+                    echo '<tr class="'.return_warna_tabel_agama($row['siswa_agama']).'">';
                     echo'<td class="fixed-side">';
                     echo"{$no2}</td>";
                     echo'<td class="fixed-side">';

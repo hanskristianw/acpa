@@ -88,7 +88,7 @@
 
 
 
-<div class="container col-6">
+<div class="container">
     <div id="container-temp">
 
     </div>

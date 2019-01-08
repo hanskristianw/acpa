@@ -68,7 +68,7 @@
     });
 </script>
 
-<div class="container col-6">
+<div class="container">
       
     <?php
         $guru_id = $_SESSION['guru_id'];
@@ -117,7 +117,8 @@
     </div>
     
     <div id='loadingDiv'><p style='text-align:center'><img src='pic/ajax-loader.gif' alt='please wait'></p></div>
-     <div id = "laporan_box">
+     
+    <div id = "laporan_box">
         
     </div>
     

@@ -50,6 +50,8 @@
                 echo"<select class='form-control form-control-sm mb-2' name='option_topik' id='option_topik'>";
                     echo $options;
                 echo"</select>";
+
+                echo'<input type="submit" name="submit_jenjang" class="btn btn-primary mt-3" value="Input Nilai">';
              }
              elseif ($count<=0){
                  echo "<label>Topik:</label>"; 
@@ -61,6 +63,8 @@
 
 <script>
     $(document).ready(function(){
-        
+        $("#option_topik").change(function () {
+            $("#kotak").hide();
+        });
     });
 </script>

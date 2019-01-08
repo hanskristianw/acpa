@@ -56,8 +56,10 @@
 
             $query_akhir_info = mysqli_query($conn, $query_nilai_akhir);
             
-            echo "<div id='container-analisis' class= 'p-3 mb-2 bg-light border border-primary rounded'></div>";
+            echo "<div style='overflow-x: auto;' id='container-analisis' class= 'p-3 mb-2 bg-light border border-primary rounded'></div>";
 
+            
+            echo"<div style='overflow-x: auto;'>";
             echo "<h4 class='text-center mb-3 mt-5'><u>Laporan Nilai AKhir</u></h4>";
             
             echo return_alert("Klik nilai berwarna biru untuk melihat detail nilai","info");
@@ -102,6 +104,7 @@
             }
 
             echo "</table>";
+            echo"</div>";
 
             //dapatkan nilai ujian
             $query2 =   "SELECT kog_uts,kog_uas,psi_uts,psi_uas,kog_uts_persen,kog_uas_persen,psi_uts_persen,psi_uas_persen,siswa_nama_depan,siswa_nama_belakang
@@ -121,6 +124,7 @@
             $psi_uas_persen = $rowss['7'];
             mysqli_data_seek($query_info2, 0);
             
+            echo"<div style='overflow-x: auto;'>";
             echo "<h4 class='text-center mb-3 mt-5'><u>Laporan Hasil Ujian</u></h4>";
             echo "<table class='rapot mt-3'>
                      <tr>
@@ -153,7 +157,7 @@
             }
 
             echo "</table>";
-            
+            echo "</div>";
             
             //cari semua topik yang ada pada siswa ini dan mapel ini dan ada pada tabel quiz
             $query_cari_topik =  "SELECT DISTINCT topik_id, topik_nama, kog_quiz_persen, kog_test_persen, kog_ass_persen, psi_quiz_persen, psi_test_persen, psi_ass_persen
@@ -199,6 +203,7 @@
 
             $query_info = mysqli_query($conn, $query);
 
+            echo"<div style='overflow-x: auto;'>";
             echo "<h4 class='text-center mb-3 mt-5'><u>Laporan Hasil Test, Assignment, dan Quiz</u></h4>";
             echo "<table class='rapot mt-3'>
                     <tr>
@@ -258,7 +263,7 @@
             }
 
             echo "</table>";
-
+            echo "</div>";
 
             //NILAI AFEKTIF
             $query_af = "SELECT siswa_nama_depan, siswa_nama_belakang, GROUP_CONCAT(k_afektif_bulan ORDER BY k_afektif_id) as bulan, COUNT(k_afektif_bulan) as jumlah_bulan, GROUP_CONCAT(afektif_nilai ORDER BY k_afektif_id) as nilai
@@ -273,6 +278,7 @@
 
             $query_info = mysqli_query($conn, $query_af);
 
+            echo"<div style='overflow-x: auto;'>";
             echo "<h4 class='text-center mb-3 mt-5'><u>Laporan Hasil Afektif</u></h4>";
             echo "<table class='rapot mt-3'>
                   <tr>
@@ -307,6 +313,7 @@
             }
 
             echo "</table>";
+            echo "</div>";
         }
     }
     

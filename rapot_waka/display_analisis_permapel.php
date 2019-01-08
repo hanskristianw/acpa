@@ -50,30 +50,61 @@
       array_push($psi_test_persen, $row_mapel['psi_test_persen']);
     }
 
-    $total_akhir = 0;
-    for($i=0;$i<count($kog_quiz);$i++){
+    echo"<table class='table table-sm table-striped'>
+          ";
+          
+          $total_akhir = 0;
+          for($i=0;$i<count($kog_quiz);$i++){
+      
+            //$jumlah_topik;
+             $total_topik = (($kog_quiz[$i]*$kog_quiz_persen[$i])/100)+(($kog_ass[$i]*$kog_ass_persen[$i])/100)+(($kog_test[$i]*$kog_test_persen[$i])/100);
+            // echo "((".$kog_quiz[$i]."*".$kog_quiz_persen[$i].")/100)"."+((".$kog_ass[$i]."*".$kog_ass_persen[$i].")/100)"."+((".$kog_test[$i]."*".$kog_test_persen[$i].")/100)";
+            // echo "<br>".($kog_quiz[$i]*$kog_quiz_persen[$i])/100 ."+".(($kog_ass[$i]*$kog_ass_persen[$i])/100)."+".(($kog_test[$i]*$kog_test_persen[$i])/100);
+            // echo "<br>".$total_topik ."->".round($total_topik);
+            // echo "<br>";
 
-      //$jumlah_topik;
-      echo "<b><u>".$topik_nama[$i].":</b></u><br>";
-      echo "QUIZ + ASSIGNMENT + TEST<br>";
-      $total_topik = (($kog_quiz[$i]*$kog_quiz_persen[$i])/100)+(($kog_ass[$i]*$kog_ass_persen[$i])/100)+(($kog_test[$i]*$kog_test_persen[$i])/100);
-      echo "((".$kog_quiz[$i]."*".$kog_quiz_persen[$i].")/100)"."+((".$kog_ass[$i]."*".$kog_ass_persen[$i].")/100)"."+((".$kog_test[$i]."*".$kog_test_persen[$i].")/100)";
-      echo "<br>".($kog_quiz[$i]*$kog_quiz_persen[$i])/100 ."+".(($kog_ass[$i]*$kog_ass_persen[$i])/100)."+".(($kog_test[$i]*$kog_test_persen[$i])/100);
-      echo "<br>".$total_topik ."->".round($total_topik);
-      echo "<br>";
+            echo "
+            <tr>
+              <th colspan='4'><u>".$topik_nama[$i]."</u></th>
+              <tr>
+                <td></td>
+                <th>Quiz</th>
+                <th>Assignment</th>
+                <th>Test</th>
+              </tr>
+              <tr>
+                <td></td>
+                <th>Nilai*Persen +</th>
+                <th>Nilai*Persen +</th>
+                <th>Nilai*Persen</th>
+              </tr>
+              <tr>
+                <td>=</td>
+                <td>((".$kog_quiz[$i]."*".$kog_quiz_persen[$i].")/100)+</td>
+                <td>((".$kog_ass[$i]."*".$kog_ass_persen[$i].")/100)+</td>
+                <td>((".$kog_test[$i]."*".$kog_test_persen[$i].")/100)</td>
+              </tr>
+              <tr>
+                <td>=</td>
+                <td>".(($kog_quiz[$i]*$kog_quiz_persen[$i])/100)."</td>
+                <td>".(($kog_ass[$i]*$kog_ass_persen[$i])/100)."</td>
+                <td>".(($kog_test[$i]*$kog_test_persen[$i])/100)."</td>
+              </tr>
+              <tr>
+                <td>=</td>
+                <td>".$total_topik ."&#8594;".round($total_topik)."</td>
+              </tr>
+            </tr>";
+            
+            $total_akhir += round($total_topik);
 
-      $total_akhir += round($total_topik);
-      // ($kog_quiz[$i] * $kog_quiz_persen)/100 + ($kog_ass[$i] * $kog_ass_persen)/100 + ($kog_test[$i] * $kog_test_persen)/100
-      // echo "KOG QUIZ: ".$kog_quiz[$i];
-      // echo "<br>";
-      // echo "KOG ASS: ".$kog_ass[$i];
-      // echo "<br>";
-      // echo "KOG TEST: ".$kog_test[$i];
-      // echo "<br>";
-      // echo "<br>";
-    }
+          }
+          echo"<tr>
+              <td><b>Total:</b></td>
+              <td>".$total_akhir."/".count($kog_quiz)."= ".$total_akhir/count($kog_quiz)."&#8594;".round($total_akhir/count($kog_quiz))."</td>
+            </tr>";
 
-    echo "<br><b><u>TOTAL: </u></b><br>".$total_akhir."/".count($kog_quiz)."= ".$total_akhir/count($kog_quiz)."->".round($total_akhir/count($kog_quiz))."<br><br>";
+    echo "</table>";
   }
 
 ?>

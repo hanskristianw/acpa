@@ -36,22 +36,80 @@
       array_push($psi_test_persen, $row_mapel['psi_test_persen']);
     }
 
-    $total_akhir = 0;
-    for($i=0;$i<count($psi_quiz);$i++){
+    echo"<table class='table table-sm table-striped'>
+          ";
+          
+          $total_akhir = 0;
+          for($i=0;$i<count($psi_quiz);$i++){
+      
+            //$jumlah_topik;
+             $total_topik = (($psi_quiz[$i]*$psi_quiz_persen[$i])/100)+(($psi_ass[$i]*$psi_ass_persen[$i])/100)+(($psi_test[$i]*$psi_test_persen[$i])/100);
+            // echo "((".$kog_quiz[$i]."*".$kog_quiz_persen[$i].")/100)"."+((".$kog_ass[$i]."*".$kog_ass_persen[$i].")/100)"."+((".$kog_test[$i]."*".$kog_test_persen[$i].")/100)";
+            // echo "<br>".($kog_quiz[$i]*$kog_quiz_persen[$i])/100 ."+".(($kog_ass[$i]*$kog_ass_persen[$i])/100)."+".(($kog_test[$i]*$kog_test_persen[$i])/100);
+            // echo "<br>".$total_topik ."->".round($total_topik);
+            // echo "<br>";
 
-      //$jumlah_topik;
-      echo "<b><u>".$topik_nama[$i].":</b></u><br>";
-      echo "QUIZ + ASSIGNMENT + TEST<br>";
-      $total_topik = (($psi_quiz[$i]*$psi_quiz_persen[$i])/100)+(($psi_ass[$i]*$psi_ass_persen[$i])/100)+(($psi_test[$i]*$psi_test_persen[$i])/100);
-      echo "((".$psi_quiz[$i]."*".$psi_quiz_persen[$i].")/100)"."+((".$psi_ass[$i]."*".$psi_ass_persen[$i].")/100)"."+((".$psi_test[$i]."*".$psi_test_persen[$i].")/100)";
-      echo "<br>".($psi_quiz[$i]*$psi_quiz_persen[$i])/100 ."+".(($psi_ass[$i]*$psi_ass_persen[$i])/100)."+".(($psi_test[$i]*$psi_test_persen[$i])/100);
-      echo "<br>".$total_topik ."->".round($total_topik);
-      echo "<br>";
+            echo "
+            <tr>
+              <th colspan='4'><u>".$topik_nama[$i]."</u></th>
+              <tr>
+                <td></td>
+                <th>Quiz</th>
+                <th>Assignment</th>
+                <th>Test</th>
+              </tr>
+              <tr>
+                <td></td>
+                <th>Nilai*Persen +</th>
+                <th>Nilai*Persen +</th>
+                <th>Nilai*Persen</th>
+              </tr>
+              <tr>
+                <td>=</td>
+                <td>((".$psi_quiz[$i]."*".$psi_quiz_persen[$i].")/100)+</td>
+                <td>((".$psi_ass[$i]."*".$psi_ass_persen[$i].")/100)+</td>
+                <td>((".$psi_test[$i]."*".$psi_test_persen[$i].")/100)</td>
+              </tr>
+              <tr>
+                <td>=</td>
+                <td>".(($psi_quiz[$i]*$psi_quiz_persen[$i])/100)."</td>
+                <td>".(($psi_ass[$i]*$psi_ass_persen[$i])/100)."</td>
+                <td>".(($psi_test[$i]*$psi_test_persen[$i])/100)."</td>
+              </tr>
+              <tr>
+                <td>=</td>
+                <td>".$total_topik ."&#8594;".round($total_topik)."</td>
+              </tr>
+            </tr>";
+            
+            $total_akhir += round($total_topik);
 
-      $total_akhir += round($total_topik);
-    }
+          }
+          echo"<tr>
+              <td><b>Total:</b></td>
+              <td>".$total_akhir."/".count($psi_quiz)."= ".$total_akhir/count($psi_quiz)."&#8594;".round($total_akhir/count($psi_quiz))."</td>
+            </tr>";
 
-    echo "<br><b><u>TOTAL: </u></b><br>".$total_akhir."/".count($psi_quiz)."= ".$total_akhir/count($psi_quiz)."->".round($total_akhir/count($psi_quiz))."<br><br>";
+    echo "</table>";
+
+
+
+    // $total_akhir = 0;
+    // for($i=0;$i<count($psi_quiz);$i++){
+
+    //   //$jumlah_topik;
+    //   echo "<b><u>".$topik_nama[$i].":</b></u><br>";
+    //   echo "QUIZ + ASSIGNMENT + TEST<br>";
+    //   $total_topik = (($psi_quiz[$i]*$psi_quiz_persen[$i])/100)+(($psi_ass[$i]*$psi_ass_persen[$i])/100)+(($psi_test[$i]*$psi_test_persen[$i])/100);
+    //   echo "((".$psi_quiz[$i]."*".$psi_quiz_persen[$i].")/100)"."+((".$psi_ass[$i]."*".$psi_ass_persen[$i].")/100)"."+((".$psi_test[$i]."*".$psi_test_persen[$i].")/100)";
+    //   echo "<br>".($psi_quiz[$i]*$psi_quiz_persen[$i])/100 ."+".(($psi_ass[$i]*$psi_ass_persen[$i])/100)."+".(($psi_test[$i]*$psi_test_persen[$i])/100);
+    //   echo "<br>".$total_topik ."->".round($total_topik);
+    //   echo "<br>";
+
+    //   $total_akhir += round($total_topik);
+    // }
+
+    // echo "<br><b><u>TOTAL: </u></b><br>".$total_akhir."/".count($psi_quiz)."= ".$total_akhir/count($psi_quiz)."->".round($total_akhir/count($psi_quiz))."<br><br>";
   }
 
 ?>

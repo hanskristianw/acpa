@@ -49,13 +49,9 @@
            
            var kelas_id = $("#option_kelas").val();
            var mapel_id = $("#option_mapel").val();
-//           
-//           var data;
-//           data.push({kelas_id: kelas_id, mapel_id: mapel_id});
-//           
-//           alert(data);
            
-           $.ajax({
+            $("#kotak").hide();
+            $.ajax({
                 url: 'kognitif_nilai/update_option_topik.php',
                 data: {kelas_id: kelas_id, mapel_id: mapel_id},
                 type: 'POST',
