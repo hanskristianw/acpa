@@ -20,6 +20,22 @@
             $loading.hide();
           });
 
+        $("#option_t_ajaran").change(function () {
+
+            var t_ajaran_id = $("#option_t_ajaran").val();
+            if(t_ajaran_id != 0){
+                $.ajax({
+                    url: 'laporan/option_DKN_kelas.php',
+                    data:'t_ajaran_id='+ t_ajaran_id,
+                    type: 'POST',
+                    success: function(show){
+                        if(!show.error){
+                            $("#container-option-kelas").html(show);
+                        }
+                    }
+                });
+            }
+        });
 
         //ketika user menekan tombol submit
         $("#lapor-form").submit(function(evt){
@@ -50,51 +66,51 @@
     });
 </script>
 
-<div class="container col-6">
+<div class="container">
       
     <?php
-        $guru_id = $_SESSION['guru_id'];
-        
         include 'includes/db_con.php';
-        $sql3 = "SELECT kelas_id, kelas_nama
-                    FROM kelas
-                    LEFT JOIN t_ajaran
-                    ON kelas_t_ajaran_id = t_ajaran_id
-                    WHERE t_ajaran_active = 1";
-        $result3 = mysqli_query($conn, $sql3);
+        $sql2 = "SELECT GROUP_CONCAT(t_ajaran_id) as t_ajaran_id, t_ajaran_nama
+                FROM t_ajaran
+                GROUP BY t_ajaran_nama";
+        $result2 = mysqli_query($conn, $sql2);
 
-        $options3 = "<option value= 0>Pilih Kelas</option>";
-        while ($row3 = mysqli_fetch_assoc($result3)) {
-            $options3 .= "<option value={$row3['kelas_id']}>{$row3['kelas_nama']}</option>";
+        $options2 = "<option value= 0>Pilih Tahun Ajaran</option>";
+        while ($row2 = mysqli_fetch_assoc($result2)) {
+            $options2 .= "<option value={$row2['t_ajaran_id']}>{$row2['t_ajaran_nama']}</option>";
         }
     ?>
-    
+
     <!-------------------------form kriteria----------------------->
     <div class= "p-3 mb-2 bg-light border border-primary rounded">
         <div class="alert alert-warning alert-dismissible fade show">
           <button class="close" data-dismiss="alert" type="button">
               <span>&times;</span>
           </button>
-          <strong>Info:</strong> Pilih Kelas
+          <strong>Info:</strong> Pilih Tahun Ajaran dan Kelas
         </div>
         <form method="POST" id="lapor-form" action="laporan/laporan_lanjut_DKN.php">
            
             <div class="form-group"> 
-              <select class="form-control form-control-sm mb-2" name="option_kelas" id="option_kelas">
-                <?php echo $options3;?>
-              </select>
+
+                <select class="form-control form-control-sm mb-2" name="option_t_ajaran" id="option_t_ajaran">
+                    <?php echo $options2;?>
+                </select>
                 
+                <div id="container-option-kelas">
+                
+                </div>
+
               <input type="submit" name="submit_kriteria" class="btn btn-primary" value="Cari">
             </div>
         </form>
     </div>
     
     <div id='loadingDiv'><p style='text-align:center'><img src='pic/ajax-loader.gif' alt='please wait'></p></div>
-     <div id = "laporan_box">
+        <div id = "laporan_box">
         
-    </div>
-    
-      
+        </div>
+        
       <div style="margin-top:200px;"></div>
 </div>
 

@@ -13,7 +13,7 @@
     if(!isset($_SESSION['guru_jabatan'])) 
     { 
         echo'
-            <div class="container h-100" style="margin-top: 100px;">
+            <div class="container h-100" style="margin-top: 100px; padding-left: 30px; padding-right: 30px;">
             <div style="margin-top:50px;"></div>
                 <div class="row h-100 justify-content-center align-items-center">
                     <img src="pic/nsa logo.jpg">
@@ -30,7 +30,7 @@
         $jabatan_nama = $_SESSION['jabatan_nama'];
 
         echo'
-            <div class="container h-100" style="margin-top: 100px;">
+            <div class="container h-100" style="margin-top: 100px; padding-left: 30px; padding-right: 30px;">
                 <div class="row h-100 justify-content-center align-items-center">
                     <h3 class="text-justify mt-5">Selamat datang, '.$nama.' jabatan anda adalah '.$jabatan_nama.' anda berhak untuk:</h3>`
                 </div>
