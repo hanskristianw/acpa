@@ -105,4 +105,5 @@ if(isset($_POST['mapel_id'])){
     
     echo"<h4 class='mb-4 mt-4'>Kelas dan guru pengajar</h4>";
     echo $options2;
+    echo '<input type="submit" name="submit_update_mapel" id="sub_mapel" class="btn btn-primary mt-3" value="UPDATE MAPEL">';
 }

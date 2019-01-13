@@ -21,43 +21,60 @@
             if(aksi == 0){
                 $("#form_insert_mapel").hide();
                 $("#form_update_mapel").hide();
+                $("#update-mapel-form-ajax").hide();
+                $("#show_form_update").hide();
             }else if (aksi == 1){
                 $("#form_insert_mapel").show();
                 $("#form_update_mapel").hide();
+                $("#update-mapel-form-ajax").hide();
+                $("#show_form_update").hide();
+                
+                $.ajax({
+                    url: 'mapel/add-mapel-form-ajax.php',
+                    data:'aksi='+ aksi,
+                    type: 'POST',
+                    success: function(show){
+                        if(!show.error){
+                            //$("#show_form_update").show();
+                            $("#add-mapel-form-ajax").html(show);
+                        }
+                    }
+                });
+
                 $("#notif").hide();
             }else if (aksi == 2){
                 $("#form_insert_mapel").hide();
                 $("#form_update_mapel").show();
+                $("#update-mapel-form-ajax").hide();
+                $("#show_form_update").hide();
+
+                $.ajax({
+                    url: 'mapel/update-mapel-form-ajax.php',
+                    data:'aksi='+ aksi,
+                    type: 'POST',
+                    success: function(show){
+                        if(!show.error){
+                            $("#update-mapel-form-ajax").show();
+                            $("#update-mapel-form-ajax").html(show);
+                            
+                        }
+                    }
+                });
+
                 $("#notif").hide();
             }
                 
         });
         
-        $("#mapel_id_option").change(function () {
-
-            var mapel_id = $("#mapel_id_option").val();
-            
-            //alert(mapel_id);
-            
-            if(mapel_id == 0){
-                $("#show_form_update").hide();
-            }else{
-                $.ajax({
-                url: 'mapel/display_form_mapel.php',
-                data:'mapel_id='+ mapel_id,
-                type: 'POST',
-                success: function(show){
-                    if(!show.error){
-                        $("#show_form_update").show();
-                        $("#show_form_update").html(show);
-                    }
-                }
-                });
-            }
-            
-            
-        });
         
+        var $loading = $('#loadingDiv').hide();
+        $(document)
+          .ajaxStart(function () {
+            $loading.show();
+          })
+          .ajaxStop(function () {
+            $loading.hide();
+          });
         //ketika user menekan tombol submit
         $("#add-mapel-form").submit(function(evt){
             evt.preventDefault();
@@ -141,6 +158,8 @@
             </select>
         </div>
       
+        <div id='loadingDiv'><p style='text-align:center'><img src='pic/ajax-loader.gif' alt='please wait'></p></div>
+
         <div id ="form_insert_mapel" class= "p-3 mb-2 bg-light border border-primary rounded">
             
           <form method="POST" id="add-mapel-form" action="mapel/add_mapel_new.php">
@@ -151,32 +170,10 @@
                   <input type="text" id="mapel_singkat_nama_input" name="mapel_singkat_nama_input" placeholder="Singkatan nama mapel (ex. MAT,KIM,FIS)" class="form-control form-control-sm mb-3" required>
                   <input type="number" id="mapel_kkm" name="mapel_kkm" placeholder="Masukkan KKM mapel (ex. 70,75,77)" class="form-control form-control-sm mb-3" required>
                   <input type="number" id="mapel_urutan" name="mapel_urutan" placeholder="Masukkan urutan cetak dalam rapot (ex. 1,2,3)" class="form-control form-control-sm mb-3" required>
-                  <?php
                   
-                      include 'includes/db_con.php';
-                      
-                      $sql3 = "SELECT guru_id, guru_name FROM guru WHERE guru_active = 1";
-                      $result3 = mysqli_query($conn, $sql3);
-                      $options3 = "<option value = 0>Pilih Guru Pengajar</option>";
-                      while ($row3 = mysqli_fetch_assoc($result3)) {
-                          $options3 .= "<option value={$row3['guru_id']}>{$row3['guru_name']}</option>";
-                      }
+                  <div id="add-mapel-form-ajax">
                   
-                      $sql2 = "SELECT kelas_id, kelas_nama FROM kelas, t_ajaran WHERE kelas_t_ajaran_id = t_ajaran_id AND t_ajaran_active = 1";
-                      $result2 = mysqli_query($conn, $sql2);
-                      $options2 = "";
-                      while ($row2 = mysqli_fetch_assoc($result2)) {
-                          $options2 .= "<div class='form-group row'>";
-//                          $options2 .= "<div class='col-sm-4'><input type='checkbox' name='check_kelas_option[]' value={$row2['kelas_id']}> {$row2['kelas_nama']}</div>";
-                          $options2 .= "<div class='col-sm-4'><input type='hidden' name='check_kelas_option[]' value=-{$row2['kelas_id']}><input type='checkbox' onclick='this.previousSibling.value=-1*this.previousSibling.value'> {$row2['kelas_nama']}</div>";
-                          $options2 .= "<div class='col-sm-8'><select class='form-control form-control-sm' name='guru_id_option[]'>".$options3."</select></div>";
-                          $options2 .= "</div>";
-                      }
-                      
-                  ?>
-                  <h4 class="mb-4">Kelas dan guru pengajar</h4>
-                  <?php echo $options2;?>
-                  
+                  </div>
                   <input type="submit" name="submit_mapel" id="sub_mapel" class="btn btn-primary mt-3" value="Tambah Mapel">
               </div>
           </form>
@@ -188,24 +185,14 @@
             <form method="POST" id="update-mapel-form" action="mapel/update_mapel_new.php">
                 <div class="form-group">
                     <h4 class="mb-4"><u>UPDATE MAPEL</u></h4>
-                    <?php
-                      include 'includes/db_con.php';
-                      $sql2 = "SELECT mapel_id, mapel_nama from mapel, t_ajaran where mapel_t_ajaran_id = t_ajaran_id and t_ajaran_active = 1";
-                      $result2 = mysqli_query($conn, $sql2);
-                      $options2 = "<option value=0>Pilih mapel yang ingin diedit</option>";
-                      while ($row2 = mysqli_fetch_assoc($result2)) {
-                          $options2 .= "<option value={$row2['mapel_id']}>{$row2['mapel_nama']}</option>";
-                      }
-                    ?>
-                    
-                    <select class="form-control form-control-sm" name="mapel_id_option" id="mapel_id_option">
-                      <?php echo $options2;?>
-                    </select>
+
+                    <div id="update-mapel-form-ajax">
+                  
+                    </div>
                     
                     <div id="show_form_update">
 
                     </div>
-                    <input type="submit" name="submit_update_mapel" id="sub_mapel" class="btn btn-primary mt-3" value="UPDATE MAPEL">
                 </div>
             </form>
         </div>
