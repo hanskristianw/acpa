@@ -10,9 +10,12 @@
             include ("../includes/fungsi_lib.php");
     
             $kelas_id = explode(",",$_POST['option_kelas']);
+            $kelas_sem1 = $kelas_id[0];
+            
             //laporan nilai akhir raport
             $query_dkn =
-                "SELECT urutan.siswa_no_induk, urutan.siswa_nama_depan, urutan.siswa_nama_belakang, urutan.mapel_nama, urutan.mapel_kkm, urutan.kelas_nama, for_kog, for_psi, sum_kog, sum_psi, mapel_persen_for, mapel_persen_sum FROM 
+                "SELECT urutan.siswa_no_induk, urutan.siswa_nama_depan, urutan.siswa_nama_belakang, urutan.mapel_nama, urutan.mapel_kkm, urutan.kelas_nama, for_kog, for_psi, sum_kog, sum_psi, mapel_persen_for, mapel_persen_sum, mapel_persen_for_psi, mapel_persen_sum_psi, mapel_persen_kog, mapel_persen_psi
+                 FROM 
                 (
                     SELECT siswa_no_induk, siswa_nama_depan, siswa_nama_belakang, GROUP_CONCAT(mapel_nama_singkatan ORDER BY mapel_urutan) as mapel_nama, GROUP_CONCAT(mapel_kkm ORDER BY mapel_urutan) as mapel_kkm, kelas_nama
                                 FROM kelas
@@ -22,7 +25,7 @@
                                 ON d_mapel_id_mapel = mapel_id
                                 LEFT JOIN siswa
                                 ON siswa_id_kelas = kelas_id
-                                WHERE kelas_id IN (31)
+                                WHERE kelas_id IN ($kelas_sem1)
                                 GROUP BY siswa_no_induk
                                 ORDER BY siswa_no_induk    
                     
@@ -45,7 +48,7 @@
                                 ON kog_psi_siswa_id = siswa_id
                                 LEFT JOIN kelas
                                 ON siswa_id_kelas = kelas_id
-                                WHERE siswa_id_kelas = 31
+                                WHERE siswa_id_kelas = $kelas_sem1
                                 GROUP BY mapel_nama, kog_psi_siswa_id
                                 ORDER BY siswa_no_induk, mapel_urutan
                     ) as formative
@@ -77,7 +80,7 @@
                         ON kog_psi_ujian_mapel_id = mapel_id
                         LEFT JOIN siswa
                         ON kog_psi_ujian_siswa_id = siswa_id
-                        WHERE siswa_id_kelas = 31
+                        WHERE siswa_id_kelas = $kelas_sem1
                     )AS summative
                     GROUP BY siswa_no_induk    
                 ) as summative_final ON urutan.siswa_no_induk = summative_final.siswa_no_induk";
@@ -133,11 +136,24 @@
                 $mapel_persen_for = explode(",",$row2['mapel_persen_for']);
                 $sum_kog = explode(",",$row2['sum_kog']);
                 $mapel_persen_sum = explode(",",$row2['mapel_persen_sum']);
+                //psikomotor (for_psi * mapel_persen_for_psi + sum_psi * mapel_persen_sum_psi)
+                $for_psi = explode(",",$row2['for_psi']);
+                $mapel_persen_for_psi = explode(",",$row2['mapel_persen_for_psi']);
+                $sum_psi = explode(",",$row2['sum_psi']);
+                $mapel_persen_sum_psi = explode(",",$row2['mapel_persen_sum_psi']);
+                //persentase
+                $mapel_persen_kog = explode(",",$row2['mapel_persen_kog']);
+                $mapel_persen_psi = explode(",",$row2['mapel_persen_psi']);
 
                 for($j=0;$j<count($nama_mapel);$j++){
-                    echo "<td style='text-align: center;'>".$for_kog[$j]."*".$mapel_persen_for[$j]."+".$sum_kog[$j]."*".$mapel_persen_sum[$j]."=".round($for_kog[$j] * $mapel_persen_for[$j] + $sum_kog[$j] * $mapel_persen_sum[$j])."</td>";
-                    echo "<td style='text-align: center;'>-</td>";
-                    echo "<td style='text-align: center;'>-</td>";
+                    $kognitif = round($for_kog[$j] * $mapel_persen_for[$j] + $sum_kog[$j] * $mapel_persen_sum[$j]);
+                    $psikomotor = round($for_psi[$j] * $mapel_persen_for_psi[$j] + $sum_psi[$j] * $mapel_persen_sum_psi[$j]);
+                    $n_akhir = round($kognitif * $mapel_persen_kog[$j] + $psikomotor * $mapel_persen_psi[$j]);
+                    //echo "<td style='text-align: center;'>".$for_kog[$j]."*".$mapel_persen_for[$j]."+".$sum_kog[$j]."*".$mapel_persen_sum[$j]."=".round($for_kog[$j] * $mapel_persen_for[$j] + $sum_kog[$j] * $mapel_persen_sum[$j])."</td>";
+                    echo "<td style='text-align: center;'>".$kognitif."</td>";
+                    //echo "<td style='text-align: center;'>".$for_psi[$j]."*".$mapel_persen_for_psi[$j]."+".$sum_psi[$j]."*".$mapel_persen_sum_psi[$j]."=".round($for_psi[$j] * $mapel_persen_for_psi[$j] + $sum_psi[$j] * $mapel_persen_sum_psi[$j])."</td>";
+                    echo "<td style='text-align: center;'>".$psikomotor."</td>";
+                    echo "<td style='text-align: center;'>".$n_akhir."</td>";
                     echo "<td style='text-align: center;'>-</td>";
                 }
 

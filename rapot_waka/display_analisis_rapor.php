@@ -65,10 +65,7 @@
         "SELECT t_for.mapel_nama, mapel_kkm,t_afek.afektif_total,t_afek.total_bulan, mapel_nama_singkatan, jum_topik, t_for.mapel_id as mapel_id,
                 for_kog,mapel_persen_for,sum_kog,mapel_persen_sum,for_psi,sum_psi,
                 mapel_persen_for_psi, mapel_persen_sum_psi,
-                mapel_persen_kog, mapel_persen_psi,
-        ROUND(ROUND(for_kog * mapel_persen_for + sum_kog * mapel_persen_sum,2)) as Cognitive, 
-        ROUND(ROUND(for_psi * mapel_persen_for_psi + sum_psi * mapel_persen_sum_psi,2)) as Psychomotor,
-        ROUND(ROUND(for_kog * mapel_persen_for + sum_kog * mapel_persen_sum,2))*mapel_persen_kog + ROUND(ROUND(for_psi * mapel_persen_for_psi + sum_psi * mapel_persen_sum_psi,2))*mapel_persen_psi AS n_akhir
+                mapel_persen_kog, mapel_persen_psi
         FROM
             (SELECT mapel_id, mapel_nama,COUNT(DISTINCT kog_psi_topik_id) as jum_topik,
             ROUND(SUM(ROUND(kog_quiz*kog_quiz_persen/100 + kog_ass*kog_ass_persen/100 + kog_test*kog_test_persen/100,0))/COUNT(DISTINCT kog_psi_topik_id),0)
@@ -147,23 +144,25 @@
             echo"<td>&nbsp{$row['mapel_nama_singkatan']}({$row['mapel_kkm']})</td>";
             
             //kognitif
+            $kognitif = round($row['for_kog']*$row['mapel_persen_for']+$row['sum_kog']*$row['mapel_persen_sum']);
             echo"<td class='biasa'>
                 ((<a rel='".$row['mapel_id']."' rel2='".$siswa_id."' class='link-formative' href='javascript:void(0)'>{$row['for_kog']}</a>*{$row['mapel_persen_for']})+({$row['sum_kog']}*{$row['mapel_persen_sum']}))
-                <br>={$row['Cognitive']}</td>";
+                <br>=$kognitif</td>";
 
             //psikomotor
+            $psikomotor = round($row['for_psi']*$row['mapel_persen_for_psi']+$row['sum_psi']*$row['mapel_persen_sum_psi']);
             echo"<td class='biasa'>
                 ((<a rel='".$row['mapel_id']."' rel2='".$siswa_id."' class='link-formative-psi' href='javascript:void(0)'>{$row['for_psi']}</a>*{$row['mapel_persen_for_psi']})+({$row['sum_psi']}*{$row['mapel_persen_sum_psi']}))
-                                    <br>={$row['Psychomotor']}</td>";
+                                    <br>=$psikomotor</td>";
             
             // $kognitif = $row['Cognitive'];
             // $psikomotor = $row['Psychomotor'];
             // $persen_kog = $row['mapel_persen_kog'];
             // $persen_psi = $row['persen_psi'];
 
-            // $nilai_akhir = ($kognitif * $persen_kog + $psikomotor * $persen_psi)/100;
+            $nilai_akhir = round($kognitif * $row['mapel_persen_kog'] + $psikomotor * $row['mapel_persen_psi']);
 
-            echo"<td class='biasa'>({$row['Cognitive']} * {$row['mapel_persen_kog']}+{$row['Psychomotor']} * {$row['mapel_persen_psi']})<br>={$row['n_akhir']}</td>";
+            echo"<td class='biasa'>($kognitif * {$row['mapel_persen_kog']}+$psikomotor * {$row['mapel_persen_psi']})<br>=$nilai_akhir</td>";
             
             echo"</tr>";
             $nomor++;

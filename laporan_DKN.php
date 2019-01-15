@@ -70,9 +70,10 @@
       
     <?php
         include 'includes/db_con.php';
-        $sql2 = "SELECT GROUP_CONCAT(t_ajaran_id) as t_ajaran_id, t_ajaran_nama
+        $sql2 = "SELECT GROUP_CONCAT(t_ajaran_id ORDER BY t_ajaran_id) as t_ajaran_id, t_ajaran_nama
                 FROM t_ajaran
-                GROUP BY t_ajaran_nama";
+                GROUP BY t_ajaran_nama
+                ORDER BY t_ajaran_id";
         $result2 = mysqli_query($conn, $sql2);
 
         $options2 = "<option value= 0>Pilih Tahun Ajaran</option>";
