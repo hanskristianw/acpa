@@ -66,9 +66,9 @@
                 for_kog,mapel_persen_for,sum_kog,mapel_persen_sum,for_psi,sum_psi,
                 mapel_persen_for_psi, mapel_persen_sum_psi,
                 mapel_persen_kog, mapel_persen_psi,
-        ROUND((for_kog * mapel_persen_for + sum_kog * mapel_persen_sum),0) as Cognitive, 
-        ROUND((for_psi * mapel_persen_for_psi + sum_psi * mapel_persen_sum_psi),0) as Psychomotor,
-        ROUND((ROUND((for_kog * mapel_persen_for + sum_kog * mapel_persen_sum),0)*mapel_persen_kog + ROUND((for_psi * mapel_persen_for_psi + sum_psi * mapel_persen_sum_psi),0)*mapel_persen_psi),0) AS n_akhir
+        ROUND(ROUND(for_kog * mapel_persen_for + sum_kog * mapel_persen_sum,2)) as Cognitive, 
+        ROUND(ROUND(for_psi * mapel_persen_for_psi + sum_psi * mapel_persen_sum_psi,2)) as Psychomotor,
+        ROUND(ROUND(for_kog * mapel_persen_for + sum_kog * mapel_persen_sum,2))*mapel_persen_kog + ROUND(ROUND(for_psi * mapel_persen_for_psi + sum_psi * mapel_persen_sum_psi,2))*mapel_persen_psi AS n_akhir
         FROM
             (SELECT mapel_id, mapel_nama,COUNT(DISTINCT kog_psi_topik_id) as jum_topik,
             ROUND(SUM(ROUND(kog_quiz*kog_quiz_persen/100 + kog_ass*kog_ass_persen/100 + kog_test*kog_test_persen/100,0))/COUNT(DISTINCT kog_psi_topik_id),0)
