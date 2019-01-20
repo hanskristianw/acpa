@@ -115,30 +115,51 @@
             $nama_mapel = explode(",",$nama_mapel_array);
             $mapel_kkm = explode(",",$mapel_kkm_array);
 
+            echo "<div id='print_area'>";
+
             echo "<h6 class='text-center mb-3 mt-5'><u>SMA NATION STAR ACADEMY<br>DAFTAR KUMPULAN NILAI</u></h6>";
             
             echo "<h6>KELAS: ".$kelas_nama."</h6>";
 
             echo "<table class='rapot mt-3'>
                     <tr>
-                        <th rowspan='2'>No</th>
-                        <th rowspan='2'>No Induk</th>
-                        <th rowspan='2'>Nama Siswa</th>";
+                        <th rowspan='2' style='font-size: 9px !important;'>No</th>
+                        <th rowspan='2' style='font-size: 9px !important;'>No Induk</th>
+                        <th rowspan='2' style='font-size: 9px !important;'>Nama Siswa</th>";
                 //nama mapel            
                 for($i=0;$i<count($nama_mapel);$i++){
-                    echo"<th>".$mapel_kkm[$i]."</th>";
-                    echo"<th colspan='3'>".$nama_mapel[$i]."</th>";
+                    echo"<th style='font-size: 9px !important;'>".$mapel_kkm[$i]."</th>";
+                    echo"<th colspan='3' style='font-size: 9px !important;'>".$nama_mapel[$i]."</th>";
                 }
+                echo"<th colspan='3' style='font-size: 9px !important;'>Total</th>";
+                echo"<th rowspan='2' style='font-size: 9px !important;'>Rank</th>";
             echo "</tr>";
+            
             echo "<tr>";
             for($i=0;$i<count($nama_mapel);$i++){
-                echo "<td style='text-align: center;'>C</td>
-                    <td style='text-align: center;'>P</td>
-                    <td style='text-align: center;'>F</td>
-                    <td style='text-align: center;'>A</td>";
+                echo "<td style='font-size: 9px !important; text-align: center;'>C</td>
+                    <td style='font-size: 9px !important; text-align: center;'>P</td>
+                    <td style='font-size: 9px !important; text-align: center;'>F</td>
+                    <td style='font-size: 9px !important; text-align: center;'>A</td>";
             }
+            echo "<td style='font-size: 9px !important; text-align: center;'>C</td>
+                    <td style='font-size: 9px !important; text-align: center;'>P</td>
+                    <td style='font-size: 9px !important; text-align: center;'>F</td>";
             echo "</tr>";
+            
+            
             $no = 1;
+
+            $no_array = array();
+            $no_induk = array();
+            $nama = array();
+            $jumlah_mapel = count($nama_mapel);
+            $data = array();
+            
+            $data_total = array();
+            $rank = array();
+            $rank_sort = array();
+
             while($row2 = mysqli_fetch_array($query_dkn)){
                 $nama_belakang = $row2['siswa_nama_belakang'];
                 if(strlen($nama_belakang) > 0){
@@ -146,10 +167,15 @@
                 }else{
                     $nama_siswa = $row2['siswa_nama_depan'];
                 }
-                echo "<tr>
-                    <td style='padding: 0px 0px 0px 5px;'>$no</td>
-                    <td style='padding: 0px 0px 0px 5px;'>{$row2[0]}</td>
-                    <td style='padding: 0px 0px 0px 5px;'>$nama_siswa</td>";
+
+                array_push($no_array, $no);
+                array_push($nama, $nama_siswa);
+                array_push($no_induk, $row2[0]);
+
+                // echo "<tr>
+                //     <td style='padding: 0px 0px 0px 5px;'>$no</td>
+                //     <td style='padding: 0px 0px 0px 5px;'>{$row2[0]}</td>
+                //     <td style='padding: 0px 0px 0px 5px;'>$nama_siswa</td>";
 
                 //kognitif (for_kog * mapel_persen_for + sum_kog * mapel_persen_sum)
                 $for_kog = explode(",",$row2['for_kog']);
@@ -168,29 +194,80 @@
                 $afektif_mapel = explode(".",$row2['afektif_total']);
                 $jumlah_bulan = explode(",",$row2['jumlah_bulan']);
 
+                $total_kog = 0;
+                $total_psi = 0;
+                $total_final = 0;
                 for($j=0;$j<count($nama_mapel);$j++){
                     $kognitif = round($for_kog[$j] * $mapel_persen_for[$j] + $sum_kog[$j] * $mapel_persen_sum[$j]);
                     $psikomotor = round($for_psi[$j] * $mapel_persen_for_psi[$j] + $sum_psi[$j] * $mapel_persen_sum_psi[$j]);
                     $n_akhir = round($kognitif * $mapel_persen_kog[$j] + $psikomotor * $mapel_persen_psi[$j]);
                     //echo "<td style='text-align: center;'>".$for_kog[$j]."*".$mapel_persen_for[$j]."+".$sum_kog[$j]."*".$mapel_persen_sum[$j]."=".round($for_kog[$j] * $mapel_persen_for[$j] + $sum_kog[$j] * $mapel_persen_sum[$j])."</td>";
-                    echo "<td style='text-align: center;'>".$kognitif."</td>";
+                    // echo "<td style='text-align: center;'>".$kognitif."</td>";
                     //echo "<td style='text-align: center;'>".$for_psi[$j]."*".$mapel_persen_for_psi[$j]."+".$sum_psi[$j]."*".$mapel_persen_sum_psi[$j]."=".round($for_psi[$j] * $mapel_persen_for_psi[$j] + $sum_psi[$j] * $mapel_persen_sum_psi[$j])."</td>";
-                    echo "<td style='text-align: center;'>".$psikomotor."</td>";
-                    echo "<td style='text-align: center;'>".$n_akhir."</td>";
+                    // echo "<td style='text-align: center;'>".$psikomotor."</td>";
+                    // echo "<td style='text-align: center;'>".$n_akhir."</td>";
+
+                    $total_kog += $kognitif;
+                    $total_psi += $psikomotor;
+                    $total_final += $n_akhir;
 
                     //afektif minggu dipisahkan koma
                     $nilai_perbulan = explode(',', $afektif_mapel[$j]);
+
                     
-                    echo "<td style='text-align: center;'>".return_abjad_afek(return_total_nilai_afektif_bulan($nilai_perbulan)/$jumlah_bulan[$j])."</td>";
+                    array_push($data, $kognitif);
+                    array_push($data, $psikomotor);
+                    array_push($data, $n_akhir);
+                    array_push($data, return_abjad_afek(return_total_nilai_afektif_bulan($nilai_perbulan)/$jumlah_bulan[$j]));
+                    
+                    // echo "<td style='text-align: center;'>".return_abjad_afek(return_total_nilai_afektif_bulan($nilai_perbulan)/$jumlah_bulan[$j])."</td>";
                 }
 
+                array_push($data_total, $total_kog);
+                array_push($data_total, $total_psi);
+                array_push($data_total, $total_final);
 
-                echo "</tr>";
+                array_push($rank, $total_final);
+                array_push($rank_sort, $total_final);
+                
                 $no++;
+            }
+
+            $index = 0;
+            $index_total = 0;
+            rsort($rank_sort);
+            for($j=0;$j<count($nama);$j++){
+                echo "<tr>
+                    <td style='padding: 0px 0px 0px 5px; font-size: 10px !important;'>{$no_array[$j]}</td>
+                    <td style='padding: 0px 0px 0px 5px; font-size: 10px !important;'>{$no_induk[$j]}</td>
+                    <td style='padding: 0px 0px 0px 5px; font-size: 10px !important;'>{$nama[$j]}</td>";
+                for($k=0;$k<count($nama_mapel);$k++){
+                    echo "<td style='width: 30px; font-size: 10px !important; text-align: center;'>".$data[$index]."</td>";
+                    $index++;
+                    echo "<td style='width: 30px; font-size: 10px !important; text-align: center;'>".$data[$index]."</td>";
+                    $index++;
+                    echo "<td style='width: 30px; font-size: 10px !important; text-align: center;'>".$data[$index]."</td>";
+                    $index++;
+                    echo "<td style='width: 30px; font-size: 10px !important; text-align: center;'>".$data[$index]."</td>";
+                    $index++;
+                }
+                echo "<td style='width: 30px; font-size: 10px !important; text-align: center;'>".$data_total[$index_total]."</td>";
+                $index_total++;
+                echo "<td style='width: 30px; font-size: 10px !important; text-align: center;'>".$data_total[$index_total]."</td>";
+                $index_total++;
+                echo "<td style='width: 30px; font-size: 10px !important; text-align: center;'>".$data_total[$index_total]."</td>";
+                $index_total++;
+
+                echo "<td style='width: 30px; font-size: 10px !important; text-align: center;'>".return_rank($rank_sort,$rank[$j])."</td>";
+                echo "</tr>";
             }
 
             echo "</table>";
             
+            echo "</div>";
+
+            echo'<input type="button" name="print_dkn" id="print_dkn" class="btn btn-primary print_dkn mt-2" value="Print">';
+
         }
     }
     
@@ -198,35 +275,13 @@
 
 <script>
 $(document).ready(function(){
-    $("#container-analisis").hide();
-    $(".link-formative").on('click', function(){
-        //$("#container-siswa").show();
-        
-        var mapel_id = $(this).attr("rel");
-        var siswa_id = $(this).attr("rel2");
-        
-        // alert(mapel_id);
-        // alert(siswa_id);
-
-        $.post("rapot_waka/display_analisis_permapel.php",{mapel_id: mapel_id, siswa_id: siswa_id}, function(data){
-            $("#container-analisis").show();
-            $("#container-analisis").html(data);
+    $("#print_dkn").click(function(){
+        $('#print_area').printThis({
+            printDelay: 2000,
+            importCSS: true,
+            importStyle: true,
+            loadCSS: "http://localhost/acpa/CSS/customCSS_preview.css"
         });
-        
-    });
-
-    $(".link-formative-psi").on('click', function(){
-        //$("#container-siswa").show();
-        
-        var mapel_id = $(this).attr("rel");
-        var siswa_id = $(this).attr("rel2");
-        
-
-        $.post("rapot_waka/display_analisis_permapel_psi.php",{mapel_id: mapel_id, siswa_id: siswa_id}, function(data){
-            $("#container-analisis").show();
-            $("#container-analisis").html(data);
-        });
-        
-    });
+    });   
 });
 </script>

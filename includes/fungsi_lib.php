@@ -1,4 +1,16 @@
 <?php
+    function return_rank($array_sort, $data_dicari){
+        
+        $rank_ketemu = -1;
+        for($j=0;$j<count($array_sort);$j++){
+            if($data_dicari == $array_sort[$j]){
+                 $rank_ketemu =  $j;
+            }
+        }
+
+        return $rank_ketemu+1;
+    }
+
     function return_info_warna_agama(){
         $warna = '<div class="container">
             <table class="table table-sm table-responsive table-bordered">
