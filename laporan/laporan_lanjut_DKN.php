@@ -268,6 +268,7 @@
 
             echo'<input type="button" name="print_dkn" id="print_dkn" class="btn btn-primary print_dkn mt-2" value="Print">';
 
+            echo'<input type="button" name="export_dkn" id="export_dkn" class="btn btn-success export_dkn mt-2 ml-2" value="Export To Excel">';
         }
     }
     
@@ -283,5 +284,11 @@ $(document).ready(function(){
             loadCSS: "http://localhost/acpa/CSS/customCSS_preview.css"
         });
     });   
+
+    $("#export_dkn").click(function (e) {
+        //alert("hai");
+        window.open('data:application/vnd.ms-excel,' +  encodeURIComponent($('#print_area').html()));
+        e.preventDefault();
+    });
 });
 </script>
