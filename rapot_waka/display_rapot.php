@@ -511,6 +511,8 @@
             </div>";
             echo"<div style='clear: both;'></div>";
             
+
+            mysqli_query($conn, "SET group_concat_max_len=15000"); 
             $sql_cek_karakter = "SELECT karakter_id,karakter_nama,karakter_a,karakter_b,karakter_c,GROUP_CONCAT(mapel_id),GROUP_CONCAT(mapel_nama) as mapel_nama_total, GROUP_CONCAT(total_bulan) as total_bulan_total, GROUP_CONCAT(afektif_total SEPARATOR '#')as karakter_afektif FROM 
                                 (
                                         SELECT d_karakter_mapel_id, karakter_id, karakter_urutan, karakter_nama,karakter_a,karakter_b,karakter_c  FROM `d_karakter`
@@ -558,6 +560,8 @@
                     echo"<td style='padding: 5px 5px 5px 5px;'>";
                     //ulang sebanyak jumlah mapel
                     //$mapel_nama = explode(',', $mapel_nama_total);
+
+                    //echo $afektif_total_akhir;
                     $nilai_permapel = explode('#', $afektif_total_akhir);
                     
                     if(return_abjad_afek(return_total_nilai_perkarakter($nilai_permapel))=="A"){
