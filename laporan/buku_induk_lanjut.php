@@ -9,104 +9,101 @@
             include ("../includes/db_con.php");
             include ("../includes/fungsi_lib.php");
     
-            $siswa_id = explode(",",$_POST['option_siswa']);
-            $siswa_id1 = $siswa_id[0];
-            $siswa_id2 = $siswa_id[1];
             
-            // echo $siswa_id1."<br>";
-            // echo $siswa_id2;
+            $t_ajaran = $_POST['option_t_ajaran'];
+            $kelas = $_POST['option_kelas'];
 
-            // mysqli_query($conn, "SET group_concat_max_len=15000"); 
+            echo $t_ajaran."<br>";
+            echo $kelas."<br>";
 
-            // //laporan nilai akhir raport
-            // $query_dkn =
-            //     'SELECT urutan.siswa_no_induk, urutan.siswa_nama_depan, urutan.siswa_nama_belakang, urutan.mapel_nama, urutan.mapel_kkm, urutan.kelas_nama, for_kog, for_psi, sum_kog, sum_psi, mapel_persen_for, mapel_persen_sum, mapel_persen_for_psi, mapel_persen_sum_psi, mapel_persen_kog, mapel_persen_psi, afektif_total, jumlah_bulan
-            //     FROM 
-            //    (
-            //        SELECT siswa_no_induk, siswa_nama_depan, siswa_nama_belakang, GROUP_CONCAT(mapel_nama_singkatan ORDER BY mapel_urutan) as mapel_nama, GROUP_CONCAT(mapel_kkm ORDER BY mapel_urutan) as mapel_kkm, kelas_nama
-            //                    FROM kelas
-            //                    LEFT JOIN d_mapel
-            //                    ON kelas_id = d_mapel_id_kelas
-            //                    LEFT JOIN mapel
-            //                    ON d_mapel_id_mapel = mapel_id
-            //                    LEFT JOIN siswa
-            //                    ON siswa_id_kelas = kelas_id
-            //                    WHERE kelas_id IN ('.$kelas_sem1.')
-            //                    GROUP BY siswa_no_induk
-            //                    ORDER BY siswa_no_induk    
-                   
-            //    )as urutan
-            //    JOIN
-            //    (
-            //        SELECT siswa_no_induk, siswa_nama_depan, GROUP_CONCAT(mapel_urutan ORDER BY mapel_urutan) as mapel_urutan, GROUP_CONCAT(mapel_id ORDER BY mapel_urutan) as mapel_id, GROUP_CONCAT(mapel_nama_singkatan ORDER BY mapel_urutan) as mapel_nama, GROUP_CONCAT(for_kog ORDER BY mapel_urutan) as for_kog, GROUP_CONCAT(for_psi ORDER BY mapel_urutan) as for_psi 
-            //        FROM (
-            //                    SELECT siswa_no_induk, siswa_nama_depan, mapel_id, mapel_urutan, mapel_nama_singkatan,
-            //                    ROUND(SUM(ROUND(kog_quiz*kog_quiz_persen/100 + kog_ass*kog_ass_persen/100 + kog_test*kog_test_persen/100,0))/COUNT(DISTINCT kog_psi_topik_id),0)
-            //                    AS for_kog,
-            //                    ROUND(SUM(ROUND(psi_quiz*psi_quiz_persen/100 + psi_ass*psi_ass_persen/100 + psi_test*psi_test_persen/100,0))/COUNT(DISTINCT kog_psi_topik_id),0)
-            //                    AS for_psi
-            //                    FROM kog_psi 
-            //                    LEFT JOIN topik
-            //                    ON kog_psi_topik_id = topik_id
-            //                    LEFT JOIN mapel
-            //                    ON topik_mapel_id = mapel_id
-            //                    LEFT JOIN siswa
-            //                    ON kog_psi_siswa_id = siswa_id
-            //                    LEFT JOIN kelas
-            //                    ON siswa_id_kelas = kelas_id
-            //                    WHERE siswa_id_kelas = '.$kelas_sem1.'
-            //                    GROUP BY mapel_nama, kog_psi_siswa_id
-            //                    ORDER BY siswa_no_induk, mapel_urutan
-            //        ) as formative
-            //        GROUP BY siswa_no_induk
-            //    ) as formative_final ON urutan.siswa_no_induk = formative_final.siswa_no_induk
-            //    JOIN(
-            //        SELECT siswa_no_induk, siswa_nama_depan,
-            //        GROUP_CONCAT(mapel_id ORDER BY mapel_urutan) as mapel_id, 
-            //        GROUP_CONCAT(mapel_urutan ORDER BY mapel_urutan) as mapel_urutan, 
-            //        GROUP_CONCAT(mapel_nama_singkatan ORDER BY mapel_urutan) as mapel_nama_singkatan,
-            //        GROUP_CONCAT(mapel_persen_for ORDER BY mapel_urutan) as mapel_persen_for,
-            //        GROUP_CONCAT(mapel_persen_sum ORDER BY mapel_urutan) as mapel_persen_sum,
-            //        GROUP_CONCAT(mapel_persen_for_psi ORDER BY mapel_urutan) as mapel_persen_for_psi,
-            //        GROUP_CONCAT(mapel_persen_sum_psi ORDER BY mapel_urutan) as mapel_persen_sum_psi,
-            //        GROUP_CONCAT(mapel_persen_kog ORDER BY mapel_urutan) as mapel_persen_kog,
-            //        GROUP_CONCAT(mapel_persen_psi ORDER BY mapel_urutan) as mapel_persen_psi,
-            //        GROUP_CONCAT(sum_kog ORDER BY mapel_urutan) as sum_kog,
-            //        GROUP_CONCAT(sum_psi ORDER BY mapel_urutan) as sum_psi
-            //        FROM(
-               
-            //            SELECT siswa_no_induk, siswa_nama_depan, mapel_id, mapel_urutan, mapel_nama_singkatan, 
-            //                                        mapel_persen_for, mapel_persen_sum, 
-            //                                        mapel_persen_for_psi, mapel_persen_sum_psi,
-            //                                        mapel_persen_kog, mapel_persen_psi,
-            //                                        ROUND((kog_uts * kog_uts_persen + kog_uas * kog_uas_persen) /100,0) as sum_kog,
-            //                                        ROUND((psi_uts * psi_uts_persen + psi_uas * psi_uas_persen) /100,0) as sum_psi
-            //            FROM kog_psi_ujian
-            //            LEFT JOIN mapel
-            //            ON kog_psi_ujian_mapel_id = mapel_id
-            //            LEFT JOIN siswa
-            //            ON kog_psi_ujian_siswa_id = siswa_id
-            //            WHERE siswa_id_kelas = '.$kelas_sem1.'
-            //        )AS summative
-            //        GROUP BY siswa_no_induk    
-            //    ) as summative_final ON urutan.siswa_no_induk = summative_final.siswa_no_induk
-            //    JOIN(
-            //        SELECT siswa_no_induk, siswa_nama_depan, GROUP_CONCAT(mapel_id ORDER BY mapel_urutan) as mapel_id, GROUP_CONCAT(afektif_nilai ORDER BY mapel_urutan SEPARATOR ".") as afektif_total, GROUP_CONCAT(jumlah_bulan ORDER BY mapel_urutan) as jumlah_bulan
-            //        FROM
-            //        (
-            //            SELECT siswa_no_induk, siswa_nama_depan, mapel_id, mapel_urutan, count(afektif_nilai) as jumlah_bulan, mapel_nama, GROUP_CONCAT(afektif_nilai ORDER BY mapel_urutan) as afektif_nilai
-            //            FROM afektif
-            //            LEFT JOIN mapel
-            //            ON afektif_mapel_id = mapel_id
-            //            LEFT JOIN siswa
-            //            ON afektif_siswa_id = siswa_id
-            //            WHERE siswa_id_kelas = '.$kelas_sem1.'
-            //            GROUP BY siswa_no_induk, mapel_id
-            //            ORDER BY siswa_nama_depan, mapel_urutan
-            //        )AS afektif_total
-            //        GROUP BY siswa_no_induk
-            //    )as afektif_final ON urutan.siswa_no_induk = afektif_final.siswa_no_induk';
+            $siswa_id = explode(",",$_POST['option_siswa']);
+            $siswa_id_string = $_POST['option_siswa'];
+            if(array_key_exists(0,$siswa_id)){
+                $siswa_id1 = $siswa_id[0];
+                echo $siswa_id1."<br>";
+            }
 
+            if(array_key_exists(1,$siswa_id)){
+                $siswa_id2 = $siswa_id[1];
+                echo $siswa_id2."<br>";
+            }
+
+            $query_siswa = "SELECT siswa_no_induk, siswa_nama_depan, siswa_nama_belakang, kelas_nama, t_ajaran_nama
+                            FROM siswa
+                            LEFT JOIN kelas
+                            ON siswa_id_kelas = kelas_id
+                            LEFT JOIN t_ajaran
+                            ON kelas_t_ajaran_id = t_ajaran_id
+                            WHERE siswa_id IN ($siswa_id_string)";
+
+            $query_siswa_info = mysqli_query($conn, $query_siswa);              
+            if(!$query_siswa_info){
+                die("QUERY FAILED".mysqli_error($conn));
+            }
+            
+            while($row = mysqli_fetch_array($query_siswa_info)){
+                $nama_siswa = $row['siswa_nama_depan']." ".$row['siswa_nama_belakang'];
+                $kelas_nama = $row['kelas_nama'];
+                $no_induk = $row['siswa_no_induk'];
+                $t_ajaran_nama = $row['t_ajaran_nama'];
+            }
+
+            $program_nama = explode(" ", $kelas_nama);
+            mysqli_query($conn, "SET group_concat_max_len=15000"); 
+
+            //laporan nilai akhir raport
+            $query_buku_besar =
+                "SELECT t_for.mapel_nama, mapel_kkm,t_afek.afektif_total,t_afek.total_bulan,
+                for_kog,mapel_persen_for,sum_kog,mapel_persen_sum,
+                for_psi,mapel_persen_for_psi,sum_psi,mapel_persen_sum_psi,
+                mapel_persen_kog, mapel_persen_psi
+                FROM
+                    (SELECT mapel_id, mapel_nama,COUNT(DISTINCT kog_psi_topik_id),
+                    ROUND(SUM(ROUND(kog_quiz*kog_quiz_persen/100 + kog_ass*kog_ass_persen/100 + kog_test*kog_test_persen/100,0))/COUNT(DISTINCT kog_psi_topik_id),0)
+                    AS for_kog,
+                    ROUND(SUM(ROUND(psi_quiz*psi_quiz_persen/100 + psi_ass*psi_ass_persen/100 + psi_test*psi_test_persen/100,0))/COUNT(DISTINCT kog_psi_topik_id),0)
+                    AS for_psi
+                    FROM kog_psi 
+                    LEFT JOIN topik
+                    ON kog_psi_topik_id = topik_id
+                    LEFT JOIN mapel
+                    ON topik_mapel_id = mapel_id
+                    WHERE kog_psi_siswa_id = $siswa_id1
+                    GROUP BY mapel_nama
+                    ORDER BY mapel_urutan) AS t_for
+                JOIN
+                    (SELECT mapel_id, mapel_nama, mapel_kkm, 
+                    mapel_persen_for, mapel_persen_sum, 
+                    mapel_persen_for_psi, mapel_persen_sum_psi,
+                    mapel_persen_kog, mapel_persen_psi,
+                    ROUND((kog_uts * kog_uts_persen + kog_uas * kog_uas_persen) /100,0) as sum_kog,
+                    ROUND((psi_uts * psi_uts_persen + psi_uas * psi_uas_persen) /100,0) as sum_psi
+                    FROM kog_psi_ujian
+                    LEFT JOIN mapel
+                    ON kog_psi_ujian_mapel_id = mapel_id
+                    WHERE kog_psi_ujian_siswa_id = $siswa_id1
+                    GROUP BY mapel_nama
+                    ORDER BY mapel_urutan) AS t_sum ON t_for.mapel_id = t_sum.mapel_id 
+                JOIN
+                    (SELECT mapel_id, count(mapel_id) as total_bulan, GROUP_CONCAT(afektif_nilai SEPARATOR '.') as afektif_total
+                    FROM afektif
+                    LEFT JOIN mapel
+                    ON afektif_mapel_id = mapel_id
+                    WHERE afektif_siswa_id = $siswa_id1
+                    GROUP BY mapel_id
+                    ORDER BY mapel_urutan)AS t_afek ON t_afek.mapel_id = t_sum.mapel_id";
+
+            $query_buku_besar_info = mysqli_query($conn, $query_buku_besar);
+
+            if(!$query_buku_besar_info){
+                die("QUERY FAILED".mysqli_error($conn));
+            }
+            $mapel_nama = array();
+            $mapel_kkm = array();
+            while($row = mysqli_fetch_array($query_buku_besar_info)){
+                array_push($mapel_nama,$row['mapel_nama']);
+                array_push($mapel_kkm,$row['mapel_kkm']);
+            }
 
             // $query_dkn = mysqli_query($conn, $query_dkn);
             // $rowss = mysqli_fetch_row($query_dkn);
@@ -122,9 +119,78 @@
             // echo "<div id='print_area'>";
 
             echo "<h6 class='text-center mb-3 mt-5'>LAPORAN PENILAIAN HASIL BELAJAR SISWA</h6>";
-            
-            // echo "<h6>KELAS: ".$kelas_nama."</h6>";
 
+            echo"<div id='textbox'>
+                <p class='alignleft'>
+                    NAMA PESERTA DIDIK &emsp;:&nbsp$nama_siswa<br>
+                    NOMOR INDUK &emsp;&emsp;&thinsp;&nbsp&nbsp&nbsp&nbsp&emsp;&thinsp;:&nbsp$no_induk
+                </p>
+                <p class='alignright'>
+                    NISN &nbsp&nbsp&nbsp&emsp;&thinsp;&emsp;: <br>
+                    PROGRAM ST $program_nama[1]";
+            // if(strlen($program_nama[1])>1){
+            //     echo"PROGRAM &nbsp&nbsp&emsp;&emsp;&thinsp;&thinsp;&thinsp;: $program_nama[1]<br>";
+            // }
+            // else{
+            //     echo"<br>";
+            // }
+            echo"</p>
+            </div>";
+            echo"<div style='clear: both;'></div>";
+            
+            echo "<table class='rapot mt-3'>
+                    <tr>
+                    <th rowspan='5'>No</th>
+                    <th>Tahun Pelajaran</th>
+                    <th colspan='5'>$t_ajaran_nama</th>
+                    <th colspan='5'>$t_ajaran_nama</th>
+                    </tr>
+                    <tr>
+                    <td style='text-align: right;'>Kelas&nbsp</td>
+                    <td colspan='5' style='text-align: center;'>{$program_nama[0]}</td>
+                    <td colspan='5' style='text-align: center;'>{$program_nama[0]}</td>
+                    </tr>
+                    <tr>
+                    <td style='text-align: right;'>Semester&nbsp</td>
+                    <td colspan='5' style='text-align: center;'>1</td>
+                    <td colspan='5' style='text-align: center;'>2</td>
+                    </tr>
+                    <tr>
+                    <td style='text-align: right;'>Nilai&nbsp</td>
+                    <td style='text-align: center;' rowspan='2'>KKM</td>
+                    <td style='text-align: center;'>Penge<br>tahuan</td>
+                    <td style='text-align: center;'>Ketram<br>pilan<br></td>
+                    <td style='text-align: center;'>Final</td>
+                    <td style='text-align: center;'>Sikap</td>
+                    <td style='text-align: center;' rowspan='2'>KKM</td>
+                    <td style='text-align: center;'>Penge<br>tahuan</td>
+                    <td style='text-align: center;'>Ketram<br>pilan</td>
+                    <td style='text-align: center;'>Final</td>
+                    <td style='text-align: center;'>Sikap</td>
+                    </tr>
+                    <tr>
+                    <td style='text-align: right;'>Mata Pelajaran&nbsp</td>
+                    <td style='text-align: center;'>Angka</td>
+                    <td style='text-align: center;'>Angka</td>
+                    <td style='text-align: center;'>Angka</td>
+                    <td style='text-align: center;'>Predikat</td>
+                    <td style='text-align: center;'>Angka</td>
+                    <td style='text-align: center;'>Angka</td>
+                    <td style='text-align: center;'>Angka</td>
+                    <td style='text-align: center;'>Predikat</td>
+                    </tr>";
+                
+                $no_mapel = 1;
+                for($j=0;$j<count($mapel_nama);$j++){
+                    echo "<tr>";
+                    echo "<td style='text-align: center;'>".$no_mapel."</td>";
+                    echo "<td style='padding: 0px 0px 0px 5px; font-size: 10px !important;'>{$mapel_nama[$j]}</td>";
+                    echo "<td style='padding: 0px 0px 0px 5px; font-size: 10px !important; text-align: center;'>{$mapel_kkm[$j]}</td>";
+                    echo "</tr>";
+                    $no_mapel+=1;
+                }
+
+            echo "</table>";        
             // echo "<table class='rapot mt-3'>
             //         <tr>
             //             <th rowspan='2' style='font-size: 9px !important;'>No</th>
