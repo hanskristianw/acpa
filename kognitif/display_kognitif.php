@@ -11,7 +11,7 @@
         if($mapel_id != 0){
             include ("../includes/db_con.php");
 
-            $query = "SELECT * FROM topik, jenjang WHERE topik_mapel_id = $mapel_id AND topik_jenjang_id = jenjang_id ORDER BY topik_jenjang_id, topik_id";
+            $query = "SELECT * FROM topik, jenjang WHERE topik_mapel_id = $mapel_id AND topik_jenjang_id = jenjang_id ORDER BY topik_jenjang_id, topik_urutan, topik_id";
             $query_guru_info = mysqli_query($conn, $query);
 
             if(!$query_guru_info){
@@ -20,8 +20,8 @@
 
             while($row = mysqli_fetch_array($query_guru_info)){
                 echo"<tr>";
-                echo"<td>{$row['topik_urutan']}</td>";
                 echo"<td>{$row['jenjang_nama']}</td>";
+                echo"<td>{$row['topik_urutan']}</td>";
                 echo"<td><a rel='".$row['topik_id']."' rel2='".$row['topik_jenjang_id']."' class='link-topik' href='javascript:void(0)'>{$row['topik_nama']}</a></td>";
                 echo"</tr>";
             }

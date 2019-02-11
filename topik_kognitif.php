@@ -176,8 +176,8 @@
           <table class="table table-sm table-striped mb-5">
             <thead>
                 <tr>
-                    <th>Urutan</th>
                     <th>Kelas</th>
+                    <th>Urutan</th>
                     <th>Nama Topik</th>
                 </tr>
             </thead>

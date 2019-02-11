@@ -53,12 +53,31 @@
         $jenjang_id = mysqli_real_escape_string($conn, $_POST['jenjang_id']);
         $topik_urutan = mysqli_real_escape_string($conn, $_POST['topik_urutan']);
         
-        //update database topik
-        $query_updateguru = "UPDATE topik SET topik_nama = '$topik_nama', topik_jenjang_id = '$jenjang_id', topik_urutan = $topik_urutan WHERE topik_id = $topik_id";
-        $result_setguru = mysqli_query($conn, $query_updateguru);
+        //cek dulu apakah topik sudah ada nilai
+        $query =    "SELECT *
+                    from kog_psi
+                    WHERE kog_psi_topik_id = $topik_id";
 
-        if(!$result_setguru){
-            die("QUERY FAILED".mysqli_error($conn));
+        $query_cek_nilai = mysqli_query($conn, $query);
+        $resultCheck = mysqli_num_rows($query_cek_nilai);
+    
+        if($resultCheck == 0){
+            //update database topik
+            $query_updateguru = "UPDATE topik SET topik_nama = '$topik_nama', topik_jenjang_id = '$jenjang_id', topik_urutan = $topik_urutan WHERE topik_id = $topik_id";
+            $result_setguru = mysqli_query($conn, $query_updateguru);
+
+            if(!$result_set){
+                die("QUERY FAILED".mysqli_error($conn));
+            }
+            mysqli_close($conn);
+        }else{
+            $query_updateguru = "UPDATE topik SET topik_nama = '$topik_nama', topik_urutan = $topik_urutan WHERE topik_id = $topik_id";
+            $result_setguru = mysqli_query($conn, $query_updateguru);
+
+            if(!$result_set){
+                die("QUERY FAILED".mysqli_error($conn));
+            }
+            mysqli_close($conn);
         }
         
     }
@@ -113,7 +132,7 @@
             else{
                 //mengirim nilai ke halaman php tujuan
                 $.post("kognitif/proses_kognitif.php",{topik_id: topik_id, topik_nama:topik_nama, jenjang_id:jenjang_id, topik_urutan:topik_urutan, updateguru: updateguru}, function(data){
-                    $("#feedback").text("Data berhasil diupdate");
+                    $("#feedback").text("Berhasil diupdate, jika topik sudah mempunyai nilai, jenjang tidak dapat dirubah");
                     //alert(data);
                 });
             }
