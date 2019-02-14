@@ -1,5 +1,6 @@
 <?php
     session_start();
+    error_reporting(E_ALL ^ E_WARNING);
     if(!isset($_SESSION['guru_jabatan'])){
         echo "Tidak seharusnya disini";
     }else{
@@ -13,8 +14,8 @@
             $t_ajaran = $_POST['option_t_ajaran'];
             $kelas = $_POST['option_kelas'];
 
-            echo $t_ajaran."<br>";
-            echo $kelas."<br>";
+            // echo $t_ajaran."<br>";
+            // echo $kelas."<br>";
 
             $siswa_id = explode(",",$_POST['option_siswa']);
             $siswa_id_string = $_POST['option_siswa'];
@@ -22,12 +23,14 @@
             //jika ada siswa di semester ganjil
             if(array_key_exists(0,$siswa_id)){
                 $siswa_id1 = $siswa_id[0];
-                echo $siswa_id1."<br>";
+                //echo $siswa_id1."<br>";
 
-                $query_siswa = "SELECT siswa_no_induk, siswa_nama_depan, siswa_nama_belakang, kelas_nama, t_ajaran_nama
+                $query_siswa = "SELECT t_ajaran_kepsek_id_guru, siswa_no_induk, guru_name, siswa_nama_depan, siswa_nama_belakang, kelas_nama, t_ajaran_nama
                                 FROM siswa
                                 LEFT JOIN kelas
                                 ON siswa_id_kelas = kelas_id
+                                LEFT JOIN guru
+                                ON kelas_wali_guru_id = guru_id
                                 LEFT JOIN t_ajaran
                                 ON kelas_t_ajaran_id = t_ajaran_id
                                 WHERE siswa_id IN ($siswa_id_string)";
@@ -36,14 +39,33 @@
                 if(!$query_siswa_info){
                     die("QUERY FAILED".mysqli_error($conn));
                 }
-                
+                $kepsek_id = array();
                 while($row = mysqli_fetch_array($query_siswa_info)){
                     $nama_siswa = $row['siswa_nama_depan']." ".$row['siswa_nama_belakang'];
                     $kelas_nama = $row['kelas_nama'];
                     $no_induk = $row['siswa_no_induk'];
                     $t_ajaran_nama = $row['t_ajaran_nama'];
+                    $wali_kelas = $row['guru_name'];
+                    array_push($kepsek_id,$row['t_ajaran_kepsek_id_guru']);
+                    //$kepsek_id = $row['t_ajaran_kepsek_id_guru'];
                 }
 
+                //echo $kepsek_id;
+                //cari kepsek
+                $query_kepsek = "SELECT guru_name
+                                FROM guru
+                                WHERE guru_id = $kepsek_id[0]";
+
+                $query_kepsek_info = mysqli_query($conn, $query_kepsek);              
+                if(!$query_kepsek_info){
+                    die("QUERY FAILED".mysqli_error($conn));
+                }
+                
+                while($row = mysqli_fetch_array($query_kepsek_info)){
+                    $kepsek_nama = $row['guru_name'];
+                }
+                
+                //cari nama program
                 $program_nama = explode(" ", $kelas_nama);
                 mysqli_query($conn, "SET group_concat_max_len=15000"); 
 
@@ -216,7 +238,7 @@
                 $jumlah_ss = return_abjad_base4($jumlah_ss /= 4);
 
                 mysqli_query($conn, "SET group_concat_max_len=15000"); 
-                $sql_cek_karakter = "SELECT karakter_id,karakter_nama,karakter_a,karakter_b,karakter_c,GROUP_CONCAT(mapel_id),GROUP_CONCAT(mapel_nama) as mapel_nama_total, GROUP_CONCAT(total_bulan) as total_bulan_total, GROUP_CONCAT(afektif_total SEPARATOR '#')as karakter_afektif FROM 
+                $sql_cek_karakter = "SELECT karakter_id,karakter_nama,karakter_a,karakter_b,karakter_c,GROUP_CONCAT(mapel_id),COUNT(mapel_id) as jum_mapel,GROUP_CONCAT(mapel_nama) as mapel_nama_total, GROUP_CONCAT(total_bulan) as total_bulan_total, GROUP_CONCAT(afektif_total SEPARATOR '#')as karakter_afektif FROM 
                                     (
                                             SELECT d_karakter_mapel_id, karakter_id, karakter_urutan, karakter_nama,karakter_a,karakter_b,karakter_c  FROM `d_karakter`
                                             LEFT JOIN karakter
@@ -242,17 +264,41 @@
                 $nilai_karakter = array();
                 while($row_mapel = mysqli_fetch_array($sql_karakter)){
                     array_push($karakter_nama,$row_mapel['karakter_nama']);
+
+                    $mapel_nama_kar = $row_mapel['mapel_nama_total'];
                         
                     $afektif_total_akhir = $row_mapel['karakter_afektif'];
+                    
+                    //array_push($nilai_karakter,$afektif_total_akhir);
+                    $total_nilai_karakter = 0;
+                    //echo $mapel_nama_kar."<br>";
                     $nilai_permapel = explode('#', $afektif_total_akhir);
-                    array_push($nilai_karakter,return_abjad_afek(return_total_nilai_perkarakter($nilai_permapel)));
+                    for($x=0;$x<count($nilai_permapel);$x++){
+                        
+                        $nilai_permapel_bulan = explode('.', $nilai_permapel[$x]);
+                        // for($y=0;$y<count($nilai_permapel_bulan);$y++){
+                        //     echo $nilai_permapel_bulan[$y]."<br>";
+                        // }
+                        //echo "TOTAL NILAI: ".return_total_nilai_afektif_bulan($nilai_permapel_bulan)/count($nilai_permapel_bulan);
+                        $total_nilai_karakter += return_total_nilai_afektif_bulan($nilai_permapel_bulan)/count($nilai_permapel_bulan);
+                        // echo $nilai_permapel[$x].": ";
+                        // echo return_total_nilai_perkarakter($nilai_permapel[$x]);
+                        //echo "<br>";
+                    }
+                    //echo "$total_nilai_karakter"."<br>";
+                    $rata_rata_karakter = $total_nilai_karakter/count($nilai_permapel);
+                    //echo "$rata_rata_karakter"."<br>";
+
+                    array_push($nilai_karakter,return_abjad_afek($rata_rata_karakter));
                 }
+
+                
 
             }
 
             if(array_key_exists(1,$siswa_id)){
                 $siswa_id2 = $siswa_id[1];
-                echo $siswa_id2."<br>";
+                //echo $siswa_id2."<br>";
                 $query_buku_besar2 =
                     "SELECT t_for.mapel_nama, mapel_kkm,t_afek.afektif_total,t_afek.total_bulan,
                     for_kog,mapel_persen_for,sum_kog,mapel_persen_sum,
@@ -338,29 +384,151 @@
                     array_push($afektif_total2,$row['afektif_total']);
                     array_push($total_bulan2,$row['total_bulan']);
                 }
-            }
 
+                $query_ssp2 = "SELECT ssp_nilai_siswa_id, ssp_nama,ssp_nilai_angka,d_ssp_kriteria,d_ssp_a,d_ssp_b,d_ssp_c, guru_name
+                        FROM ssp_nilai
+                        LEFT JOIN d_ssp
+                        ON ssp_nilai_d_ssp_id = d_ssp_id
+                        LEFT JOIN ssp
+                        ON d_ssp_ssp_id = ssp_id
+                        LEFT JOIN guru
+                        ON ssp_guru_id = guru_id
+                        WHERE ssp_nilai_siswa_id = $siswa_id2";
+
+                $query_ssp_info2 = mysqli_query($conn, $query_ssp2);  
+                $rowss2 = mysqli_fetch_row($query_ssp_info2);
+                $nama_ssp2 = $rowss2[1];
+                
+                mysqli_data_seek($query_ssp_info2, 0);
+                
+                if(!$query_ssp_info2){
+                    die("QUERY FAILED".mysqli_error($conn));
+                }
+                $total_ssp2 = 0;
+                $nomor_ssp2 = 1;
+                while($row_mape2l = mysqli_fetch_array($query_ssp_info2)){
+                    $nilai_angka_ssp2 = $row_mapel2['ssp_nilai_angka'];
+                    $total_ssp2 += $nilai_angka_ssp2;
+                    $nomor_ssp2++;
+                }
+                if($nomor_ssp2!=1){
+                    $final_score2 = $total_ssp2/($nomor_ssp2 - 1);
+                }else{
+                    $final_score2 = 0;
+                }
+
+                $scout_nilai_angka2 = 0;
+                $sql_scout2 = "SELECT *
+                            FROM scout_nilai
+                            WHERE scout_nilai_siswa_id = $siswa_id2";
+                $sql_v_scout2 = mysqli_query($conn, $sql_scout2); 
+                
+                while($row_scout2 = mysqli_fetch_array($sql_v_scout2)){
+                    $scout_nilai_angka2 = $row_scout2['scout_nilai_angka'];
+                }
+
+                $sql_lifeskill2 = "SELECT ifnull(pf_hf_absent,0) + ifnull(pf_hf_uks,0) + ifnull(pf_hf_tardiness,0) as jumlah_pf_hf,
+                            ifnull(ss_relationship,0) + ifnull(ss_cooperation,0) + ifnull(ss_conflict,0) + ifnull(ss_self_a,0) as jumlah_ss,
+                            ifnull(spirit_coping,0) + ifnull(spirit_emo,0) + ifnull(spirit_grate,0) as jumlah_spirit,
+                            ifnull(moral_b_lo,0) + ifnull(moral_b_so,0) as jumlah_moral_b,
+                            ifnull(emo_aware_ex,0) + ifnull(emo_aware_so,0) + ifnull(emo_aware_ne,0) as jumlah_emo_aware, 
+                            siswa_komen_akhir, siswa_absenin, siswa_absenex, siswa_tardy, siswa_special_note
+                            FROM(
+                                SELECT * FROM siswa
+                                LEFT join pf_hf
+                                ON siswa_id = pf_hf_siswa_id
+                                LEFT join ss
+                                ON siswa_id = ss_siswa_id
+                                LEFT join spirit
+                                ON siswa_id = spirit_siswa_id
+                                LEFT join moral_b
+                                ON siswa_id = moral_b_siswa_id
+                                LEFT join emo_aware
+                                ON siswa_id = emo_aware_siswa_id
+                                WHERE siswa_id = $siswa_id2
+                            ) as life_skill";
+                            
+                mysqli_query($conn, "SET SQL_BIG_SELECTS=1"); 
+                $sql_v_lifeskill2 = mysqli_query($conn, $sql_lifeskill2); 
+                
+                while($row_life2 = mysqli_fetch_array($sql_v_lifeskill2)){
+                    $jumlah_pf_hf2 = $row_life2['jumlah_pf_hf'];
+                    $jumlah_moral_b2 = $row_life2['jumlah_moral_b'];
+                    $jumlah_emo_aware2 = $row_life2['jumlah_emo_aware'];
+                    $jumlah_spirit2 = $row_life2['jumlah_spirit'];
+                    $jumlah_ss2 = $row_life2['jumlah_ss'];
+                    $siswa_komen_akhir2 = $row_life2['siswa_komen_akhir'];
+                    $siswa_absenin2 = $row_life2['siswa_absenin'];
+                    $siswa_absenex2 = $row_life2['siswa_absenex'];
+                    $siswa_tardy2 = $row_life2['siswa_tardy'];
+                    $siswa_special_note2 = $row_life2['siswa_special_note'];
+                }
+                
+                $jumlah_pf_hf2 = return_abjad_base4($jumlah_pf_hf2 /= 3);
+                $jumlah_moral_b2 = return_abjad_base4($jumlah_moral_b2 /= 2);
+                $jumlah_emo_aware2 = return_abjad_base4($jumlah_emo_aware2 /= 3);
+                $jumlah_spirit2 = return_abjad_base4($jumlah_spirit2 /= 3);
+                $jumlah_ss2 = return_abjad_base4($jumlah_ss2 /= 4);
+
+                mysqli_query($conn, "SET group_concat_max_len=15000"); 
+                $sql_cek_karakter2 = "SELECT karakter_id,karakter_nama,karakter_a,karakter_b,karakter_c,GROUP_CONCAT(mapel_id),COUNT(mapel_id) as jum_mapel,GROUP_CONCAT(mapel_nama) as mapel_nama_total, GROUP_CONCAT(total_bulan) as total_bulan_total, GROUP_CONCAT(afektif_total SEPARATOR '#')as karakter_afektif FROM 
+                                    (
+                                            SELECT d_karakter_mapel_id, karakter_id, karakter_urutan, karakter_nama,karakter_a,karakter_b,karakter_c  FROM `d_karakter`
+                                            LEFT JOIN karakter
+                                            ON d_karakter_k_id = karakter_id
+                                    )AS a
+                                    LEFT JOIN
+                                    (
+                                            SELECT mapel_id, mapel_nama, count(mapel_id) as total_bulan, GROUP_CONCAT(afektif_nilai SEPARATOR '.') as afektif_total
+                                            FROM afektif
+                                            LEFT JOIN mapel
+                                            ON afektif_mapel_id = mapel_id
+                                            WHERE afektif_siswa_id = $siswa_id2
+                                            GROUP BY mapel_id
+                                            ORDER BY mapel_urutan
+                                    )AS b
+                                    ON a.d_karakter_mapel_id = b.mapel_id
+                                    GROUP BY karakter_id
+                                    ORDER BY karakter_urutan";
+                
+                $sql_karakter2 = mysqli_query($conn, $sql_cek_karakter2); 
+
+                $karakter_nama2 = array();
+                $nilai_karakter2 = array();
+                while($row_mapel2 = mysqli_fetch_array($sql_karakter2)){
+                    array_push($karakter_nama2,$row_mapel2['karakter_nama']);
+
+                    $mapel_nama_kar2 = $row_mapel2['mapel_nama_total'];
+                        
+                    $afektif_total_akhir2 = $row_mapel2['karakter_afektif'];
+                    
+                    $total_nilai_karakter2 = 0;
+                    $nilai_permapel2 = explode('#', $afektif_total_akhir2);
+                    for($x=0;$x<count($nilai_permapel2);$x++){
+                        
+                        $nilai_permapel_bulan2 = explode('.', $nilai_permapel2[$x]);
+                        $total_nilai_karakter2 += return_total_nilai_afektif_bulan($nilai_permapel_bulan2)/count($nilai_permapel_bulan2);
+                    }
+                    $rata_rata_karakter2 = $total_nilai_karakter2/count($nilai_permapel2);
+                    array_push($nilai_karakter2,return_abjad_afek($rata_rata_karakter2));
+                }
+            }
+            echo "<div id='print_area'>";
             echo "<h6 class='text-center mb-3 mt-5'>LAPORAN PENILAIAN HASIL BELAJAR SISWA</h6>";
 
             echo"<div id='textbox'>
-                <p class='alignleft'>
+                <p class='alignleft_induk'>
                     NAMA PESERTA DIDIK &emsp;:&nbsp$nama_siswa<br>
                     NOMOR INDUK &emsp;&emsp;&thinsp;&nbsp&nbsp&nbsp&nbsp&emsp;&thinsp;:&nbsp$no_induk
                 </p>
                 <p class='alignright'>
                     NISN &nbsp&nbsp&nbsp&emsp;&thinsp;&emsp;: <br>
                     PROGRAM ST $program_nama[1]";
-            // if(strlen($program_nama[1])>1){
-            //     echo"PROGRAM &nbsp&nbsp&emsp;&emsp;&thinsp;&thinsp;&thinsp;: $program_nama[1]<br>";
-            // }
-            // else{
-            //     echo"<br>";
-            // }
             echo"</p>
-            </div>";
+                </div>";
             echo"<div style='clear: both;'></div>";
             
-            echo "<table class='rapot mt-3'>
+            echo "<table class='induk mt-3'>
                     <tr>
                     <th rowspan='5'>No</th>
                     <th>Tahun Pelajaran</th>
@@ -404,8 +572,8 @@
                 
                 $no_mapel = 1;
                 for($j=0;$j<count($mapel_nama);$j++){
-                    echo "<tr>";
-                        echo "<td style='text-align: center;'>".$no_mapel."</td>";
+                    echo "<tr'>";
+                        echo "<td style='text-align: center; height: 10px;'>".$no_mapel."</td>";
                         echo "<td style='padding: 0px 0px 0px 5px; font-size: 10px !important;'>{$mapel_nama[$j]}</td>";
                         echo "<td style='padding: 0px 0px 0px 5px; font-size: 10px !important; text-align: center;'>{$mapel_kkm[$j]}</td>";
                         //pengetahuan
@@ -453,12 +621,18 @@
                 //ssp utama dan pramuka
                 echo "<tr>";
                 echo "<td style='padding: 0px 0px 0px 5px; text-align: left; text-align: left;'>1</td>";
-                echo "<td style='padding: 0px 0px 0px 5px; font-size: 10px !important; text-align: left;'>$nama_ssp</td><td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'>".return_abjad_base4($final_score)."</td><td colspan='5'></td>";
+                echo "<td style='padding: 0px 0px 0px 5px; font-size: 10px !important; text-align: left;'>$nama_ssp</td>
+                        <td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'>".return_abjad_base4($final_score)."</td>
+                        <td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'>".return_abjad_base4($final_score2)."</td>";
                 echo "</tr>";
-                echo "<tr>";
-                echo "<td style='padding: 0px 0px 0px 5px; text-align: left; text-align: left;'>2</td>";
-                echo "<td style='padding: 0px 0px 0px 5px; font-size: 10px !important; text-align: left;'>PRAMUKA (SCOUT)</td><td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'>".return_abjad_base4($scout_nilai_angka)."</td><td colspan='5'></td>";
-                echo "</tr>";
+                if(return_abjad_base4($scout_nilai_angka) != "D"){
+                    echo "<tr>";
+                    echo "<td style='padding: 0px 0px 0px 5px; text-align: left; text-align: left;'>2</td>";
+                    echo "<td style='padding: 0px 0px 0px 5px; font-size: 10px !important; text-align: left;'>PRAMUKA (SCOUT)</td>
+                            <td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'>".return_abjad_base4($scout_nilai_angka)."</td>
+                            <td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'>".return_abjad_base4($scout_nilai_angka2)."</td>";
+                    echo "</tr>";
+                }
                 //organisasi sekolah
                 echo "<tr>";
                 echo "<td colspan='2' style='padding: 0px 0px 0px 5px; text-align: left;'>Keikutsertaan Dalam Organisasi/Kegiatan Sekolah</td><td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'></td><td colspan='5'></td>";
@@ -467,44 +641,26 @@
                 echo "<td colspan='2' style='padding: 0px 0px 0px 5px; text-align: left;'>Ketidakhadiran</td><td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'></td><td colspan='5'></td>";
                 echo "</tr>";
                 echo "<tr>";
-                if($siswa_tardy>0){
                     echo "<td style='padding: 0px 0px 0px 5px; text-align: left;'>1</td>
                     <td style='padding: 0px 0px 0px 5px; font-size: 10px !important; text-align: left;'>SAKIT</td>
                     <td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'>$siswa_tardy</td>
-                    <td colspan='5'></td>"; 
-                }else{
-                    echo "<td style='padding: 0px 0px 0px 5px; text-align: left;'>1</td>
-                    <td style='padding: 0px 0px 0px 5px; font-size: 10px !important; text-align: left;'>SAKIT</td>
-                    <td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'>-</td>
-                    <td colspan='5'></td>";       
-                }
+                    <td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'>$siswa_tardy2</td>"; 
                 echo "</tr>";
+
                 echo "<tr>";
-                if($siswa_absenin>0){
                     echo "<td style='padding: 0px 0px 0px 5px; text-align: left;'>2</td>
                     <td style='padding: 0px 0px 0px 5px; font-size: 10px !important; text-align: left;'>IJIN</td>
                     <td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'>$siswa_absenin</td>
-                    <td colspan='5'></td>";
-                }else{
-                    echo "<td style='padding: 0px 0px 0px 5px; text-align: left;'>2</td>
-                    <td style='padding: 0px 0px 0px 5px; font-size: 10px !important; text-align: left;'>IJIN</td>
-                    <td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'>-</td>
-                    <td colspan='5'></td>";       
-                }
+                    <td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'>$siswa_absenin2</td>";
                 echo "</tr>";
+
                 echo "<tr>";
-                if($siswa_absenex>0){
                     echo "<td style='padding: 0px 0px 0px 5px; text-align: left;'>3</td>
                     <td style='padding: 0px 0px 0px 5px; font-size: 10px !important; text-align: left;'>TANPA KETERANGAN</td>
                     <td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'>$siswa_absenex</td>
-                    <td colspan='5'></td>";
-                }else{
-                    echo "<td style='padding: 0px 0px 0px 5px; text-align: left;'>3</td>
-                    <td style='padding: 0px 0px 0px 5px; font-size: 10px !important; text-align: left;'>TANPA KETERANGAN</td>
-                    <td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'>-</td>
-                    <td colspan='5'></td>";       
-                }
+                    <td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'>$siswa_absenex2</td>";
                 echo "</tr>";
+
                 echo "<tr>";
                 echo "<td colspan='2' style='padding: 0px 0px 0px 5px; text-align: left;'>Akhlak Mulia dan Kepribadian</td><td colspan='5' style='padding: 0px 0px 0px 5px; text-align: center; font-size: 10px !important;'></td><td colspan='5'></td>";
                 echo "</tr>";
@@ -515,7 +671,9 @@
                     echo "<td style='text-align: left; padding: 0px 0px 0px 5px;'>$no_karakter</td>
                         <td style='padding: 0px 0px 0px 5px; font-size: 10px !important;'>".strtoupper($karakter_nama[$k])."</td>";
                     echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'>$nilai_karakter[$k]</td>";
-                    echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'></td>";
+                    if($nilai_karakter2[$k]){
+                        echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'>$nilai_karakter2[$k]</td>";
+                    }
                     echo "</tr>";
                     $no_karakter++;
                 }
@@ -523,35 +681,54 @@
                 echo "<tr>";
                     echo "<td style='text-align: left; padding: 0px 0px 0px 5px;'>6</td><td style='padding: 0px 0px 0px 5px; font-size: 10px !important;'>".strtoupper("Physical Fitness and Healthful Habit")."</td>";
                     echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'>$jumlah_pf_hf</td>";
-                    echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'></td>";
+                    echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'>$jumlah_pf_hf2</td>";
                 echo "</tr>";
                 echo "<tr>";
                     echo "<td style='text-align: left; padding: 0px 0px 0px 5px;'>7</td><td style='padding: 0px 0px 0px 5px; font-size: 10px !important;'>".strtoupper("Moral Behavior")."</td>";
                     echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'>$jumlah_moral_b</td>";
-                    echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'></td>";
+                    echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'>$jumlah_moral_b2</td>";
                 echo "</tr>";
                 echo "<tr>";
                     echo "<td style='text-align: left; padding: 0px 0px 0px 5px;'>8</td><td style='padding: 0px 0px 0px 5px; font-size: 10px !important;'>".strtoupper("Emotional Awareness")."</td>";
                     echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'>$jumlah_emo_aware</td>";
-                    echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'></td>";
+                    echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'>$jumlah_emo_aware2</td>";
                 echo "</tr>";
                 echo "<tr>";
                     echo "<td style='text-align: left; padding: 0px 0px 0px 5px;'>9</td><td style='padding: 0px 0px 0px 5px; font-size: 10px !important;'>".strtoupper("Spirituality")."</td>";
                     echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'>$jumlah_spirit</td>";
-                    echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'></td>";
+                    echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'>$jumlah_spirit2</td>";
                 echo "</tr>";
                 echo "<tr>";
                     echo "<td style='text-align: left; padding: 0px 0px 0px 5px;'>10</td><td style='padding: 0px 0px 0px 5px; font-size: 10px !important;'>".strtoupper("Social Skill")."</td>";
                     echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'>$jumlah_ss</td>";
-                    echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'></td>";
+                    echo "<td colspan='5' style='text-align: center; font-size: 10px !important;'>$jumlah_ss2</td>";
+                echo "</tr>";
+                echo "<tr>";
+                    echo "<td colspan='2' style='text-align: center; padding: 10px 10px 10px 5px; font-size: 15px !important;'><b>".strtoupper("status akhir tahun")."</b></td>";
+                    echo "<td colspan='10' style='text-align: left; padding: 0px 0px 0px 35px; font-size: 12px !important;'><u>&nbsp&nbsp&nbsp&nbspNaik  ke&nbsp&nbsp&nbsp&nbsp</u><br>&nbspTinggal di</td>";
                 echo "</tr>";
             echo "</table>";        
 
-            // echo "</div>";
+            echo"<div id='textbox'>
+                <p class='alignleft_bawah_induk'>
+                <br>Mengetahui,<br>
+                Kepala Sekolah<br><br><br><br>
+                $kepsek_nama
+                </p>
+                <p class='alignright_bawah'>
+                <br>Surabaya,<br>Wali Kelas<br><br><br><br>
+                $wali_kelas
+                </p>
+            </div>";
+            
+            echo"<div style='clear: both;'></div>";
+            echo '<p style="page-break-after: always;">&nbsp;</p>';
 
-            // echo'<input type="button" name="print_dkn" id="print_dkn" class="btn btn-primary print_dkn mt-2" value="Print">';
+            echo "</div>";
 
-            // echo'<input type="button" name="export_dkn" id="export_dkn" class="btn btn-success export_dkn mt-2 ml-2" value="Export To Excel">';
+            echo'<input type="button" name="print_dkn" id="print_dkn" class="btn btn-primary print_dkn mt-2" value="Print">';
+
+            echo'<input type="button" name="export_dkn" id="export_dkn" class="btn btn-success export_dkn mt-2 ml-2" value="Export To Excel">';
         }
     }
     

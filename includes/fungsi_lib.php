@@ -97,11 +97,15 @@
     }
 
     function return_total_nilai_perkarakter($nilmapel){
+
+        //$nilmapel = array kumpulan nilai mapel dalam satu karakter, dalam satu array terdapat beberapa mapel
         if(count($nilmapel)>0){
             $total_nilai_karakter = 0;
             for($za=0;$za<sizeof($nilmapel);$za++){
-                $nilai_perbulan = explode('.', $nilmapel[$za]);
-                $total_nilai_karakter += return_total_nilai_afektif_bulan($nilai_perbulan);
+                //dipisahkan titik, menandai bulan
+                $kump_mapel_nilai_perbulan = explode('.', $nilmapel[$za]);
+                //tampung nilai perbulan, ke dalam total nilai karakter
+                $total_nilai_karakter += return_total_nilai_afektif_bulan($kump_mapel_nilai_perbulan);
             }
             return $total_nilai_karakter;
         }else{

@@ -71,9 +71,9 @@
             echo"<div style='clear: both;'></div>";
             
             $query =    "SELECT t_for.mapel_nama, mapel_kkm,t_afek.afektif_total,t_afek.total_bulan,
-                        ROUND((for_kog * mapel_persen_for + sum_kog * mapel_persen_sum),0) as Cognitive, 
-                        ROUND((for_psi * mapel_persen_for_psi + sum_psi * mapel_persen_sum_psi),0) as Psychomotor,
-                        ROUND((ROUND((for_kog * mapel_persen_for + sum_kog * mapel_persen_sum),0)*mapel_persen_kog + ROUND((for_psi * mapel_persen_for_psi + sum_psi * mapel_persen_sum_psi),0)*mapel_persen_psi),0) AS n_akhir
+                        for_kog,mapel_persen_for,sum_kog,mapel_persen_sum,
+                        for_psi,mapel_persen_for_psi,sum_psi,mapel_persen_sum_psi,
+                        mapel_persen_kog, mapel_persen_psi
                         FROM
                             (SELECT mapel_id, mapel_nama,COUNT(DISTINCT kog_psi_topik_id),
                             ROUND(SUM(ROUND(kog_quiz*kog_quiz_persen/100 + kog_ass*kog_ass_persen/100 + kog_test*kog_test_persen/100,0))/COUNT(DISTINCT kog_psi_topik_id),0)
@@ -170,11 +170,29 @@
                     }
                 }
 
+                $for_kog = $row['for_kog'];
+                $mapel_persen_for = $row['mapel_persen_for'];
+                $sum_kog = $row['sum_kog'];
+                $mapel_persen_sum = $row['mapel_persen_sum'];
+
+                $for_psi = $row['for_psi'];
+                $mapel_persen_for_psi = $row['mapel_persen_for_psi'];
+                $sum_psi = $row['sum_psi'];
+                $mapel_persen_sum_psi = $row['mapel_persen_sum_psi'];
+                
+                $mapel_persen_kog = $row['mapel_persen_kog'];
+                $mapel_persen_psi = $row['mapel_persen_psi'];
+
+                $kognitif = round($for_kog * $mapel_persen_for + $sum_kog * $mapel_persen_sum);
+                $psikomotor = round($for_psi * $mapel_persen_for_psi + $sum_psi * $mapel_persen_sum_psi);
+                
+                $n_akhir = round($kognitif * $mapel_persen_kog + $psikomotor * $mapel_persen_psi);
+                
                 
                 
                 echo"<td class='kkm'>{$row['mapel_kkm']}</td>";
-                echo"<td class='biasa'>{$row['Cognitive']}</td>";
-                echo"<td class='biasa'>{$row['Psychomotor']}</td>";
+                echo"<td class='biasa'>{$kognitif}</td>";
+                echo"<td class='biasa'>{$psikomotor}</td>";
                 
                 //hitung afektif
                 
@@ -184,12 +202,12 @@
 
                 echo"<td class='biasa'>".return_abjad_afek(return_total_nilai_afektif_bulan($nilai_perbulan)/$total_bulan)."</td>";
 
-                echo"<td class='biasa'>{$row['n_akhir']}</td>";
+                echo"<td class='biasa'>{$n_akhir}</td>";
                 
                 
                 $mkkm = $row['mapel_kkm'];
-                $nakhir = $row['n_akhir'];
-                $grading_akhir = $nakhir - $mkkm;
+                
+                $grading_akhir = $n_akhir - $mkkm;
                 if($grading_akhir >16){
                     echo"<td class='biasa'>EXCELLENT</td>";
                 }elseif($grading_akhir >=11){
@@ -560,15 +578,21 @@
                     echo"<td style='padding: 5px 5px 5px 5px;'>";
                     //ulang sebanyak jumlah mapel
                     //$mapel_nama = explode(',', $mapel_nama_total);
-
+                    $total_nilai_karakter = 0;
                     //echo $afektif_total_akhir;
                     $nilai_permapel = explode('#', $afektif_total_akhir);
                     
-                    if(return_abjad_afek(return_total_nilai_perkarakter($nilai_permapel))=="A"){
+                    for($x=0;$x<count($nilai_permapel);$x++){
+                        $nilai_permapel_bulan = explode('.', $nilai_permapel[$x]);
+                        $total_nilai_karakter += return_total_nilai_afektif_bulan($nilai_permapel_bulan)/count($nilai_permapel_bulan);
+                    }
+                    $rata_rata_karakter = $total_nilai_karakter/count($nilai_permapel);
+
+                    if(return_abjad_afek($rata_rata_karakter)=="A"){
                         echo ucfirst(strtolower($siswa_nama_d)).' '.$row_mapel['karakter_a'];
-                    }elseif(return_abjad_afek(return_total_nilai_perkarakter($nilai_permapel))=="B"){
+                    }elseif(return_abjad_afek($rata_rata_karakter)=="B"){
                         echo ucfirst(strtolower($siswa_nama_d)).' '.$row_mapel['karakter_b'];
-                    }elseif(return_abjad_afek(return_total_nilai_perkarakter($nilai_permapel))=="C"){
+                    }elseif(return_abjad_afek($rata_rata_karakter)=="C"){
                         echo ucfirst(strtolower($siswa_nama_d)).' '.$row_mapel['karakter_c'];
                     }else{
                         echo "-";

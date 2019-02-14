@@ -31,6 +31,14 @@ table.rapot {
     font-size:13px;
     float: left;
 }
+
+.alignleft_induk {
+    font-weight:bold;
+    font-family:Cambria, sans-serif;
+    font-size:13px;
+    float: left;
+    padding: 0px 0px 0px 5px;
+}
 .alignright {
     font-weight:bold;
     font-family:Cambria, sans-serif;
@@ -44,6 +52,15 @@ table.rapot {
     float: left;
     text-align:center;
 }
+
+.alignleft_bawah_induk {
+    font-family:Cambria, sans-serif;
+    font-size:13px;
+    float: left;
+    text-align:center;
+    padding: 0px 0px 0px 5px;
+}
+
 .alignright_bawah {
     font-family:Cambria, sans-serif;
     font-size:13px;
@@ -133,3 +150,29 @@ table.rapot_rangkuman {
     height: 15px;
 }
 
+table.induk{
+    border: 1px solid black;
+    font-family:Cambria;
+    font-size:12px;
+}
+
+table.induk {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.induk th{
+    border: 1px solid black;
+    font-family:Cambria;
+    font-size:12px;
+    height: 10px;
+    font-weight:550;
+    text-align:center;
+}
+.induk td{
+    border: 1px solid black;
+    font-family:Cambria;
+    font-size:10px;
+    height: 5px;
+    padding: 0px 0px 0px 5px;
+}
