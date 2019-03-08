@@ -29,7 +29,10 @@
                         ON ssp_nilai_d_ssp_id =  d_ssp_id
                         LEFT JOIN siswa
                         ON ssp_nilai_siswa_id =  siswa_id
-                        WHERE d_ssp_id = $d_ssp_ssp_id";
+                        LEFT JOIN kelas
+                        ON siswa_id_kelas =  kelas_id
+                        WHERE d_ssp_id = $d_ssp_ssp_id
+                        ORDER BY kelas_id, siswa_nama_depan";
 
             $query_info2 = mysqli_query($conn, $query2);
             $resultCheck = mysqli_num_rows($query_info2);
@@ -52,6 +55,7 @@
                            <th>Delete</th>
                            <th>ssp_nilai_id</th>
                            <th>Nama siswa</th>
+                           <th>Kelas</th>
                            <th>ssp_nilai_angka</th>
                          </tr>
                          ";
@@ -61,6 +65,7 @@
                           <td><input type='checkbox' name='check_ssp_id[]' value={$row2['ssp_nilai_id']}></td>
                           <td>{$row2['ssp_nilai_id']}</td>
                           <td>{$row2['siswa_nama_depan']} {$row2['siswa_nama_belakang']}</td>
+                          <td>{$row2['kelas_nama']}</td>
                           <td>{$row2['ssp_nilai_angka']}</td>
                          </tr>";
                 }

@@ -87,7 +87,7 @@
 ?>
 
 
-<div class="container col-6">
+<div class="container">
       
       <!-------------------------form kriteria----------------------->
       <div class= "p-3 mb-2 bg-light border border-primary rounded">
