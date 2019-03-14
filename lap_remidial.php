@@ -40,7 +40,7 @@
     });
 </script>
 
-<div class="container col-6">
+<div class="container">
       
     <?php
         $guru_id = $_SESSION['guru_id'];

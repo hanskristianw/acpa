@@ -78,7 +78,7 @@
                 printDelay: 2000,
                 importCSS: true,
                 importStyle: true,//thrown in for extra measure
-                loadCSS: "http://cpasmp.nationstaracademy.sch.id/CSS/customCSS_preview.css"
+                loadCSS: "http://localhost/acpa/CSS/customCSS_preview.css"
             });
 //            var myStyle = '<link rel="stylesheet" media="print" href="/CSS/customCSS"/>';
 //            
@@ -146,7 +146,7 @@
 
 
 
-<div class="container col-6">
+<div class="container">
     <div id="container-temp">
 
     </div>
@@ -178,7 +178,6 @@
           <select class="form-control form-control-sm mb-2" name="option_pil" id="option_pil">
               <option value= 0>Pilih salah satu</option>
               <option value= 1>Cetak Perkelas</option>
-              <option value= 2>Cetak Persiswa</option>
           </select>
           
           <div id="pil1">
@@ -196,23 +195,6 @@
                 </div>
             </form>
           </div>  
-          
-          <div id="pil2">
-            <form method="POST" id="add-rapot-form" action="rapot_waka/display_rapot_sisipan.php">
-                <div class="form-group">
-
-                  <select class="form-control form-control-sm mb-2" name="option_kelas" id="option_kelas">
-                        <?php echo $options3;?>
-                  </select>
-
-                  <div id="container-option-siswa">
-
-                  </div>
-
-                  <input type="submit" name="submit_siswa" class="btn btn-primary mt-3" value="Preview Rapor">
-                </div>
-            </form>
-          </div>
       </div>
       
       <!-------------------------tabel rapot----------------------->
@@ -228,40 +210,6 @@
     <!-------------------------end of tabel kelas----------------------->
       <div style="margin-top:200px;"></div>
 </div>
-    <!-------------------------modal----------------------->
-    <div class="modal" id="myModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Infomation</h5>
-              <button class="close" id="close_modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                Data Berhasil Ditambahkan.
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-secondary" id="close_modal2">Close</button>
-            </div>
-          </div>
-        </div>
-    </div>
-    
-    <div class="modal" id="myModal2">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Infomation</h5>
-              <button class="close" id="close_modal_username">&times;</button>
-            </div>
-            <div class="modal-body">
-                Username sudah dipakai.
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-secondary" id="close_modal_username2">Close</button>
-            </div>
-          </div>
-        </div>
-    </div>
     
     <!-------------------------modal----------------------->
 

@@ -5,7 +5,7 @@
         header("Location: ../index.php");
     }
     include ("../includes/db_con.php");   
-    
+    include ("../includes/fungsi_lib.php"); 
     
     if(!empty($_POST["check_siswa_id"])) {
         ini_set('max_execution_time', 300);
@@ -15,6 +15,23 @@
         for($z=0;$z<count($s_id);$z++){
 //            echo $s_id[$i];
 //            echo "<br>";
+
+            //cek apakah siswa terdaftar pada kelas khusus
+            $mapel_khusus_id = [];
+            $mapel_khusus_nama = [];
+            $query =    "SELECT mapel_k_m_mapel_id, mapel_k_m_nama
+                        FROM detail_mapel_khusus_master
+                        LEFT JOIN mapel_khusus_master
+                        ON d_m_k_mapel_k_m_id = mapel_k_m_id
+                        WHERE d_m_k_siswa_id = {$s_id[$z]}";
+
+            $query_info = mysqli_query($conn, $query);
+            
+            while ($row3 = mysqli_fetch_assoc($query_info)) {
+                array_push($mapel_khusus_id, $row3['mapel_k_m_mapel_id']);
+                array_push($mapel_khusus_nama, $row3['mapel_k_m_nama']);
+            }
+
             $query_mapel = "SELECT *
                             FROM siswa
                             LEFT JOIN kelas
@@ -162,20 +179,55 @@
                 echo"<tr>";
                 echo"<td class='nomor'>$nomor</td>";
 
+                $index_ketemu_khusus = -1;
+                $mapel_id_temp = $row['mapel_id'];
+                for($ii=0;$ii<count($mapel_khusus_id);$ii++){
+                    if($mapel_id_temp == $mapel_khusus_id[$ii]){
+                        $index_ketemu_khusus = $ii;
+                    }
+                }
+
+                
                 //pisahkan nama MAPEL jika terlalu panjang
                 $mapel_nama_fix ="";
-                $temp_mapel_nama = explode(" ", $row['mapel_nama']);
-                if(sizeof($temp_mapel_nama)>2 && count($row['mapel_nama'])>20){
-                    for($i=0;$i<sizeof($temp_mapel_nama);$i++){
-                        $mapel_nama_fix .= $temp_mapel_nama[$i] ." ";
-                        if($i==1){
-                            $mapel_nama_fix .= "<br>";
+
+                if($index_ketemu_khusus > -1){
+                    $temp_mapel_nama = explode(" ", $mapel_khusus_nama[$index_ketemu_khusus]);
+
+                }else{
+                    $temp_mapel_nama = explode(" ", $row['mapel_nama']);
+                }
+
+                //kalau lebih dari 2 kata dan panjang katanya >20
+                if(sizeof($temp_mapel_nama)>2){
+                    $panjang_mapel = 0;
+
+                    for($t=0;$t<count($temp_mapel_nama);$t++){
+                        $panjang_mapel += strlen($temp_mapel_nama[$t]);
+                    }
+
+                    if($panjang_mapel > 20){
+                        for($i=0;$i<sizeof($temp_mapel_nama);$i++){
+                            $mapel_nama_fix .= $temp_mapel_nama[$i] ." ";
+                            if($i==1){
+                                $mapel_nama_fix .= "<br>";
+                            }
+                        }
+                    }else{
+                        for($i=0;$i<sizeof($temp_mapel_nama);$i++){
+                            $mapel_nama_fix .= $temp_mapel_nama[$i] ." ";
                         }
                     }
+                    
                     echo"<td style='padding: 0px 0px 0px 5px; margin: 0px;'>$mapel_nama_fix</td>";
                 }
                 else{
-                    echo"<td style='padding: 0px 0px 0px 5px; margin: 0px;'>{$row['mapel_nama']}</td>";
+                    if($index_ketemu_khusus > -1){
+                        echo"<td style='padding: 0px 0px 0px 5px; margin: 0px;'>{$mapel_khusus_nama[$index_ketemu_khusus]}</td>";
+                    }else{
+                        echo"<td style='padding: 0px 0px 0px 5px; margin: 0px;'>{$row['mapel_nama']}</td>";
+                    }
+                    
                 }
 
                 echo"<td class='kkm'>{$row['mapel_kkm']}</td>";
@@ -315,44 +367,9 @@
                 ///////////////////////////////////////////////////////////hitung afektif////////////////////////////////////////////
                 $afektif_total = $row['afektif_total'];
                 $total_bulan = $row['total_bulan'];
-                if($afektif_total){
-                    $nilai_perbulan = explode('.', $afektif_total);
-                    for ($i=0;$i<count($nilai_perbulan);$i++){
-                        $nilai_perminggu = explode('/', $nilai_perbulan[$i]);
-                        for ($j=0;$j<count($nilai_perminggu);$j++){
-                            $nilai_pertopik = explode('_', $nilai_perminggu[$j]);
-                            for ($k=0;$k<count($nilai_pertopik);$k++){
-                                if($nilai_pertopik[$k] > 0){
-                                    $cek_minggu_aktif += 1;
-                                }
-                                $total[$nomor] += $nilai_pertopik[$k];
-                            }
-                            if($cek_minggu_aktif == 3){
-                                $pembagi_afektif[$nomor] += 1;
-                            }
-                            $cek_minggu_aktif = 0;
-                        }
-                    }
+                $nilai_perbulan = explode('.', $afektif_total);
 
-
-                    //echo"<td class='biasa'>$total[$nomor]</td>";
-                    $afektif_akhir = $total[$nomor] * 10 / $pembagi_afektif[$nomor];
-                    if ($afektif_akhir >=80){
-                        echo"<td class='biasa'>A</td>";
-                    }
-                    elseif ($afektif_akhir >=65){
-                        echo"<td class='biasa'>B</td>";
-                    }
-                    elseif ($afektif_akhir >=31){
-                        echo"<td class='biasa'>C</td>";
-                    }
-                    else{
-                        echo"<td class='biasa'>D</td>";
-                    }
-                }
-                else{
-                    echo"<td class='biasa'> </td>";
-                }
+                echo"<td class='biasa'>".return_abjad_afek(return_total_nilai_afektif_bulan($nilai_perbulan)/$total_bulan)."</td>";
 
                 ////////////////////////////////////////////////////////SUMMATIVE (UTS)////////////////////////////////////////////////
                 echo"<td class='biasa'>";
@@ -400,15 +417,7 @@
             $ssp_nilai_huruf ="";
 
             if(isset($ssp_nilai_angka) && $ssp_nilai_angka>0 ){
-                if($ssp_nilai_angka>3){
-                    $ssp_nilai_huruf = "A";
-                }elseif($ssp_nilai_angka>2){
-                    $ssp_nilai_huruf = "B";
-                }elseif($ssp_nilai_angka>1){
-                    $ssp_nilai_huruf = "C";
-                }elseif($ssp_nilai_angka>0){
-                    $ssp_nilai_huruf = "D";
-                }
+                $ssp_nilai_huruf = return_abjad_base4($ssp_nilai_angka); 
             }
             if(isset($ssp_nama) && $ssp_nama != ""){
                 echo "<tr>
@@ -416,8 +425,6 @@
                     <td>&nbsp$ssp_nama</td>
                     <td class='biasa' colspan='13'> </td>
                     <td class='biasa' colspan='3'>$ssp_nilai_huruf</td>
-
-
                   </tr>";
             }
 

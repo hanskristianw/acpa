@@ -38,23 +38,34 @@
                           echo'<li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Master</a>
                             <div class="dropdown-menu">
+                              <h6 class="dropdown-header">Setting</h6>
                               <a href="t_ajaran.php" class="dropdown-item fa fa-caret-right mb-1"> Tahun Ajaran</a>
                               <a href="guru.php" class="dropdown-item fa fa-caret-right mb-1"> Guru</a>
                               <a href="jenjang.php" class="dropdown-item fa fa-caret-right mb-1"> Jenjang</a>
                               <a href="kelas.php" class="dropdown-item fa fa-caret-right mb-1"> Kelas</a>
                               <a href="siswa.php" class="dropdown-item fa fa-caret-right mb-1"> Siswa</a>
                               <a href="mapel_new.php" class="dropdown-item fa fa-caret-right mb-1"> Mata Pelajaran</a>
+                              <a href="scout.php" class="dropdown-item fa fa-caret-right mb-1"> Scout</a>
                               <a href="karakter_mapel.php" class="dropdown-item fa fa-caret-right mb-1"> Karakter</a>
                               <a href="detail_karakter_mapel.php" class="dropdown-item fa fa-caret-right mb-1"> Karakter Pelajaran</a>
-                              <a href="scout.php" class="dropdown-item fa fa-caret-right mb-1"> Scout</a>
+                              <a href="ssp.php" class="dropdown-item fa fa-caret-right mb-1"> SSP</a>
+                              
+                              <div class="dropdown-divider"></div>
+                              <h6 class="dropdown-header">Mapel Khusus</h6>
+                              <a href="mapel_khusus.php" class="dropdown-item fa fa-caret-right mb-1"> Mata Pelajaran</a>
+                              <a href="mapel_khusus_daftar.php" class="dropdown-item fa fa-caret-right mb-1"> Daftarkan Siswa</a>
+                              <a href="mapel_khusus_hapus.php" class="dropdown-item fa fa-caret-right mb-1"> Hapus Pendaftaran</a>
+                              
                             ';
                               if(cekGuruExistInMapel($guru_id)){
-                                  echo'<a href="topik_kognitif.php" class="dropdown-item fa fa-caret-right mb-1"> Topik</a>';
+                                  echo'<div class="dropdown-divider"></div>
+                                  <h6 class="dropdown-header">Mapel Yang Diajar</h6>
+                                  <a href="topik_kognitif.php" class="dropdown-item fa fa-caret-right mb-1"> Topik</a>';
                                   echo'<a href="persen_for_sum.php" class="dropdown-item fa fa-caret-right mb-1"> % Formative dan Summative</a>';
                               }
 
                             echo'
-                                      <a href="ssp.php" class="dropdown-item fa fa-caret-right mb-1"> SSP</a>
+                                      
                                 </div>
                                 </li>';
                             

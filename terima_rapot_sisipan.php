@@ -29,7 +29,7 @@
     });
 </script>
 
-<div class="container col-4 mt-4 p-3 mb-2 bg-light border border-primary rounded">
+<div class="container mt-4 p-3 mb-2 bg-light border border-primary rounded">
       <!-------------------------tabel t_ajaran----------------------->
       <div class="alert alert-info mt-3 mb-4">
         <strong>Info: </strong> Pilih tanggal penerimaan rapor SISIPAN dan kepala sekolah.

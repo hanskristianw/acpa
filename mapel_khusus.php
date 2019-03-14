@@ -25,7 +25,7 @@
        function updateTable(){
             //alert(bulan_id);
             $.ajax({
-                url: 'ssp/display_ssp.php',
+                url: 'mapel_khusus/display_mapel_khusus.php',
 //                data:'bulan_id='+ bulan_id,
                 type: 'POST',
                 success: function(show_ssp){
@@ -81,6 +81,7 @@
     //tampilkan tabel pada container
     while($row = mysqli_fetch_array($query_t_ajaran_info)){
         $semester = $row['t_ajaran_semester'];
+        $t_ajaran_active = $row['t_ajaran_id'];
     }
 ?>
 
@@ -93,36 +94,36 @@
             <button class="close" data-dismiss="alert" type="button">
                 <span>&times;</span>
             </button>
-            <strong>Info:</strong> Masukkan nama SSP
+            <strong>Info:</strong> Masukkan nama mapel khusus, satu mapel dapat mempunyai banyak nama
           </div>
-      <form method="POST" id="add-ssp-form" action="ssp/add_ssp.php">
+      <form method="POST" id="add-ssp-form" action="mapel_khusus/add_mapel_khusus.php">
           <div class="form-group">
-              <h4 class="mb-4"><u>TAMBAH SSP</u></h4>
-              
-              <input type="text" name="ssp_nama" placeholder="Masukkan nama SSP" class="form-control form-control-sm mb-3" required>
+              <h4 class="mb-4"><u>TAMBAH NAMA MAPEL KHUSUS</u></h4>
               
               <?php
                 include 'includes/db_con.php';
-                $sql = "SELECT * FROM guru WHERE guru_active = 1 AND guru_jabatan = 3";
+                $sql = "SELECT mapel_id, mapel_nama FROM mapel WHERE mapel_t_ajaran_id = $t_ajaran_active";
                 $result = mysqli_query($conn, $sql);
 
-                $options = "<option value=0>Pilih guru pengajar SSP</option>";
+                $options = "<option value=0>Pilih Mapel Asal</option>";
                 while ($row = mysqli_fetch_assoc($result)) {
-                    $options .= "<option value={$row['guru_id']}>{$row['guru_name']}</option>";
+                    $options .= "<option value={$row['mapel_id']}>{$row['mapel_nama']}</option>";
                 }
               ?>
-              <select class="form-control form-control-sm" name="guru_id_option">
+              <select class="form-control form-control-sm" name="mapel_id_option">
                 <?php echo $options;?>
               </select>
+
+              <input type="text" name="mapel_khusus_nama" placeholder="Masukkan nama MAPEL KHUSUS, ex: Mandarin Beginner" class="form-control form-control-sm mt-3" required>
               
-              <input type="submit" name="submit_ssp" class="btn btn-primary mt-3" value="Tambah SSP">
+              <input type="submit" name="submit_mapel_khusus" class="btn btn-primary mt-3" value="Tambah Mapel Khusus">
           </div>
       </form>
       </div >
       
       <!-------------------------tabel ssp----------------------->
       <div class= "p-3 mb-2 bg-light border border-primary rounded">
-          <h4 class="mb-3 mt-3"><u>DAFTAR SSP</u></h4>
+          <h4 class="mb-3 mt-3"><u>DAFTAR MAPEL KHUSUS</u></h4>
           <!--action container guru-->
           <div id="container-ssp" class= "p-3 mb-2 bg-light border border-primary rounded">
             
@@ -130,8 +131,8 @@
           <table class="table table-sm table-striped mb-5">
             <thead>
                 <tr>
-                    <th>Nama SSP</th>
-                    <th>Guru Pengajar</th>
+                    <th>Mapel</th>
+                    <th>Nama Mapel Khusus</th>
                 </tr>
             </thead>
             <tbody id="show_ssp">
