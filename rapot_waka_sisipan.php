@@ -78,7 +78,7 @@
                 printDelay: 2000,
                 importCSS: true,
                 importStyle: true,//thrown in for extra measure
-                loadCSS: "http://localhost/acpa/CSS/customCSS_preview.css"
+                loadCSS: "http://192.168.16.253/cpasma/CSS/customCSS_preview.css"
             });
 //            var myStyle = '<link rel="stylesheet" media="print" href="/CSS/customCSS"/>';
 //            
