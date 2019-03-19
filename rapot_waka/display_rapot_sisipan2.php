@@ -422,7 +422,7 @@
             if(isset($ssp_nama) && $ssp_nama != ""){
                 echo "<tr>
                     <td class='biasa'>$nomor</td>
-                    <td>&nbsp$ssp_nama</td>
+                    <td>&nbsp SSP $ssp_nama</td>
                     <td class='biasa' colspan='13'> </td>
                     <td class='biasa' colspan='3'>$ssp_nilai_huruf</td>
                   </tr>";
