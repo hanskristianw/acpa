@@ -95,16 +95,16 @@
                     echo "<div id = 'input_afek'>";
                     //KOGNITIF
                     
-                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' name='{$row['siswa_id']}' class='kin' id='{$row['siswa_id']},1' value='0' min='1' max='100'></td>";
-                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' name='{$row['siswa_id']}' class='kin2' id='{$row['siswa_id']},2' value='0' min='1' max='100'></td>";
-                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' name='{$row['siswa_id']}' class='kin3' id='{$row['siswa_id']},3' value='0' min='1' max='100'></td>";
+                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' name='{$row['siswa_id']}' class='kin' id='{$row['siswa_id']},1' value='0' min='-99' max='100'></td>";
+                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' name='{$row['siswa_id']}' class='kin2' id='{$row['siswa_id']},2' value='0' min=-99 max='100'></td>";
+                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' name='{$row['siswa_id']}' class='kin3' id='{$row['siswa_id']},3' value='0' min='-99' max='100'></td>";
                  
                         
                     //PSIKOMOTOR
                     
-                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' name='{$row['siswa_id']}' class='pin' id='{$row['siswa_id']},4' value='0' min='1' max='100'></td>";
-                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' name='{$row['siswa_id']}' class='pin2' id='{$row['siswa_id']},5' value='0' min='1' max='100'></td>";
-                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' name='{$row['siswa_id']}' class='pin3' id='{$row['siswa_id']},6' value='0' min='1' max='100'></td>";
+                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' name='{$row['siswa_id']}' class='pin' id='{$row['siswa_id']},4' value='0' min='-99' max='100'></td>";
+                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' name='{$row['siswa_id']}' class='pin2' id='{$row['siswa_id']},5' value='0' min='-99' max='100'></td>";
+                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' name='{$row['siswa_id']}' class='pin3' id='{$row['siswa_id']},6' value='0' min='-99' max='100'></td>";
                         
                     echo "</div>";
                     echo '</tr>';

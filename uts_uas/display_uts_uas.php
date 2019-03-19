@@ -85,12 +85,12 @@
                     echo "<div id = 'input_afek'>";
                     //KOGNITIF
                     
-                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' class='kin' name='{$row['siswa_id']}' id='{$row['siswa_id']},1' value='0' min='1' max='100'></td>";
-                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' class='kin2' name='{$row['siswa_id']}' id='{$row['siswa_id']},2' value='0' min='1' max='100'></td>";
+                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' class='kin' name='{$row['siswa_id']}' id='{$row['siswa_id']},1' value='0' min='-99' max='100'></td>";
+                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' class='kin2' name='{$row['siswa_id']}' id='{$row['siswa_id']},2' value='0' min='-99' max='100'></td>";
                         
                     //PSIKOMOTOR
-                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' class='pin' name='{$row['siswa_id']}' id='{$row['siswa_id']},3' value='0' min='1' max='100'></td>";
-                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' class='pin2' name='{$row['siswa_id']}' id='{$row['siswa_id']},4' value='0' min='1' max='100'></td>";
+                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' class='pin' name='{$row['siswa_id']}' id='{$row['siswa_id']},3' value='0' min='-99' max='100'></td>";
+                        echo "<td><input type = 'number' onfocus='this.select();' required style='width: 44px;' class='pin2' name='{$row['siswa_id']}' id='{$row['siswa_id']},4' value='0' min='-99' max='100'></td>";
                         
                     echo "</div>";
                     echo '</tr>';
