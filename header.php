@@ -122,6 +122,7 @@
                                     <a href="lap_ssp.php" class="dropdown-item fa fa-caret-right mb-1"> SSP</a>
                                     <a href="laporan_DKN.php" class="dropdown-item fa fa-caret-right mb-1"> DKN</a>
                                     <a href="buku_induk.php" class="dropdown-item fa fa-caret-right mb-1"> Buku Induk</a>
+                                    <a href="lap_UTS_UAS.php" class="dropdown-item fa fa-caret-right mb-1"> UTS UAS</a>
                                   </div>
                                 </li>
                                 
