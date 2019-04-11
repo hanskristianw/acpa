@@ -15,7 +15,7 @@
 
             //laporan nilai akhir raport
             $query_dkn =
-                'SELECT urutan.siswa_no_induk, urutan.siswa_nama_depan, urutan.siswa_nama_belakang, urutan.mapel_nama, urutan.mapel_kkm, urutan.kelas_nama, urutan.mapel_id, summative_final.mapel_id, kog_uts, kog_uas
+                'SELECT urutan.siswa_no_induk, urutan.siswa_nama_depan, urutan.siswa_nama_belakang, urutan.mapel_nama, urutan.mapel_kkm, urutan.kelas_nama, urutan.mapel_id, summative_final.mapel_id, kog_uts, kog_uas, summative_final.mapel_nama_singkatan
                 FROM 
                (
                    SELECT siswa_no_induk, siswa_nama_depan, siswa_nama_belakang, GROUP_CONCAT(mapel_nama_singkatan ORDER BY mapel_urutan) as mapel_nama, GROUP_CONCAT(mapel_id ORDER BY mapel_urutan) as mapel_id, GROUP_CONCAT(mapel_kkm ORDER BY mapel_urutan) as mapel_kkm, kelas_nama
@@ -34,6 +34,7 @@
                JOIN(
                    SELECT siswa_no_induk, siswa_nama_depan,
                    GROUP_CONCAT(mapel_id ORDER BY mapel_urutan) as mapel_id, 
+                   GROUP_CONCAT(mapel_nama_singkatan ORDER BY mapel_urutan) as mapel_nama_singkatan, 
                    GROUP_CONCAT(mapel_urutan ORDER BY mapel_urutan) as mapel_urutan, 
                    GROUP_CONCAT(kog_uts ORDER BY mapel_urutan) as kog_uts,
                    GROUP_CONCAT(kog_uas ORDER BY mapel_urutan) as kog_uas
@@ -60,6 +61,7 @@
             $kelas_nama = $rowss[5];
             $mapel_id_fix_array = $rowss[6];
             $mapel_id_isi_array = $rowss[7];
+            $mapel_nama_isi_array = $rowss[10];
             
             
             mysqli_data_seek($query_dkn, 0);
@@ -69,84 +71,95 @@
             $mapel_id_fix = explode(",",$mapel_id_fix_array);
             $mapel_id_isi = explode(",",$mapel_id_isi_array);
 
-            echo "<div id='print_area'>";
+            if(count($mapel_id_fix)==count($mapel_id_isi)){
 
-            echo "<h6 class='text-center mb-3 mt-5'><u>SMA NATION STAR ACADEMY<br>DAFTAR UTS UAS</u></h6>";
-            
-            echo "<h6>KELAS: ".$kelas_nama."</h6>";
+                echo "<div id='print_area'>";
 
-            echo "<table class='rapot mt-3'>
-                    <tr>
-                        <th rowspan='2' style='font-size: 9px !important;'>No</th>
-                        <th rowspan='2' style='font-size: 9px !important;'>No Induk</th>
-                        <th rowspan='2' style='font-size: 9px !important;'>Nama Siswa</th>";
-                //nama mapel            
-                for($i=0;$i<count($nama_mapel);$i++){
-                    echo"<th colspan='2' style='font-size: 9px !important;'>".$nama_mapel[$i]." (".$mapel_kkm[$i].")</th>";
-                }
-            echo "</tr>";
-            
-            echo "<tr>";
-            for($i=0;$i<count($nama_mapel);$i++){
-                echo "<td style='font-size: 9px !important; text-align: center;'>PTS</td>
-                    <td style='font-size: 9px !important; text-align: center;'>PAS</td>";
-            }
-            echo "</tr>";
-            
-            
-            $no = 1;
+                echo "<h6 class='text-center mb-3 mt-5'><u>SMA NATION STAR ACADEMY<br>DAFTAR UTS UAS</u></h6>";
+                
+                echo "<h6>KELAS: ".$kelas_nama."</h6>";
 
-            $no_array = array();
-            $no_induk = array();
-            $nama = array();
-            $jumlah_mapel = count($nama_mapel);
-            // $data = array();
-            
-            // $data_total = array();
-            // $rank = array();
-            // $rank_sort = array();
-
-            while($row2 = mysqli_fetch_array($query_dkn)){
-                $nama_belakang = $row2['siswa_nama_belakang'];
-                if(strlen($nama_belakang) > 0){
-                    $nama_siswa = $row2['siswa_nama_depan'] . " " . $nama_belakang[0];
-                }else{
-                    $nama_siswa = $row2['siswa_nama_depan'];
-                }
-
-                $uts_array = $row2[8];
-                $uas_array = $row2[9];
-
-                $uts = explode(",",$uts_array);
-                $uas = explode(",",$uas_array);
-
-                echo "<tr>
-                    <td style='padding: 0px 0px 0px 5px;'>$no</td>
-                    <td style='padding: 0px 0px 0px 5px;'>{$row2[0]}</td>
-                    <td style='padding: 0px 0px 0px 5px;'>$nama_siswa</td>
-                    ";
-
-                for($k=0;$k<count($nama_mapel);$k++){
-                    if($mapel_id_fix[$k]==$mapel_id_isi[$k]){
-                        echo "<td style='width: 30px; font-size: 10px !important; text-align: center;'>$uts[$k]</td>";
-                        echo "<td style='width: 30px; font-size: 10px !important; text-align: center;'>$uas[$k]</td>";
-                    
+                echo "<table class='rapot mt-3'>
+                        <tr>
+                            <th rowspan='2' style='font-size: 9px !important;'>No</th>
+                            <th rowspan='2' style='font-size: 9px !important;'>No Induk</th>
+                            <th rowspan='2' style='font-size: 9px !important;'>Nama Siswa</th>";
+                    //nama mapel            
+                    for($i=0;$i<count($nama_mapel);$i++){
+                        echo"<th colspan='2' style='font-size: 9px !important;'>".$nama_mapel[$i]." (".$mapel_kkm[$i].")</th>";
                     }
-                    
-                }
-      
                 echo "</tr>";
+                
+                echo "<tr>";
+                for($i=0;$i<count($nama_mapel);$i++){
+                    echo "<td style='font-size: 9px !important; text-align: center;'>PTS</td>
+                        <td style='font-size: 9px !important; text-align: center;'>PAS</td>";
+                }
+                echo "</tr>";
+                
+                
+                $no = 1;
 
-                $no++;
+                $no_array = array();
+                $no_induk = array();
+                $nama = array();
+                $jumlah_mapel = count($nama_mapel);
+                // $data = array();
+                
+                // $data_total = array();
+                // $rank = array();
+                // $rank_sort = array();
+
+                
+
+                while($row2 = mysqli_fetch_array($query_dkn)){
+                    $nama_belakang = $row2['siswa_nama_belakang'];
+                    if(strlen($nama_belakang) > 0){
+                        $nama_siswa = $row2['siswa_nama_depan'] . " " . $nama_belakang[0];
+                    }else{
+                        $nama_siswa = $row2['siswa_nama_depan'];
+                    }
+
+                    $uts_array = $row2[8];
+                    $uas_array = $row2[9];
+
+                    $uts = explode(",",$uts_array);
+                    $uas = explode(",",$uas_array);
+
+                    echo "<tr>
+                        <td style='padding: 0px 0px 0px 5px;'>$no</td>
+                        <td style='padding: 0px 0px 0px 5px;'>{$row2[0]}</td>
+                        <td style='padding: 0px 0px 0px 5px;'>$nama_siswa</td>
+                        ";
+
+                    for($k=0;$k<count($nama_mapel);$k++){
+                        if($mapel_id_fix[$k]==$mapel_id_isi[$k]){
+                            echo "<td style='width: 30px; font-size: 10px !important; text-align: center;'>$uts[$k]</td>";
+                            echo "<td style='width: 30px; font-size: 10px !important; text-align: center;'>$uas[$k]</td>";
+                        
+                        }
+                        
+                    }
+        
+                    echo "</tr>";
+
+                    $no++;
+                }
+                
+                echo "</table>";
+                
+                echo "</div>";
+
+                echo'<input type="button" name="print_dkn" id="print_dkn" class="btn btn-primary print_dkn mt-2" value="Print">';
+
+                echo'<input type="button" name="export_dkn" id="export_dkn" class="btn btn-success export_dkn mt-2 ml-2" value="Export To Excel">';
+            
             }
-            
-            echo "</table>";
-            
-            echo "</div>";
-
-            echo'<input type="button" name="print_dkn" id="print_dkn" class="btn btn-primary print_dkn mt-2" value="Print">';
-
-            echo'<input type="button" name="export_dkn" id="export_dkn" class="btn btn-success export_dkn mt-2 ml-2" value="Export To Excel">';
+            else{
+                echo '<div class="jumbotron"> 
+                        <h4>Nilai UTS belum lengkap, mapel yang sudah mengisi: '.$mapel_nama_isi_array .'</h4>
+                    </div>';
+            }
         }
     }
     
