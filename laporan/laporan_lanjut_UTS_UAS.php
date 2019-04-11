@@ -61,6 +61,7 @@
             $mapel_id_fix_array = $rowss[6];
             $mapel_id_isi_array = $rowss[7];
             
+            
             mysqli_data_seek($query_dkn, 0);
            
             $nama_mapel = explode(",",$nama_mapel_array);
@@ -113,9 +114,11 @@
                     $nama_siswa = $row2['siswa_nama_depan'];
                 }
 
-                array_push($no_array, $no);
-                array_push($nama, $nama_siswa);
-                array_push($no_induk, $row2[0]);
+                $uts_array = $row2[8];
+                $uas_array = $row2[9];
+
+                $uts = explode(",",$uts_array);
+                $uas = explode(",",$uas_array);
 
                 echo "<tr>
                     <td style='padding: 0px 0px 0px 5px;'>$no</td>
@@ -124,8 +127,12 @@
                     ";
 
                 for($k=0;$k<count($nama_mapel);$k++){
-                    echo "<td style='width: 30px; font-size: 10px !important; text-align: center;'>1</td>";
-                    echo "<td style='width: 30px; font-size: 10px !important; text-align: center;'>2</td>";
+                    if($mapel_id_fix[$k]==$mapel_id_isi[$k]){
+                        echo "<td style='width: 30px; font-size: 10px !important; text-align: center;'>$uts[$k]</td>";
+                        echo "<td style='width: 30px; font-size: 10px !important; text-align: center;'>$uas[$k]</td>";
+                    
+                    }
+                    
                 }
       
                 echo "</tr>";
@@ -152,7 +159,7 @@ $(document).ready(function(){
             printDelay: 2000,
             importCSS: true,
             importStyle: true,
-            loadCSS: "http://localhost/acpa/CSS/customCSS_preview.css"
+            loadCSS: "http://192.168.16.253/cpasma/CSS/customCSS_preview.css"
         });
     });   
 

@@ -511,7 +511,7 @@
 
             echo"<div style='clear: both;'></div>";
 
-            echo"<p class='aligncenter_bawah'>Acknowleged by<br>Principal<br><br><br><b>$tahun_ajaran_nama_kepsek</b></p>";
+            echo"<p class='aligncenter_bawah'>Acknowledged by<br>Principal<br><br><br><b>$tahun_ajaran_nama_kepsek</b></p>";
             
             echo '<p style="page-break-after: always;">&nbsp;</p>';
             
