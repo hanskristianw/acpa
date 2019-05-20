@@ -12,6 +12,8 @@
         //$siswa_id = $_POST["option_siswa"];
         $s_id = $_POST["check_siswa_id"];
 
+        $ssp_tampil = $_POST["nilssp"];
+
         for($z=0;$z<count($s_id);$z++){
             $query_mapel = "SELECT *
                             FROM siswa
@@ -290,102 +292,105 @@
             echo"<p class='aligncenter_bawah'>Acknowleged by<br>Principal<br><br><br><br><b>$tahun_ajaran_nama_kepsek</b></p>";
             
             ////////////////////////////////HALAMAN RAPOR SSP//////////////////////////////////////
-            echo '<p style="page-break-after: always;">&nbsp;</p>';
-            $query_ssp = "SELECT ssp_nilai_siswa_id, ssp_nama,ssp_nilai_angka,d_ssp_kriteria,d_ssp_a,d_ssp_b,d_ssp_c, guru_name
-                        FROM ssp_nilai
-                        LEFT JOIN d_ssp
-                        ON ssp_nilai_d_ssp_id = d_ssp_id
-                        LEFT JOIN ssp
-                        ON d_ssp_ssp_id = ssp_id
-                        LEFT JOIN guru
-                        ON ssp_guru_id = guru_id
-                        WHERE ssp_nilai_siswa_id = {$s_id[$z]}";
+            if($ssp_tampil == 1){
+                echo '<p style="page-break-after: always;">&nbsp;</p>';
+                $query_ssp = "SELECT ssp_nilai_siswa_id, ssp_nama,ssp_nilai_angka,d_ssp_kriteria,d_ssp_a,d_ssp_b,d_ssp_c, guru_name
+                            FROM ssp_nilai
+                            LEFT JOIN d_ssp
+                            ON ssp_nilai_d_ssp_id = d_ssp_id
+                            LEFT JOIN ssp
+                            ON d_ssp_ssp_id = ssp_id
+                            LEFT JOIN guru
+                            ON ssp_guru_id = guru_id
+                            WHERE ssp_nilai_siswa_id = {$s_id[$z]}";
 
-            $query_ssp_info = mysqli_query($conn, $query_ssp);  
-            $rowss = mysqli_fetch_row($query_ssp_info);
-            $nama_ssp = $rowss[1];
-            $guru_ssp = $rowss[7];
-            
-            mysqli_data_seek($query_ssp_info, 0);
-            
-            if(!$query_ssp_info){
-                die("QUERY FAILED".mysqli_error($conn));
+                $query_ssp_info = mysqli_query($conn, $query_ssp);  
+                $rowss = mysqli_fetch_row($query_ssp_info);
+                $nama_ssp = $rowss[1];
+                $guru_ssp = $rowss[7];
+                
+                mysqli_data_seek($query_ssp_info, 0);
+                
+                if(!$query_ssp_info){
+                    die("QUERY FAILED".mysqli_error($conn));
+                }
+                
+                echo "<p class='judul'>SHARPENING STUDENT&#39;S POTENTIAL</p>";
+                echo"<div id='textbox'>
+                    <p class='alignleft'>
+                    NAME &nbsp&nbsp&nbsp&nbsp&nbsp&emsp;&emsp;&emsp;:&nbsp$siswa_nama_lengkap<br>
+                    ID NUMBER &nbsp&nbsp&emsp;:&nbsp$siswa_no_induk<br>
+                    CLASS &nbsp&nbsp&nbsp&nbsp&emsp;&emsp;&emsp;&thinsp;:&nbsp$kelas_nama<br>
+                    </p>
+                    <p class='alignright'>
+                    SEMESTER &nbsp&nbsp&nbsp&emsp;&thinsp;&emsp;: $tahun_ajaran_semester $semester_inggris<br>
+                    SCHOOL YEAR &nbsp&nbsp&nbsp&nbsp&nbsp&thinsp;: $tahun_ajaran_nama<br>
+                    SSP &nbsp&nbsp&emsp;&emsp;&emsp;&emsp;&thinsp;&thinsp;&emsp;&thinsp;&thinsp;: $nama_ssp<br>
+                    </p>
+                </div>";
+                
+                echo"<div style='clear: both;'></div>";
+                
+                echo"<br>
+                <table class='rapot'>
+                    <thead>
+                        <tr>
+                        <th style='width: 35px; padding: 0px 0px 0px 0px;'>NO </th>
+                        <th style='width: 200px;'>CRITERIA</th>
+                        <th style='width: 50px;'>GRADE</th>
+                        <th style='width: 350px;'>DESCRIPTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ";
+                
+                $nomor_ssp = 1;
+                $total_ssp = 0;
+                while($row_mapel = mysqli_fetch_array($query_ssp_info)){
+                    echo"<tr>";
+                        echo"<td style='text-align: center;'>$nomor_ssp</td>";
+                        echo"<td style='width: 350px; padding: 0px 0px 0px 5px;'>{$row_mapel['d_ssp_kriteria']}</td>";
+                        $nilai_angka_ssp = $row_mapel['ssp_nilai_angka'];
+                        
+                        $total_ssp += $nilai_angka_ssp;
+
+                    echo"<td style='width: 50px; padding: 0px 5px 0px 5px; text-align: center;'>".return_abjad_base4($nilai_angka_ssp)."</td>";
+        
+                    if(return_abjad_base4($nilai_angka_ssp)=="A"){
+                        echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$row_mapel['d_ssp_a']}</td>";
+                    }elseif(return_abjad_base4($nilai_angka_ssp)=="B"){
+                        echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$row_mapel['d_ssp_b']}</td>";
+                    }elseif(return_abjad_base4($nilai_angka_ssp)=="C"){
+                        echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$row_mapel['d_ssp_c']}</td>";
+                    }else{
+                        echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>-</td>";
+                    }
+                    $nomor_ssp++;
+                    echo"</tr>";
+                } 
+                
+                
+                $final_score = $total_ssp/($nomor_ssp - 1);
+                
+                echo"<tr>
+                    <td style='text-align: center; font-weight:bold; height: 50px;' colspan='2'>FINAL SCORE</td>
+                    <td style='text-align: center; font-weight:bold; height: 50px;' colspan='2'>".return_abjad_base4($final_score)."</td>
+                </tr>";
+                echo"
+                    </tbody>
+                </table>";
+                
+                echo"<div id='textbox'>
+                    <p class='alignright_bawah'>
+                    <br>Surabaya, $bulan $tanggal_arr[2], $tanggal_arr[0]<br>
+                    SSP Teacher<br><br><br><br>
+                    <b>$guru_ssp</b><br>
+                    </p>
+                </div>";
+                
+                echo"<div style='clear: both;'></div>";
             }
             
-            echo "<p class='judul'>SHARPENING STUDENT&#39;S POTENTIAL</p>";
-            echo"<div id='textbox'>
-                <p class='alignleft'>
-                NAME &nbsp&nbsp&nbsp&nbsp&nbsp&emsp;&emsp;&emsp;:&nbsp$siswa_nama_lengkap<br>
-                ID NUMBER &nbsp&nbsp&emsp;:&nbsp$siswa_no_induk<br>
-                CLASS &nbsp&nbsp&nbsp&nbsp&emsp;&emsp;&emsp;&thinsp;:&nbsp$kelas_nama<br>
-                </p>
-                <p class='alignright'>
-                SEMESTER &nbsp&nbsp&nbsp&emsp;&thinsp;&emsp;: $tahun_ajaran_semester $semester_inggris<br>
-                SCHOOL YEAR &nbsp&nbsp&nbsp&nbsp&nbsp&thinsp;: $tahun_ajaran_nama<br>
-                SSP &nbsp&nbsp&emsp;&emsp;&emsp;&emsp;&thinsp;&thinsp;&emsp;&thinsp;&thinsp;: $nama_ssp<br>
-                </p>
-            </div>";
-            
-            echo"<div style='clear: both;'></div>";
-            
-            echo"<br>
-            <table class='rapot'>
-                <thead>
-                    <tr>
-                    <th style='width: 35px; padding: 0px 0px 0px 0px;'>NO </th>
-                    <th style='width: 200px;'>CRITERIA</th>
-                    <th style='width: 50px;'>GRADE</th>
-                    <th style='width: 350px;'>DESCRIPTION</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ";
-            
-            $nomor_ssp = 1;
-            $total_ssp = 0;
-            while($row_mapel = mysqli_fetch_array($query_ssp_info)){
-                echo"<tr>";
-                    echo"<td style='text-align: center;'>$nomor_ssp</td>";
-                    echo"<td style='width: 350px; padding: 0px 0px 0px 5px;'>{$row_mapel['d_ssp_kriteria']}</td>";
-                    $nilai_angka_ssp = $row_mapel['ssp_nilai_angka'];
-                    
-                    $total_ssp += $nilai_angka_ssp;
-
-                echo"<td style='width: 50px; padding: 0px 5px 0px 5px; text-align: center;'>".return_abjad_base4($nilai_angka_ssp)."</td>";
-       
-                if(return_abjad_base4($nilai_angka_ssp)=="A"){
-                    echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$row_mapel['d_ssp_a']}</td>";
-                }elseif(return_abjad_base4($nilai_angka_ssp)=="B"){
-                    echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$row_mapel['d_ssp_b']}</td>";
-                }elseif(return_abjad_base4($nilai_angka_ssp)=="C"){
-                    echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>{$row_mapel['d_ssp_c']}</td>";
-                }else{
-                    echo"<td style='width: 350px; padding: 0px 5px 0px 5px;'>-</td>";
-                }
-                $nomor_ssp++;
-                echo"</tr>";
-            } 
-            
-            
-            $final_score = $total_ssp/($nomor_ssp - 1);
-            
-            echo"<tr>
-                <td style='text-align: center; font-weight:bold; height: 50px;' colspan='2'>FINAL SCORE</td>
-                <td style='text-align: center; font-weight:bold; height: 50px;' colspan='2'>".return_abjad_base4($final_score)."</td>
-            </tr>";
-            echo"
-                </tbody>
-            </table>";
-            
-            echo"<div id='textbox'>
-                <p class='alignright_bawah'>
-                <br>Surabaya, $bulan $tanggal_arr[2], $tanggal_arr[0]<br>
-                SSP Teacher<br><br><br><br>
-                <b>$guru_ssp</b><br>
-                </p>
-            </div>";
-            
-            echo"<div style='clear: both;'></div>";
             
             // ///////////////////////////////////////////////HALAMAN CHARACTER BUILDING///////////////////////////////
             echo '<p style="page-break-after: always;">&nbsp;</p>';
@@ -706,14 +711,22 @@
                 echo "<td style='text-align: center; width: 20px;'>1</td><td style='width: 150px;'>Character Building</td>";
                 echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>".return_abjad_base4($final_score_bk)."</b></td>";
             echo "</tr>";
-            echo "<tr>";
-                echo "<td style='text-align: center; width: 20px;'>2</td><td style='width: 150px;'>".ucfirst(strtolower($nama_ssp))."</td>";
-                echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>".return_abjad_base4($final_score)."</b></td>";
-            echo "</tr>";
+            if($ssp_tampil == 1){
+                echo "<tr>";
+                    echo "<td style='text-align: center; width: 20px;'>2</td><td style='width: 150px;'>".ucfirst(strtolower($nama_ssp))."</td>";
+                    echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>".return_abjad_base4($final_score)."</b></td>";
+                echo "</tr>";
+            }
+            
             echo "<tr>";
                 if($scout_nilai_angka>1){
-                    echo "<td style='text-align: center; width: 20px;'>3</td><td style='width: 150px;'>Scout</td>";
-                    echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>".return_abjad_base4($scout_nilai_angka)."</b></td>";
+                    if($ssp_tampil == 1){
+                        echo "<td style='text-align: center; width: 20px;'>3</td><td style='width: 150px;'>Scout</td>";
+                        echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>".return_abjad_base4($scout_nilai_angka)."</b></td>";
+                    }else{
+                        echo "<td style='text-align: center; width: 20px;'>2</td><td style='width: 150px;'>Scout</td>";
+                        echo "<td style='padding: 0px 0px 0px 15px; width: 350px;'><b>".return_abjad_base4($scout_nilai_angka)."</b></td>";
+                    }
                 }
              echo "</tr>";
             echo"
